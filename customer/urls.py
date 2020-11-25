@@ -7,7 +7,7 @@ from .forms import SignInForm
 app_name = 'customer'
 
 urlpatterns = [
-    path('', views.TransactionView.as_view()),
+    path('', views.TransactionView.as_view(), name='index'),
     path('sign-in', auth_views.LoginView.as_view(
         template_name='signin.html', authentication_form=SignInForm), name='sign-in'),
     path('sign-up', views.sign_up, name='sign-up'),

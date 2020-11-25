@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Customer
@@ -41,11 +42,11 @@ class SignUpForm(forms.Form):
         'placeholder': '8 characters minimum'
     }))
 
-    def clean_phone_number(self):
+    """ def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']
         if len(phone_number) > 11:
             raise ValidationError(_('Please enter phone number without spaces or country code.'))
-        return phone_number
+        return phone_number """
 
     def save(self):
         # Create user

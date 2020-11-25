@@ -15,6 +15,7 @@
     <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" sizes="32x32">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/icon/192x192.png' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
     <link rel="manifest" href="{% static '__manifest.json' %}">
 </head>
 
@@ -46,7 +47,7 @@
                 <div class="section-title">
                     <h1>Create Account</h1>
                 </div>
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation" method="post" novalidate>
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="form-group boxed">
@@ -104,15 +105,14 @@
                         </div>
                     </div>
 
-                    <div class=" mt-1 text-left">
+                    <!-- <div class=" mt-1 text-left">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customChecka1" required>
                             <label class="custom-control-label text-muted" for="customChecka1">I accept the <a
                                     href="javascript:;">Terms & Conditions</a> and <a href="#">Privacy Policy</a>.</label>
                         </div>
                         <div class="invalid-feedback">You must agree to the terms to proceed</div>
-
-                    </div>
+                    </div> -->
 
                     <div class="form-links mt-2">
                         <div>
@@ -128,13 +128,8 @@
                 </form>
             </div>
         </div>
-
-
-
     </div>
     <!-- * App Capsule -->
-
-
 
     <!-- ///////////// Js Files ////////////////////  -->
     <!-- Jquery -->
@@ -153,7 +148,7 @@
 
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
+        /* (function () {
             'use strict';
             window.addEventListener('load', function () {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -169,7 +164,7 @@
                     }, false);
                 });
             }, false);
-        })();
+        })(); */
     </script>
 
 </body>
