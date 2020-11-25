@@ -136,3 +136,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
+
+LOGIN_URL = '/sign-in'
+
+LOGOUT_REDIRECT_URL = '/'

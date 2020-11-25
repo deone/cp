@@ -7,3 +7,6 @@ class TransactionView(FormView):
     template_name = 'index.html'
     form_class = TransactionForm
     # success_url = '/thanks/'
+
+def sign_up(request):
+    pass
