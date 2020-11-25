@@ -28,7 +28,7 @@ class SignUpForm(forms.Form):
         'class': FORM_CONTROL_CLASS,
         'placeholder': 'Ciroma'
     }))
-    email = forms.CharField(label='Email Address', widget=forms.EmailInput(attrs={
+    email = forms.EmailField(label='Email Address', widget=forms.EmailInput(attrs={
         'class': FORM_CONTROL_CLASS,
         'placeholder': 'abc@gmail.com'
     }))
