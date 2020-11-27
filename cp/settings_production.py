@@ -1,4 +1,4 @@
-from ex.settings import *
+from cp.settings import *
 
 import os
 
