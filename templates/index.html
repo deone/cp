@@ -1,145 +1,64 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        {% load static %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="theme-color" content="#000000">
+        <title>Cash Pipe - {% block page-title %}Send Money{% endblock %}</title>
+        <meta name="description" content="Mobilekit HTML Mobile UI Kit">
+        <meta name="keywords" content="bootstrap 4, mobile template, cordova, phonegap, mobile, html" />
+        <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" sizes="32x32">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/icon/192x192.png' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+        <link rel="manifest" href="{% static '__manifest.json' %}">
+    </head>
 
-<head>
-    {% load static %}
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
-    <title>Mobilekit Mobile UI Kit</title>
-    <meta name="description" content="Mobilekit HTML Mobile UI Kit">
-    <meta name="keywords" content="bootstrap 4, mobile template, cordova, phonegap, mobile, html" />
-    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}" sizes="32x32">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/icon/192x192.png' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="manifest" href="{% static '__manifest.json' %}">
-</head>
-
-<body>
-
-    <!-- loader -->
-    <div id="loader">
-        <div class="spinner-border text-primary" role="status"></div>
-    </div>
-    <!-- * loader -->
-
-    <!-- App Capsule -->
-    <div id="appCapsule">
-
-        <div class="login-form mt-1">
-            <div class="section">
-                <img src="{% static 'assets/img/sample/photo/vector4.png' %}" alt="image" class="form-image">
-            </div>
+    <body class="bg-white">
+        <!-- loader -->
+        <div id="loader">
+            <div class="spinner-border text-primary" role="status"></div>
         </div>
+        <!-- * loader -->
 
-        <h1 style="text-align: center;" class="mt-2">Send Money</h1>
-        <div class="section full mt-2 mb-2">
-            <div class="wide-block pt-2 pb-2">
+        {% block app-header %}{% endblock %}
 
-                <form class="needs-validation" novalidate>
+        {% block app-capsule %}
+        {% include 'inc/capsules/_index.html' %}
+        {% endblock %}
 
-                    <div class="form-group boxed">
-                        <div class="input-wrapper">
-                            <label class="label" for="amount">You send</label>
-                            <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
-                            <i class="clear-input">
-                                <ion-icon name="close-circle"></ion-icon>
-                            </i>
-                            <div class="invalid-feedback">Please enter amount</div>
-                        </div>
-                    </div>
+        {% block bottom-menu %}
+        {% if user.is_authenticated %}
+            {% include 'inc/bottom-menu.html' %}
+        {% endif %}
+        {% endblock %}
 
-                    <div class="form-group boxed">
-                        <div class="input-wrapper">
-                            <!-- <label class="label" for="currency">Currency I have</label> -->
-                            <select class="form-control custom-select" id="currency" required>
-                                <option selected disabled value="">Select Currency...</option>
-                                <option value="1">Bitcoin</option>
-                                <option value="2">Nigerian Naira</option>
-                                <option disabled value="3">Ghanaian Cedis</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a currency</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group boxed">
-                        <div class="input-wrapper">
-                            <label class="label" for="currency">Recipient gets</label>
-                            <input type="email" class="form-control" id="amount" required>
-                            <i class="clear-input">
-                                <ion-icon name="close-circle"></ion-icon>
-                            </i>
-                        </div>
-                    </div>
-
-                    <div class="form-group boxed">
-                        <div class="input-wrapper">
-                            <!-- <label class="label" for="amount">Recipient gets</label> -->
-                            <select class="form-control custom-select" id="currency" required>
-                                <option selected disabled value="">Select Currency...</option>
-                                <option value="2">Nigerian Naira</option>
-                                <option value="3">Ghanaian Cedis</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a currency</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-2">
-                        <button class="btn btn-primary btn-block" type="submit">Next</button>
-                    </div>
-
-                </form>
-
-
-            </div>
-        </div>
-
-    </div>
-    <!-- * App Capsule -->
-
-    {% if user.is_authenticated %}
-        {% include 'inc/bottom-menu.html' %}
-    {% endif %}
-
-    <!-- ///////////// Js Files ////////////////////  -->
-    <!-- Jquery -->
-    <script src="{% static 'assets/js/lib/jquery-3.4.1.min.js' %}"></script>
-    <!-- Bootstrap-->
-    <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
-    <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script>
-    <!-- Ionicons -->
-    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
-    <!-- Owl Carousel -->
-    <script src="{% static 'assets/js/plugins/owl-carousel/owl.carousel.min.js' %}"></script>
-    <!-- jQuery Circle Progress -->
-    <script src="{% static 'assets/js/plugins/jquery-circle-progress/circle-progress.min.js' %}"></script>
-    <!-- Base Js File -->
-    <script src="{% static 'assets/js/base.js' %}"></script>
-
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
+        <!-- ///////////// Js Files ////////////////////  -->
+        <!-- Jquery -->
+        <script src="{% static 'assets/js/lib/jquery-3.4.1.min.js' %}"></script>
+        <!-- Bootstrap-->
+        <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
+        <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script>
+        <!-- Ionicons -->
+        <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+        <!-- Owl Carousel -->
+        <script src="{% static 'assets/js/plugins/owl-carousel/owl.carousel.min.js' %}"></script>
+        <!-- jQuery Circle Progress -->
+        <script src="{% static 'assets/js/plugins/jquery-circle-progress/circle-progress.min.js' %}"></script>
+        <!-- Base Js File -->
+        <script src="{% static 'assets/js/base.js' %}"></script>
+        <script>
+            (function() {
+                $(".needs-validation").submit(function () {
+                    $("#btn-submit").attr("disabled", true);
+                    return true;
                 });
-            }, false);
-        })();
-    </script>
-
-</body>
-
+            });
+        </script>
+        {% block page-js %}{% endblock %}
+    </body>
 </html>
