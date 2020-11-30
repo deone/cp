@@ -6,12 +6,18 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate
 
 from .forms import SignUpForm
+from transaction.models import Rates
 from transaction.forms import TransactionForm
 
 class TransactionView(FormView):
     template_name = 'index.html'
     form_class = TransactionForm
     # success_url = '/thanks/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rates'] = Rates.objects.all()[0]
+        return context
 
 def sign_up(request):
     if request.method == 'POST':

@@ -66,8 +66,26 @@
         {% block page-js %}
         <script src="https://unpkg.com/autonumeric"></script>
         <script>
-            // new AutoNumeric('.autonumeric');
             AutoNumeric.multiple(['#source_amount', '#dest_amount']);
+            const setDest = (sourceAmount, destCurrency, rate) => {
+                $('#id_dest_currency').val(destCurrency);
+                $('#rate').text(rate);
+                destAmount = sourceAmount * parseFloat(rate);
+                $('#dest_amount').val(destAmount);
+            }
+            $('#id_source_currency').change(() => {
+                const sourceCurrency = $('#id_source_currency').val();
+                const sourceAmount = parseInt($('#source_amount').val().replace(/,/g, ''));
+                let rate, destAmount;
+
+                if (sourceCurrency == 'NGN') {
+                    setDest(sourceAmount, 'GHS', {{ rates.ngn_to_ghs }})
+                }
+
+                if (sourceCurrency == 'GHS') {
+                    setDest(sourceAmount, 'NGN', {{ rates.ghs_to_ngn }})
+                }
+            });
         </script>
         {% endblock %}
     </body>
