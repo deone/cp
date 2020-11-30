@@ -69,42 +69,42 @@
             AutoNumeric.multiple(['#source_amount', '#dest_amount']);
 
             let rate, destAmount, symbol;
-            const sourceAmount = parseInt($('#source_amount').val().replace(/,/g, ''));
-            const sourceCurrency = $('#id_source_currency').val();
-
-            if (sourceCurrency != 'BTC') {
-                $('#id_dest_currency').parents('.form-group').hide();
-            }
-
             const showRate = rate => $('#rate').text(rate);
+            const getSourceCurrency = () => $('#id_source_currency').val();
+            const getSourceAmount = () => parseInt($('#source_amount').val().replace(/,/g, ''));
             const setDest = (sourceAmount, rate, symbol) => {
                 destAmount = sourceAmount * parseFloat(rate);
                 $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
             }
 
+            if (getSourceCurrency() != 'BTC') {
+                $('#id_dest_currency').parents('.form-group').hide();
+            }
+
             showRate({{ rates.ngn_to_ghs }});
-            setDest(sourceAmount, {{ rates.ngn_to_ghs}}, 'GH₵');
+            setDest(getSourceAmount(), {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
-                const sc = $('#id_source_currency').val();
+                const sc = getSourceCurrency();
                 if (sc == 'NGN') {
                     symbol = 'GH₵';
                     rate = {{ rates.ngn_to_ghs }};
                     showRate(rate);
-                    setDest(sourceAmount, rate, symbol);
+                    setDest(getSourceAmount(), rate, symbol);
                 }
 
                 if (sc == 'GHS') {
                     symbol = '₦';
                     rate = {{ rates.ghs_to_ngn }};
                     showRate(rate);
-                    setDest(sourceAmount, rate, symbol);
+                    setDest(getSourceAmount(), rate, symbol);
                 }
             });
 
-            $('#source_amount').keyup(() => {
-                console.log('hello');
-            });
+            /* $('#source_amount').keyup(() => {
+                const sa = parseInt($('#source_amount').val().replace(/,/g, ''));
+                const scc = $('#id_source_currency').val();
+            }); */
         </script>
         {% endblock %}
     </body>
