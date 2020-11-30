@@ -39,3 +39,9 @@ class Outflow(Flow):
     dest_account_number = models.CharField(max_length=20, null=True)
     dest_account_name = models.CharField(max_length=50, null=True)
     currency = models.CharField(max_length=3, choices=DEST_CURRENCIES)
+
+class Rates(models.Model):
+    ngn_to_ghs = models.DecimalField(max_digits=8, decimal_places=5)
+    ghs_to_ngn = models.DecimalField(max_digits=8, decimal_places=5)
+    btc_to_ngn = models.DecimalField(max_digits=15, decimal_places=2)
+    btc_to_ghs = models.DecimalField(max_digits=10, decimal_places=2)
