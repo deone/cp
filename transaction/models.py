@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from . import CURRENCIES
+from . import SOURCE_CURRENCIES, DEST_CURRENCIES
 
 class Transaction(models.Model):
     # this is a user field because transactions can be performed
@@ -18,7 +18,6 @@ class Transaction(models.Model):
 
 class Flow(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
-    currency = models.CharField(max_length=3, choices=CURRENCIES)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     reference = models.CharField(max_length=50, null=True)
     updated_at = models.DateTimeField(default=timezone.now)
@@ -32,9 +31,11 @@ class Inflow(Flow):
     source_account_provider = models.CharField(max_length=50, null=True)
     source_account_number = models.CharField(max_length=20, null=True)
     source_account_name = models.CharField(max_length=50, null=True)
+    currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
 
 class Outflow(Flow):
     dest_account_provider_code = models.CharField(max_length=15, null=True)
     dest_account_provider_name = models.CharField(max_length=50, null=True)
     dest_account_number = models.CharField(max_length=20, null=True)
     dest_account_name = models.CharField(max_length=50, null=True)
+    currency = models.CharField(max_length=3, choices=DEST_CURRENCIES)
