@@ -67,15 +67,19 @@
         <script src="https://unpkg.com/autonumeric"></script>
         <script>
             AutoNumeric.multiple(['#source_amount', '#dest_amount']);
+
             const setDest = (sourceAmount, destCurrency, rate, symbol) => {
                 $('#id_dest_currency').parents('.form-group').hide();
                 $('#rate').text(rate);
                 destAmount = sourceAmount * parseFloat(rate);
                 $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
             }
+
+            const sourceAmount = parseInt($('#source_amount').val().replace(/,/g, ''));
+            setDest(sourceAmount, 'GHS', {{ rates.ngn_to_ghs}}, 'GH₵');
+
             $('#id_source_currency').change(() => {
                 const sourceCurrency = $('#id_source_currency').val();
-                const sourceAmount = parseInt($('#source_amount').val().replace(/,/g, ''));
                 let rate, destAmount, symbol;
 
                 if (sourceCurrency == 'NGN') {
@@ -85,7 +89,7 @@
 
                 if (sourceCurrency == 'GHS') {
                     symbol = '₦';
-                    setDest(sourceAmount, 'NGN', {{ rates.ghs_to_ngn }}, symbol)
+                    setDest(sourceAmount, 'NGN', {{ rates.ghs_to_ngn }}, symbol);
                 }
             });
         </script>
