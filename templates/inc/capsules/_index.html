@@ -16,7 +16,8 @@
                 <div class="form-group boxed">
                     <div class="input-wrapper">
                         <label class="label" for="amount">You send</label>
-                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
+                        {{ form.source_amount }}
+                        {{ form.source_amount.errors }}
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
@@ -26,13 +27,8 @@
 
                 <div class="form-group boxed">
                     <div class="input-wrapper">
-                        <!-- <label class="label" for="currency">Currency I have</label> -->
-                        <select class="form-control custom-select" id="currency" required>
-                            <option selected disabled value="">Select Currency...</option>
-                            <option value="1">Bitcoin</option>
-                            <option value="2">Nigerian Naira</option>
-                            <option disabled value="3">Ghanaian Cedis</option>
-                        </select>
+                        {{ form.source_currency }}
+                        {{ form.source_currency.errors }}
                         <div class="invalid-feedback">Please select a currency</div>
                     </div>
                 </div>
@@ -40,7 +36,8 @@
                 <div class="form-group boxed">
                     <div class="input-wrapper">
                         <label class="label" for="currency">Recipient gets</label>
-                        <input type="email" class="form-control" id="amount" required>
+                        {{ form.dest_amount }}
+                        {{ form.dest_amount.errors }}
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
@@ -49,12 +46,8 @@
 
                 <div class="form-group boxed">
                     <div class="input-wrapper">
-                        <!-- <label class="label" for="amount">Recipient gets</label> -->
-                        <select class="form-control custom-select" id="currency" required>
-                            <option selected disabled value="">Select Currency...</option>
-                            <option value="2">Nigerian Naira</option>
-                            <option value="3">Ghanaian Cedis</option>
-                        </select>
+                        {{ form.dest_currency }}
+                        {{ form.dest_currency.errors }}
                         <div class="invalid-feedback">Please select a currency</div>
                     </div>
                 </div>
