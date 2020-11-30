@@ -76,6 +76,10 @@
                 destAmount = sourceAmount * parseFloat(rate);
                 $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
             }
+            const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
+                'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
+                'GHS': [{{ rates.ghs_to_ngn }}, '₦']
+            };
 
             if (getSourceCurrency() != 'BTC') {
                 $('#id_dest_currency').parents('.form-group').hide();
@@ -86,24 +90,15 @@
 
             $('#id_source_currency').change(() => {
                 const sc = getSourceCurrency();
-                if (sc == 'NGN') {
-                    symbol = 'GH₵';
-                    rate = {{ rates.ngn_to_ghs }};
-                    showRate(rate);
-                    setDest(getSourceAmount(), rate, symbol);
-                }
-
-                if (sc == 'GHS') {
-                    symbol = '₦';
-                    rate = {{ rates.ghs_to_ngn }};
-                    showRate(rate);
-                    setDest(getSourceAmount(), rate, symbol);
-                }
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[sc];
+                showRate(rate);
+                setDest(getSourceAmount(), rate, symbol)
             });
 
             /* $('#source_amount').keyup(() => {
                 const sa = parseInt($('#source_amount').val().replace(/,/g, ''));
                 const scc = $('#id_source_currency').val();
+                setDest(getSourceAmount(), )
             }); */
         </script>
         {% endblock %}
