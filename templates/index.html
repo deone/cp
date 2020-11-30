@@ -66,7 +66,8 @@
         {% block page-js %}
         <script src="https://unpkg.com/autonumeric"></script>
         <script>
-            new AutoNumeric('.autonumeric');
+            // new AutoNumeric('.autonumeric');
+            AutoNumeric.multiple(['#source_amount', '#dest_amount']);
         </script>
         {% endblock %}
     </body>
