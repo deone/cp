@@ -6,7 +6,8 @@ FORM_CONTROL_CLASS = 'form-control'
 
 class TransactionForm(forms.Form):
     source_amount = forms.CharField(label='You send', widget=forms.TextInput(attrs={
-        'class': '{} {}'.format('autonumeric', FORM_CONTROL_CLASS)
+        'class': '{} {}'.format('autonumeric', FORM_CONTROL_CLASS),
+        'autofocus': True
     }))
     source_currency = forms.ChoiceField(label='Currency I have', widget=forms.Select(attrs={
         'class': FORM_CONTROL_CLASS

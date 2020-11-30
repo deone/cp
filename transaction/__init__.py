@@ -5,6 +5,6 @@ SOURCE_CURRENCIES = [
 ]
 
 DEST_CURRENCIES = [
-    ('NGN', 'Nigerian Naira'),
     ('GHS', 'Ghana Cedis'),
+    ('NGN', 'Nigerian Naira'),
 ]

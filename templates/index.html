@@ -51,14 +51,23 @@
         <script src="{% static 'assets/js/plugins/jquery-circle-progress/circle-progress.min.js' %}"></script>
         <!-- Base Js File -->
         <script src="{% static 'assets/js/base.js' %}"></script>
+        {% block form-js %}
+        <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script> -->
         <script>
             (function() {
-                $(".needs-validation").submit(function () {
+                // $(".disable-btn-on-submit").validate();
+                $(".disable-btn-on-submit").submit(function () {
                     $("#btn-submit").attr("disabled", true);
                     return true;
                 });
             });
         </script>
-        {% block page-js %}{% endblock %}
+        {% endblock %}
+        {% block page-js %}
+        <script src="https://unpkg.com/autonumeric"></script>
+        <script>
+            new AutoNumeric('.autonumeric');
+        </script>
+        {% endblock %}
     </body>
 </html>

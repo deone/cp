@@ -12,7 +12,7 @@
     <div class="section full mt-2 mb-2">
         <div class="wide-block pt-2 pb-2">
 
-            <form class="needs-validation" novalidate>
+            <form class="disable-btn-on-submit">
                 <div class="form-group boxed">
                     <div class="input-wrapper">
                         <label class="label" for="amount">You send</label>
@@ -21,7 +21,6 @@
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
-                        <div class="invalid-feedback">Please enter amount</div>
                     </div>
                 </div>
 
@@ -29,7 +28,6 @@
                     <div class="input-wrapper">
                         {{ form.source_currency }}
                         {{ form.source_currency.errors }}
-                        <div class="invalid-feedback">Please select a currency</div>
                     </div>
                 </div>
 
@@ -48,7 +46,6 @@
                     <div class="input-wrapper">
                         {{ form.dest_currency }}
                         {{ form.dest_currency.errors }}
-                        <div class="invalid-feedback">Please select a currency</div>
                     </div>
                 </div>
 
