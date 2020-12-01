@@ -76,15 +76,19 @@
             let rate, destAmount, symbol;
             const showRate = rate => $('#rate').text(rate);
             const getSourceCurrency = () => $('#id_source_currency').val();
-            const getSourceAmount = () => parseInt($('#source_amount').val().replace(/,/g, ''));
-            const getDestAmount = () => parseInt($('#dest_amount').val().replace(/,/g, ''));
-            const showDestAmount = (rate, symbol) => {
-                const sa = getSourceAmount();
-                if (isNaN(sa)) {
-                    $('#dest_amount').val('');
+            const getAmount = (element) => parseInt($(element).val().replace(/,/g, ''));
+            const showAmount = (element, rate, symbol) => {
+                let amount;
+                if (element == '#dest_amount') {
+                    amount = getAmount('#source_amount');
                 } else {
-                    destAmount = sa * parseFloat(rate);
-                    $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
+                    amount = getAmount('#dest_amount');
+                }
+                if (isNaN(amount)) {
+                    $(element).val('');
+                } else {
+                    displayAmount = amount * parseFloat(rate);
+                    $(element).val(symbol + displayAmount.toLocaleString('en'));
                 }
             }
 
@@ -93,17 +97,17 @@
             }
 
             showRate({{ rates.ngn_to_ghs }});
-            showDestAmount({{ rates.ngn_to_ghs}}, 'GH₵');
+            showAmount('#dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
                 showRate(rate);
-                showDestAmount(rate, symbol);
+                showAmount('#dest_amount', rate, symbol);
             });
 
             $('#source_amount').keyup(() => {
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
-                showDestAmount(rate, symbol);
+                showAmount('#dest_amount', rate, symbol);
             });
         </script>
         {% endblock %}
