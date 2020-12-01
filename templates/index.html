@@ -77,7 +77,8 @@
             const showRate = rate => $('#rate').text(rate);
             const getSourceCurrency = () => $('#id_source_currency').val();
             const getSourceAmount = () => parseInt($('#source_amount').val().replace(/,/g, ''));
-            const setDest = (rate, symbol) => {
+            const getDestAmount = () => parseInt($('#dest_amount').val().replace(/,/g, ''));
+            const showDestAmount = (rate, symbol) => {
                 const sa = getSourceAmount();
                 if (isNaN(sa)) {
                     $('#dest_amount').val('');
@@ -92,17 +93,17 @@
             }
 
             showRate({{ rates.ngn_to_ghs }});
-            setDest({{ rates.ngn_to_ghs}}, 'GH₵');
+            showDestAmount({{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
                 showRate(rate);
-                setDest(rate, symbol);
+                showDestAmount(rate, symbol);
             });
 
             $('#source_amount').keyup(() => {
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
-                setDest(rate, symbol);
+                showDestAmount(rate, symbol);
             });
         </script>
         {% endblock %}
