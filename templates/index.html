@@ -66,7 +66,7 @@
         {% block page-js %}
         <script src="https://unpkg.com/autonumeric"></script>
         <script>
-            AutoNumeric.multiple(['#source_amount', '#dest_amount']);
+            AutoNumeric.multiple(['#id_source_amount', '#id_dest_amount']);
 
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
@@ -78,15 +78,15 @@
             };
 
             let rate, destAmount, symbol;
-            const showRate = rate => $('#rate').text(rate);
+            const showRate = rate => $('#rate').text(rate.toLocaleString('en', { minimumFractionDigits: 4 }));
             const getCurrency = (element) => $(element).val();
-            const getAmount = (element) => parseInt($(element).val().replace(/,/g, ''));
+            const getAmount = (element) => $(element).val().replace(/,/g, '');
             const showAmount = (element, rate, symbol) => {
                 let amount;
-                if (element == '#dest_amount') {
-                    amount = getAmount('#source_amount');
+                if (element == '#id_dest_amount') {
+                    amount = getAmount('#id_source_amount');
                 } else {
-                    amount = getAmount('#dest_amount');
+                    amount = getAmount('#id_dest_amount');
                 }
                 if (isNaN(amount)) {
                     $(element).val('');
@@ -101,7 +101,7 @@
 
             // Display rate and amount based on default form values
             showRate({{ rates.ngn_to_ghs }});
-            showAmount('#dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
+            showAmount('#id_dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
                 const sc = getCurrency('#id_source_currency');
@@ -116,17 +116,24 @@
                 }
                 // Display rate and amount with symbol
                 showRate(rate);
-                showAmount('#dest_amount', rate, symbol);
+                showAmount('#id_dest_amount', rate, symbol);
             });
 
-            $('#source_amount').keyup(() => {
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
-                showAmount('#dest_amount', rate, symbol);
+            $('#id_source_amount').keyup(() => {
+                const sc = getCurrency('#id_source_currency');
+                if (sc != 'BTC') {
+                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[sc];
+                } else {
+                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
+                }
+                showAmount('#id_dest_amount', rate, symbol);
             });
 
-            /* $('#id_dest_currency').change(() => {
-
-            }) */
+            $('#id_dest_currency').change(() => {
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
+                showRate(rate);
+                showAmount('#id_dest_amount', rate, symbol);
+            })
         </script>
         {% endblock %}
     </body>
