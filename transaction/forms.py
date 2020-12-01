@@ -17,6 +17,7 @@ class TransactionForm(forms.Form):
     dest_amount = forms.CharField(label='Recipient gets', widget=forms.TextInput(attrs={
         'class': FORM_CONTROL_CLASS,
         'id': 'dest_amount',
+        'disabled': True
     }))
     dest_currency = forms.ChoiceField(label="Recipient's currency", widget=forms.Select(attrs={
         'class': FORM_CONTROL_CLASS,

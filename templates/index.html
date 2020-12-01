@@ -70,7 +70,11 @@
 
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
-                'GHS': [{{ rates.ghs_to_ngn }}, '₦']
+                'GHS': [{{ rates.ghs_to_ngn }}, '₦'],
+                'BTC': {
+                    'NGN': [{{ rates.btc_to_ngn }}, '₦'],
+                    'GHS': [{{ rates.btc_to_ghs }}, 'GH₵']
+                }
             };
 
             let rate, destAmount, symbol;
@@ -92,15 +96,25 @@
                 }
             }
 
-            if (getCurrency('#id_source_currency') != 'BTC') {
-                $('#id_dest_currency').parents('.form-group').hide();
-            }
+            // Hide dest currency field by default
+            $('#id_dest_currency').parents('.form-group').hide();
 
+            // Display rate and amount based on default form values
             showRate({{ rates.ngn_to_ghs }});
             showAmount('#dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
+                const sc = getCurrency('#id_source_currency');
+                if (sc != 'BTC') {
+                    // Hide dest currency field if source currency changes to Naira or Cedis
+                    $('#id_dest_currency').parents('.form-group').hide();
+                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
+                } else {
+                    // Show dest currency field and get BTC rates and symbols
+                    $('#id_dest_currency').parents('.form-group').show();
+                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
+                }
+                // Display rate and amount with symbol
                 showRate(rate);
                 showAmount('#dest_amount', rate, symbol);
             });
@@ -109,6 +123,10 @@
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
                 showAmount('#dest_amount', rate, symbol);
             });
+
+            /* $('#id_dest_currency').change(() => {
+
+            }) */
         </script>
         {% endblock %}
     </body>
