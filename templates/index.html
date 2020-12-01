@@ -68,38 +68,42 @@
         <script>
             AutoNumeric.multiple(['#source_amount', '#dest_amount']);
 
-            let rate, destAmount, symbol;
-            const showRate = rate => $('#rate').text(rate);
-            const getSourceCurrency = () => $('#id_source_currency').val();
-            const getSourceAmount = () => parseInt($('#source_amount').val().replace(/,/g, ''));
-            const setDest = (sourceAmount, rate, symbol) => {
-                destAmount = sourceAmount * parseFloat(rate);
-                $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
-            }
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
                 'GHS': [{{ rates.ghs_to_ngn }}, '₦']
             };
+
+            let rate, destAmount, symbol;
+            const showRate = rate => $('#rate').text(rate);
+            const getSourceCurrency = () => $('#id_source_currency').val();
+            const getSourceAmount = () => parseInt($('#source_amount').val().replace(/,/g, ''));
+            const setDest = (rate, symbol) => {
+                const sa = getSourceAmount();
+                if (isNaN(sa)) {
+                    $('#dest_amount').val('');
+                } else {
+                    destAmount = sa * parseFloat(rate);
+                    $('#dest_amount').val(symbol + destAmount.toLocaleString('en'));
+                }
+            }
 
             if (getSourceCurrency() != 'BTC') {
                 $('#id_dest_currency').parents('.form-group').hide();
             }
 
             showRate({{ rates.ngn_to_ghs }});
-            setDest(getSourceAmount(), {{ rates.ngn_to_ghs}}, 'GH₵');
+            setDest({{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
-                const sc = getSourceCurrency();
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[sc];
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
                 showRate(rate);
-                setDest(getSourceAmount(), rate, symbol)
+                setDest(rate, symbol);
             });
 
-            /* $('#source_amount').keyup(() => {
-                const sa = parseInt($('#source_amount').val().replace(/,/g, ''));
-                const scc = $('#id_source_currency').val();
-                setDest(getSourceAmount(), )
-            }); */
+            $('#source_amount').keyup(() => {
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
+                setDest(rate, symbol);
+            });
         </script>
         {% endblock %}
     </body>
