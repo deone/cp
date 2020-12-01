@@ -5,7 +5,7 @@ from . import SOURCE_CURRENCIES, DEST_CURRENCIES
 FORM_CONTROL_CLASS = 'form-control'
 
 class TransactionForm(forms.Form):
-    source_amount = forms.DecimalField(max_digits=20, decimal_places=10, label='You send', widget=forms.TextInput(attrs={
+    source_amount = forms.CharField(label='You send', widget=forms.TextInput(attrs={
         'class': FORM_CONTROL_CLASS,
         'autofocus': True,
         'value': '1000',
