@@ -75,7 +75,7 @@
 
             let rate, destAmount, symbol;
             const showRate = rate => $('#rate').text(rate);
-            const getSourceCurrency = () => $('#id_source_currency').val();
+            const getCurrency = (element) => $(element).val();
             const getAmount = (element) => parseInt($(element).val().replace(/,/g, ''));
             const showAmount = (element, rate, symbol) => {
                 let amount;
@@ -92,7 +92,7 @@
                 }
             }
 
-            if (getSourceCurrency() != 'BTC') {
+            if (getCurrency('#id_source_currency') != 'BTC') {
                 $('#id_dest_currency').parents('.form-group').hide();
             }
 
@@ -100,13 +100,13 @@
             showAmount('#dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
                 showRate(rate);
                 showAmount('#dest_amount', rate, symbol);
             });
 
             $('#source_amount').keyup(() => {
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getSourceCurrency()];
+                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
                 showAmount('#dest_amount', rate, symbol);
             });
         </script>
