@@ -2,8 +2,8 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
 from django.shortcuts import render, redirect
-from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate
+from django.views.generic.edit import FormView
 
 from .forms import SignUpForm
 from transaction.models import Rates
@@ -12,7 +12,6 @@ from transaction.forms import TransactionForm
 class TransactionView(FormView):
     template_name = 'index.html'
     form_class = TransactionForm
-    # success_url = '/thanks/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,8 +19,11 @@ class TransactionView(FormView):
         return context
 
     def form_valid(self, form):
-        form.save()
+        self.object = form.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('customer:add-account', kwargs={'transaction_id': self.object.transaction_id})
 
 class SignUpView(FormView):
     template_name = 'signup.html'
@@ -50,4 +52,6 @@ class SignUpView(FormView):
         return super().form_valid(form)
 
 class AddAccountView(FormView):
-    pass
+    template_name = 'transaction/add-account.html'
+    form_class = TransactionForm
+    # success_url = reverse_lazy('customer:add-account')

@@ -1,12 +1,11 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
 from . import SOURCE_CURRENCIES, DEST_CURRENCIES
 
 class Transaction(models.Model):
-    # this is a user field because transactions can be performed
-    # by customers or merchants
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=20)
     created_at = models.DateTimeField(default=timezone.now)

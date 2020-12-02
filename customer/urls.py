@@ -13,6 +13,6 @@ urlpatterns = [
         template_name='signin.html', authentication_form=SignInForm), name='sign-in'),
     path('sign-up', views.SignUpView.as_view(), name='sign-up'),
     path('sign-out', auth_views.LogoutView.as_view(), name='sign-out'),
-    # path('<int:pk>/add-account',
-        # login_required(views.add_account), name='add-account'),
+    path('<str:transaction_id>',
+        login_required(views.AddAccountView.as_view()), name='add-account'),
 ]
