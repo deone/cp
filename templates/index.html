@@ -66,11 +66,10 @@
         {% block page-js %}
         <script src="https://unpkg.com/autonumeric"></script>
         <script>
-            AutoNumeric.multiple(
-                ['#id_source_amount', '#id_dest_amount'], {
-                    'decimalPlaces': 8,
-                    'allowDecimalPadding': false
-                });
+            new AutoNumeric('#id_source_amount', {
+                'decimalPlaces': 8,
+                'allowDecimalPadding': false
+            })
 
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
