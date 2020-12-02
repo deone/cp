@@ -19,26 +19,35 @@ class TransactionView(FormView):
         context['rates'] = Rates.objects.all()[0]
         return context
 
-def sign_up(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
-            # Authenticate and log user in
-            user = authenticate(username=email, password=raw_password)
-            login(request, user)
+class SignUpView(FormView):
+    template_name = 'signup.html'
+    form_class = SignUpForm
+    success_url = reverse_lazy('customer:index')
 
-            # get the redirect location
-            redirect_to = request.GET.get('next', '')
-            url_is_safe = is_safe_url(redirect_to, settings.ALLOWED_HOSTS)
-            if redirect_to and url_is_safe:
-                return redirect(redirect_to)
-            return redirect(reverse_lazy('customer:index'))
-    else:
-        form = SignUpForm()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next', '')
+        return context
 
-    return render(request, 'signup.html', {
-        'form': form, 'next': request.GET.get('next', '')})
+    def form_valid(self, form):
+        form.save()
+        email = form.cleaned_data.get('email')
+        raw_password = form.cleaned_data.get('password')
+
+        # Authenticate and log user in
+        user = authenticate(username=email, password=raw_password)
+        login(self.request, user)
+
+        # get the redirect location
+        redirect_to = self.request.GET.get('next', '')
+        url_is_safe = is_safe_url(redirect_to, settings.ALLOWED_HOSTS)
+        if redirect_to and url_is_safe:
+            return redirect(redirect_to)
+        return super().form_valid(form)
+
+class AddAccountView(FormView):
+    pass

@@ -20,3 +20,6 @@ class TransactionForm(forms.Form):
     dest_currency = forms.ChoiceField(label="Recipient's currency", widget=forms.Select(attrs={
         'class': FORM_CONTROL_CLASS,
     }), choices=DEST_CURRENCIES)
+
+    def save(self):
+        pass
