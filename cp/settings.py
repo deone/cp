@@ -142,3 +142,11 @@ LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+FW_INCISIA_SEC_KEY = os.environ['FW_INCISIA_DEV_SEC_KEY']
+FW_INCISIA_PUB_KEY = os.environ['FW_INCISIA_DEV_PUB_KEY']
+
+FW_TRANSFER_URL = 'https://api.ravepay.co/v2/gpx/transfers/create'
+FW_BANKS_URL = 'https://api.ravepay.co/v2/banks/'
+FW_CREATE_BENEFICIARY_URL = 'https://api.ravepay.co/v2/gpx/transfers/beneficiaries/create'
+FW_PAYMENT_URL = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay'
