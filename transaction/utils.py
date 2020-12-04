@@ -6,7 +6,6 @@ import requests
 from decimal import Decimal
 
 NETWORKS = [
-    ('', 'Select...'),
     ('mtn', 'MTN'),
     ('vodafone', 'Vodafone'),
     ('airtel', 'AirtelTigo'),

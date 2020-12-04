@@ -2,9 +2,9 @@
 <div id="appCapsule">
     <div class="section full mt-2 mb-2">
         <div class="wide-block pt-2 pb-2">
-
-            <form class="needs-validation" novalidate>
-
+            <form class="disable-btn-on-submit">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
                 <div class="form-group boxed">
                     <div class="input-wrapper">
                         <label class="label" for="amount">Search saved accounts</label>
@@ -12,11 +12,10 @@
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
-                        <div class="invalid-feedback">Please enter amount</div>
                     </div>
                 </div>
 
-                <ul class="listview simple-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
+                <!-- <ul class="listview simple-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
                     <li>Item 1</li>
                     <li>Item 2</li>
                     <li>Item 3</li>
@@ -24,36 +23,46 @@
                     <li>Item 3</li>
                     <li>Item 3</li>
                     <li>Item 3</li>
-                </ul>
+                </ul> -->
 
                 <div class="form-group boxed">
                     <div class="input-wrapper">
-                        <label class="label" for="currency">Bank</label>
-                        <select class="form-control custom-select" id="currency" required>
-                            <option selected disabled value="">Select Bank...</option>
-                            <option value="1">First Bank</option>
-                            <option value="2">UBA</option>
-                            <option value="3">Zenith Bank</option>
-                        </select>
-                        <div class="invalid-feedback">Please select a bank</div>
+                        <label class="label" for="provider_code">{{ form.provider_code.label }}</label>
+                        {{ form.provider_code }}
+                        {{ form.provider_name }}
+                        <div class="invalid-feedback">{{ form.provider_code.errors }}</div>
                     </div>
                 </div>
 
                 <div class="form-group boxed">
                     <div class="input-wrapper">
-                        <label class="label" for="amount">Account Number</label>
-                        <input type="email" class="form-control" id="amount" required>
+                        <label class="label" for="account_number">{{ form.number.label }}</label>
+                        {{ form.number }}
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
-                        <div class="invalid-feedback">Please provide account number</div>
+                        <div class="invalid-feedback">{{ form.number.errors }}</div>
                     </div>
                 </div>
 
+                {% if form.confirm_number %}
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="confirm_account_number">{{ form.confirm_number.label }}</label>
+                            {{ form.confirm_number }}
+                            <i class="clear-input">
+                                <ion-icon name="close-circle"></ion-icon>
+                            </i>
+                            <div class="invalid-feedback">{{ form.confirm_number.errors }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="form-group boxed">
+                    <!-- progress bar here -->
                     <div class="input-wrapper">
-                        <label class="label" for="amount">Account Name</label>
-                        <input type="email" class="form-control" id="amount" required>
+                        <label class="label" for="acccount_name">{{ form.name.label }}</label>
+                        {{ form.name }}
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
@@ -61,17 +70,17 @@
                 </div>
 
                 <div class="mt-2">
-                    <!-- <button class="btn btn-primary btn-block" type="submit">Send Money</button> -->
-                    <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#ModalForm">
+                    <button class="btn btn-primary btn-block" type="submit">Next</button>
+                    <!-- <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#ModalForm">
                         Next
-                    </button>
+                    </button> -->
                 </div>
 
             </form>
 
         </div>
         <!-- Modal Form -->
-        <div class="modal fade modalbox" id="ModalForm" data-backdrop="static" tabindex="-1" role="dialog">
+        <!-- <div class="modal fade modalbox" id="ModalForm" data-backdrop="static" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -103,9 +112,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- * Modal Form -->
     </div>
-
 </div>
 <!-- * App Capsule -->
