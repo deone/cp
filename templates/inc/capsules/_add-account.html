@@ -2,13 +2,13 @@
 <div id="appCapsule">
     <div class="section full mt-2 mb-2">
         <div class="wide-block pt-2 pb-2">
-            <form class="disable-btn-on-submit">
+            <form class="disable-btn-on-submit" method="post">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 <div class="form-group boxed">
                     <div class="input-wrapper">
                         <label class="label" for="amount">Search saved accounts</label>
-                        <input type="text" class="form-control" id="id_search" placeholder="Type..." required>
+                        <input type="text" class="form-control" id="id_search" placeholder="Type...">
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
@@ -30,7 +30,7 @@
                         <label class="label" for="provider_code">{{ form.provider_code.label }}</label>
                         {{ form.provider_code }}
                         {{ form.provider_name }}
-                        <div class="invalid-feedback">{{ form.provider_code.errors }}</div>
+                        <div>{{ form.provider_code.errors }}</div>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>
-                        <div class="invalid-feedback">{{ form.number.errors }}</div>
+                        <div>{{ form.number.errors }}</div>
                     </div>
                 </div>
 
@@ -53,7 +53,6 @@
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
-                            <div class="invalid-feedback">{{ form.confirm_number.errors }}</div>
                         </div>
                     </div>
                 {% endif %}

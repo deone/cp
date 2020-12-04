@@ -97,4 +97,9 @@ class AddAccountView(View, ContextMixin):
         return render(request, self.template_name, self.get_context_data(**kwargs))
 
     def post(self, request, *args, **kwargs):
-        pass
+        self.form = self.outflow_currency_form_map[self.outflow_currency](request.POST, **self.form_args)
+        if self.form.is_valid():
+            pass
+        else:
+            print('form errors:', self.form.errors)
+        return render(request, self.template_name, self.get_context_data(**kwargs))
