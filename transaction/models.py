@@ -7,7 +7,7 @@ from . import SOURCE_CURRENCIES, DEST_CURRENCIES
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    transaction_id = models.CharField(max_length=20, unique=True)
+    transaction_id = models.CharField(max_length=30, unique=True)
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20, default='Pending') # we only really need this for cancelled transactions
     is_complete = models.BooleanField(default=False) # Use this as transaction status
