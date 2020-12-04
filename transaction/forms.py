@@ -66,7 +66,7 @@ class TransactionForm(forms.Form):
             'transaction': transaction,
             'amount': self.cleaned_data['dest_amount'],
             'currency': get_dest_currency(
-                self.cleaned_data, self.cleaned_data['dest_currency'])
+                self.cleaned_data, self.cleaned_data['source_currency'])
         }
 
         outflow = Outflow(**outflow_data)

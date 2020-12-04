@@ -15,45 +15,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                      <div id="accounts-list" class="list-group overflow-auto mb-3">
-                        {% if accounts %}
-                          {% for a in accounts %}
-                            <a href="#" class="list-group-item list-group-item-action">
-                              <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
-                              <span id="number"><small>{{ a.number }}</small></span>
-                              <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
-                              <span id="bank-name" style="display: none">{{ a.provider_name }}</span>
-                            </a>
-                          {% endfor %}
-                        {% else %}
-                          <p id="no-accounts" class="mb-0">
-                            You have no saved accounts.
-                          </p>
-                        {% endif %}
-                      </div>
-                    </div>
-                </div>
-                <ul class="listview simple-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
-                    {% if accounts %}
-                        {% for a in accounts %}
-                            <a href="#">
-                                <li>
-                                    <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
-                                    <span id="number"><small>{{ a.number }}</small></span>
-                                    <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
-                                    <span id="bank-name" style="display: none">{{ a.provider_name }}</span>
-                                </li>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <p id="no-accounts" class="mb-0">
-                            You have no saved accounts.
-                        </p>
-                    {% endif %}
-                </ul> -->
-
                 <ul class="listview link-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
                     {% if accounts %}
                         {% for a in accounts %}

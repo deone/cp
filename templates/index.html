@@ -103,12 +103,18 @@
             $('#id_dest_currency').parents('.form-group').hide();
 
             // Display rate and amount based on default form values
+            // $('#id_source_currency').val('NGN');
             showRate({{ rates.ngn_to_ghs }});
             showAmount('#id_dest_amount', {{ rates.ngn_to_ghs}}, 'GH₵');
 
             $('#id_source_currency').change(() => {
                 const sc = getCurrency('#id_source_currency');
                 if (sc != 'BTC') {
+                    if (sc == 'NGN') {
+                        $('#id_dest_currency').val('GHS');
+                    } else {
+                        $('#id_dest_currency').val('NGN');
+                    }
                     // Hide dest currency field if source currency changes to Naira or Cedis
                     $('#id_dest_currency').parents('.form-group').hide();
                     [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
