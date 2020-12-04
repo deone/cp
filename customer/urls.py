@@ -15,4 +15,6 @@ urlpatterns = [
     path('sign-out', auth_views.LogoutView.as_view(), name='sign-out'),
     path('<str:transaction_id>',
         login_required(views.AddAccountView.as_view()), name='add-account'),
+    path('<str:transaction_id>/confirm',
+        login_required(views.ConfirmTransactionView.as_view()), name='confirm-transaction'),
 ]

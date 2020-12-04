@@ -67,6 +67,7 @@ class AddAccountView(View, ContextMixin):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.customer = request.user.customer
+        print(kwargs.get('transaction_id'))
         self.transaction = Transaction.objects.get(
             transaction_id=kwargs.get('transaction_id'))
         self.outflow_currency = self.transaction.outflow.currency
@@ -99,7 +100,12 @@ class AddAccountView(View, ContextMixin):
     def post(self, request, *args, **kwargs):
         self.form = self.outflow_currency_form_map[self.outflow_currency](request.POST, **self.form_args)
         if self.form.is_valid():
-            pass
-        else:
-            print('form errors:', self.form.errors)
+            self.form.save()
+            # redirect to confirmation page.
+            return redirect(reverse_lazy('customer:confirm-transaction', kwargs={
+                'transaction_id': self.transaction.transaction_id}))
         return render(request, self.template_name, self.get_context_data(**kwargs))
+
+class ConfirmTransactionView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'transaction/confirm.html')
