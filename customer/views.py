@@ -67,7 +67,6 @@ class AddAccountView(View, ContextMixin):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.customer = request.user.customer
-        print(kwargs.get('transaction_id'))
         self.transaction = Transaction.objects.get(
             transaction_id=kwargs.get('transaction_id'))
         self.outflow_currency = self.transaction.outflow.currency

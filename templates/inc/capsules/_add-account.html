@@ -15,24 +15,80 @@
                     </div>
                 </div>
 
-                <!-- <ul class="listview simple-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 3</li>
-                    <li>Item 3</li>
-                    <li>Item 3</li>
-                    <li>Item 3</li>
-                </ul> -->
-
-                <div class="form-group boxed">
-                    <div class="input-wrapper">
-                        <label class="label" for="provider_code">{{ form.provider_code.label }}</label>
-                        {{ form.provider_code }}
-                        {{ form.provider_name }}
-                        <div>{{ form.provider_code.errors }}</div>
+                <!-- <div class="row">
+                    <div class="col-md-12">
+                      <div id="accounts-list" class="list-group overflow-auto mb-3">
+                        {% if accounts %}
+                          {% for a in accounts %}
+                            <a href="#" class="list-group-item list-group-item-action">
+                              <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
+                              <span id="number"><small>{{ a.number }}</small></span>
+                              <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
+                              <span id="bank-name" style="display: none">{{ a.provider_name }}</span>
+                            </a>
+                          {% endfor %}
+                        {% else %}
+                          <p id="no-accounts" class="mb-0">
+                            You have no saved accounts.
+                          </p>
+                        {% endif %}
+                      </div>
                     </div>
                 </div>
+                <ul class="listview simple-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
+                    {% if accounts %}
+                        {% for a in accounts %}
+                            <a href="#">
+                                <li>
+                                    <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
+                                    <span id="number"><small>{{ a.number }}</small></span>
+                                    <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
+                                    <span id="bank-name" style="display: none">{{ a.provider_name }}</span>
+                                </li>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <p id="no-accounts" class="mb-0">
+                            You have no saved accounts.
+                        </p>
+                    {% endif %}
+                </ul> -->
+
+                <ul class="listview link-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
+                    {% if accounts %}
+                        {% for a in accounts %}
+                            <li>
+                                <a href="#">
+                                    <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
+                                    <span id="number"><small>{{ a.number }}</small></span>
+                                    <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
+                                    <span id="bank-name" style="display: none">{{ a.provider_name }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <p id="no-accounts" class="mb-0">
+                            You have no saved accounts.
+                        </p>
+                    {% endif %}
+                    <!-- <li>
+                        <a href="#">
+                            Link Item 1
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Link Item 3
+                            <span class="badge badge-primary">52</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Link Item 3
+                            <span class="text-muted">Edit</span>
+                        </a>
+                    </li> -->
+                </ul>
 
                 <div class="form-group boxed">
                     <div class="input-wrapper">
@@ -57,16 +113,18 @@
                     </div>
                 {% endif %}
 
-                <div class="form-group boxed">
-                    <!-- progress bar here -->
-                    <div class="input-wrapper">
-                        <label class="label" for="acccount_name">{{ form.name.label }}</label>
-                        {{ form.name }}
-                        <i class="clear-input">
-                            <ion-icon name="close-circle"></ion-icon>
-                        </i>
+                {% if form.name %}
+                    <div class="form-group boxed">
+                        <!-- progress bar here -->
+                        <div class="input-wrapper">
+                            <label class="label" for="acccount_name">{{ form.name.label }}</label>
+                            {{ form.name }}
+                            <i class="clear-input">
+                                <ion-icon name="close-circle"></ion-icon>
+                            </i>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <div class="mt-2">
                     <button class="btn btn-primary btn-block" type="submit">Next</button>
