@@ -1,5 +1,7 @@
 {% extends 'index.html' %}
 
+{% load static %}
+
 {% block page-title %}Add Account{% endblock %}
 
 {% block app-header %}
@@ -14,4 +16,6 @@
 {% include 'inc/capsules/_add-account.html' %}
 {% endblock %}
 
-{% block page-js %}{% endblock %}
+{% block page-js %}
+<script src="{% static 'assets/js/add-account.js' %}"></script>
+{% endblock %}
