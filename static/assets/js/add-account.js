@@ -18,6 +18,77 @@ function getCookie(name) {
     return null;
 }
 
+const showEmptyMessage = (elem) => {
+    elem.html(
+        `
+        <p style="text-align: center; padding-top: 5px; padding-bottom: 5px" class=mb-0>
+            No saved accounts contain that search term.
+        </p>
+        `
+    )
+}
+  
+const showAccounts = (elem, data) => {
+    data.forEach((account) => {
+        let li = document.createElement("li");
+        let name = '';
+        if (account.name)
+            name = account.name;
+
+        $(li).html(
+            `
+            <a href='#'>
+                <span id='name'>${name}</span>
+                <span id='number'><small>${account.number}</small></span>
+                <span id='bank-code' style='display: none'>${account.provider_code}</span>
+                <span id='bank-name' style='display: none'>${account.provider_name}</span>
+            </a>
+            `
+        );
+        elem.append(li);
+    });
+};
+
+const showError = (elem) => {
+    elem.html(
+        `
+        <p style="border: solid 1px #ddd; text-align: center; padding-top: 5px; padding-bottom: 5px" class=mb-0>
+            Request failed.
+        </p>
+        `
+    );
+};
+
+const getAccounts = (q, type) => {
+    const site = $('#id_site').val();
+    const url = `${site}/get-accounts`;
+    const element = $("#accounts-list");
+
+    element.fadeIn();
+
+    axios.get(url, {
+        params: {
+          q: q,
+          type: type
+        }
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            const data = response.data;
+            element.empty();
+
+            if (data.length === 0) {
+                showEmptyMessage(element);
+            } else {
+                showAccounts(element, data);
+            }
+        }
+    })
+    .catch((error) => {
+        showError(element);
+    })
+};
+
 const getRecipientName = (accountNumber, bank) => {
     const url = $('#id_url').val();
     const headers = {'Content-Type': 'application/json'};
@@ -53,6 +124,22 @@ const setProviderName = () => {
 }
 
 setProviderName();
+
+const CURRENCY_ACCOUNT_TYPE_MAP = {
+    'NGN': 'bank',
+    'GHS': 'wallet'
+}
+
+$("#id_search").keyup((e) => {
+    const currency = $('#id_currency').val();
+    const type = CURRENCY_ACCOUNT_TYPE_MAP[currency];
+    const q = $(e.currentTarget).val();
+    if (q.length >= 2) {
+        getAccounts(q, type);
+    } else {
+        getAccounts('', type);
+    }
+});
 
 $("#id_provider_code").change(() => {
     setProviderName();

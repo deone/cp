@@ -84,11 +84,12 @@ class AddAccountView(View, ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            # 'site': '{}{}'.format(settings.PROTOCOL, Site.objects.get_current()),
+            'site': '{}{}'.format(settings.PROTOCOL, Site.objects.get_current()),
             'accounts': RecipientAccount.objects.filter(
                 _type=self._get_account_type(self.form), customer=self.customer),
             'form': self.form,
             'beneficiary_url': settings.FW_CREATE_BENEFICIARY_URL,
+            'currency': self.outflow_currency,
         })
         return context
 
@@ -110,3 +111,24 @@ class AddAccountView(View, ContextMixin):
 class ConfirmTransactionView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'transaction/confirm.html')
+
+class GetAccountsView(View):
+    def get(self, request, *args, **kwargs):
+        q = request.GET.get('q', '')
+        _type = request.GET.get('type', '')
+
+        if q != '':
+            # if q is numeric, search by number
+            try:
+                int(q)
+            except ValueError:
+                accounts = list(RecipientAccount.objects.filter(
+                    _type=_type, customer=request.user.customer, name__icontains=q).values())
+            else:
+                accounts = list(RecipientAccount.objects.filter(
+                    _type=_type, customer=request.user.customer, number__icontains=q).values())
+        else:
+            accounts = list(RecipientAccount.objects.filter(
+                _type=_type, customer=request.user.customer).values())
+
+        return JsonResponse(accounts, safe=False)

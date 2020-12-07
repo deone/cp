@@ -15,7 +15,7 @@
                     </div>
                 </div>
 
-                <ul class="listview link-listview overflow-auto mt-1 mb-1" style="max-height: 200px; border-right: solid 1px #E1E1E1; border-left: solid 1px #E1E1E1">
+                <ul id="accounts-list" class="listview link-listview overflow-auto mt-1 mb-1">
                     {% if accounts %}
                         {% for a in accounts %}
                             <li>
@@ -101,6 +101,8 @@
 
                 <input type="hidden" id="id_url" name="url" value="{{ beneficiary_url }}">
                 <input type="hidden" id="id_secret_key" name="secret_key" value="{{ secret_key }}">
+                <input type="hidden" id="id_site" name="site" value="{{ site }}">
+                <input type="hidden" id="id_currency" name="currency" value="{{ currency }}">
                 <div class="mt-2">
                     <button class="btn btn-primary btn-block" type="submit">Next</button>
                     <!-- <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#ModalForm">
