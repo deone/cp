@@ -1,5 +1,6 @@
 from django.views import View
 from django.conf import settings
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
 from django.contrib.sites.models import Site
@@ -87,14 +88,15 @@ class AddAccountView(View, ContextMixin):
             'accounts': RecipientAccount.objects.filter(
                 _type=self._get_account_type(self.form), customer=self.customer),
             'form': self.form,
-            'secret_key': settings.FW_INCISIA_SEC_KEY,
             'beneficiary_url': settings.FW_CREATE_BENEFICIARY_URL,
         })
         return context
 
     def get(self, request, *args, **kwargs):
         self.form = self.outflow_currency_form_map[self.outflow_currency](**self.form_args)
-        return render(request, self.template_name, self.get_context_data(**kwargs))
+        response = render(request, self.template_name, self.get_context_data(**kwargs))
+        response.set_cookie('key', value=settings.FW_INCISIA_SEC_KEY)
+        return response
 
     def post(self, request, *args, **kwargs):
         self.form = self.outflow_currency_form_map[self.outflow_currency](request.POST, **self.form_args)
