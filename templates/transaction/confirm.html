@@ -14,4 +14,26 @@
 </div>
 {% endblock %}
 
-{% block app-capsule %}{% endblock %}
+{% block app-capsule %}
+<div id="appCapsule">
+    <div class="wide-block pt-2 pb-2" style="border-bottom-width: 0;">
+        <ul class="listview simple-listview mt-5">
+            <li>
+                <span class="text-muted">You are sending</span>
+                <strong>GH₵510</strong>
+            </li>
+            <li>
+                <span class="text-muted">To</span>
+                <strong style="text-align: right">GTBank<br/>0009432630<br/>Oladayo Joshua Osikoya<br/></strong>
+            </li>
+            <li>
+                <span class="text-muted">Recipient will receive</span>
+                <strong>₦39,844</strong>
+            </li>
+        </ul>
+        <div class="form-button-group" style="margin-bottom: 55px;">
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Send Money</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

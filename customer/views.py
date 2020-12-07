@@ -108,9 +108,22 @@ class AddAccountView(View, ContextMixin):
                 'transaction_id': self.transaction.transaction_id}))
         return render(request, self.template_name, self.get_context_data(**kwargs))
 
-class ConfirmTransactionView(View):
+class ConfirmTransactionView(View, ContextMixin):
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.customer = request.user.customer
+        self.transaction = Transaction.objects.get(
+            transaction_id=kwargs.get('transaction_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'transaction': self.transaction,
+        })
+        return context
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'transaction/confirm.html')
+        return render(request, 'transaction/confirm.html', self.get_context_data(**kwargs))
 
 class GetAccountsView(View):
     def get(self, request, *args, **kwargs):
