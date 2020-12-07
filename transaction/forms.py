@@ -125,27 +125,30 @@ class MobileMoneyWalletForm(AccountForm):
         return self.cleaned_data['number']
 
     def save(self):
-        # Save account if it doesn't exist
-        data = copy.deepcopy(self.cleaned_data)
-        data.update({
-            '_type': 'wallet',
-            'customer': self.customer
-        })
-        try:
-            wallet = RecipientAccount.objects.get(
-                _type='wallet', number=data['number'], customer=self.customer)
-        except RecipientAccount.DoesNotExist:
-            wallet = RecipientAccount.objects.create(**data)
+        return add_account('wallet', self.customer, self.transaction, **self.cleaned_data)
 
-        # Update transaction with user
-        self.transaction.user = self.customer.user
-        self.transaction.save()
+def add_account(account_type, customer, transaction, **data):
+    # Save account if it doesn't exist
+    d = copy.deepcopy(data)
+    d.update({
+        '_type': account_type,
+        'customer': customer
+    })
+    try:
+        account = RecipientAccount.objects.get(
+            _type=account_type, number=d['number'], customer=customer)
+    except RecipientAccount.DoesNotExist:
+        account = RecipientAccount.objects.create(**d)
 
-        # Update transaction outflow with recipient account details
-        outflow = self.transaction.outflow
-        update_outflow(outflow, data)
+    # Update transaction with user
+    transaction.user = customer.user
+    transaction.save()
 
-        return wallet
+    # Update transaction outflow with recipient account details
+    outflow = transaction.outflow
+    update_outflow(outflow, d)
+
+    return account
 
 class BankAccountForm(AccountForm):
     def __init__(self, *args, **kwargs):
@@ -168,23 +171,4 @@ class BankAccountForm(AccountForm):
         })
 
     def save(self):
-        data = copy.deepcopy(self.cleaned_data)
-        data.update({
-            '_type': 'bank',
-            'customer': self.customer
-        })
-        try:
-            bank_account = RecipientAccount.objects.get(
-                _type='bank', number=data['number'], customer=self.customer)
-        except RecipientAccount.DoesNotExist:
-            bank_account = RecipientAccount.objects.create(**data)
-
-        # Update transaction with user
-        self.transaction.user = self.customer.user
-        self.transaction.save()
-
-        # Update transaction outflow with recipient account details
-        outflow = self.transaction.outflow
-        update_outflow(outflow, data)
-
-        return bank_account
+        return add_account('bank', self.customer, self.transaction, **self.cleaned_data)
