@@ -87,8 +87,8 @@ class AddAccountView(View, ContextMixin):
             'accounts': RecipientAccount.objects.filter(
                 _type=self._get_account_type(self.form), customer=self.customer),
             'form': self.form,
-            # 'secret_key': settings.FW_INCISIA_SEC_KEY,
-            # 'beneficiary_url': settings.FW_CREATE_BENEFICIARY_URL,
+            'secret_key': settings.FW_INCISIA_SEC_KEY,
+            'beneficiary_url': settings.FW_CREATE_BENEFICIARY_URL,
         })
         return context
 
