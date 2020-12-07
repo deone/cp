@@ -1,8 +1,6 @@
 const getRecipientName = (accountNumber, bank) => {
     const url = $('#id_url').val();
     const secretKey = $('#id_secret_key').val();
-    console.log(url);
-    console.log(secretKey);
   
     const data = {
         account_number: accountNumber,
@@ -18,7 +16,7 @@ const getRecipientName = (accountNumber, bank) => {
     .then((response) => {
         if (response.status === 200) {
             const recipient = response.data.data;
-            $(".progress").hide();
+            $("#progress").hide();
             $("#id_name").val(recipient['fullname']);
             $('#btnSubmit').removeAttr("disabled");
         } else {
@@ -45,7 +43,7 @@ $("#id_provider_code").change(() => {
         if (bank) {
             const accountNumber = $(e.currentTarget).val();
             if (accountNumber.length == 10) {
-                // $(".progress").show();
+                $("#progress").show();
                 getRecipientName(accountNumber, bank);
             }
         }

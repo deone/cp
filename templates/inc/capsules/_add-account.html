@@ -86,9 +86,11 @@
 
                 {% if form.name %}
                     <div class="form-group boxed">
-                        <!-- progress bar here -->
                         <div class="input-wrapper">
-                            <label class="label" for="acccount_name">{{ form.name.label }}</label>
+                            <label class="label" for="account_name">
+                                {{ form.name.label }}
+                                <span id="progress" style="color: green; display: none">Fetching account name...</span>
+                            </label>
                             {{ form.name }}
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
