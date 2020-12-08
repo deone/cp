@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'customer.apps.CustomerConfig',
     'transaction.apps.TransactionConfig'
 ]
