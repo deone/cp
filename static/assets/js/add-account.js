@@ -159,9 +159,9 @@ $("#id_provider_code").change(() => {
 // we call the event on body because
 // the buttons are dynamically generated.
 $('body').on('click', '#accounts-list a', (e) => {
-    const account = $(e.currentTarget)
-    account.siblings().removeClass('active')
-    account.addClass('active')
+    const account = $(e.currentTarget);
+    account.siblings().removeClass('active');
+    account.addClass('active');
 
     const number = account.find('#number').text();
 

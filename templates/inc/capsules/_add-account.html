@@ -19,7 +19,7 @@
                     {% if accounts %}
                         {% for a in accounts %}
                             <li>
-                                <a href="#">
+                                <a href="#" class="list-group-item list-group-item-action">
                                     <span id="name">{% if a.name %}{{ a.name }}{% endif %}</span>
                                     <span id="number"><small>{{ a.number }}</small></span>
                                     <span id="bank-code" style="display: none">{{ a.provider_code }}</span>
