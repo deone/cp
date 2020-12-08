@@ -11,14 +11,6 @@ NETWORKS = [
     ('airtel', 'AirtelTigo'),
 ]
 
-def get_dest_currency(data, source_currency):
-    dest_currency = data.get('dest_currency', None)
-    if dest_currency is None:
-        if source_currency == 'NGN':
-            return 'GHS'
-        return 'NGN'
-    return dest_currency
-
 def get_amount(string, currency):
     if currency == 'GHS':
         amount_string = string[3:]
