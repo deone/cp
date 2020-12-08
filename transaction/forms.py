@@ -16,7 +16,7 @@ class TransactionForm(forms.Form):
     source_amount = forms.CharField(label='You send', widget=forms.TextInput(attrs={
         'class': FORM_CONTROL_CLASS,
         'autofocus': True,
-        # 'value': '1000',
+        'value': '1000',
     }))
     source_currency = forms.ChoiceField(label='Currency I have', widget=forms.Select(attrs={
         'class': FORM_CONTROL_CLASS

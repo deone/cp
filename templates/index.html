@@ -69,7 +69,7 @@
             new AutoNumeric('#id_source_amount', {
                 'decimalPlaces': 8,
                 'allowDecimalPadding': false
-            })
+            });
 
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
@@ -142,7 +142,7 @@
                 [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
                 showRate(rate);
                 showAmount('#id_dest_amount', rate, symbol);
-            })
+            });
         </script>
         {% endblock %}
     </body>
