@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status as s
 from rest_framework.response import Response
@@ -49,14 +49,14 @@ def save_naira_payment_info(request):
 
     return redirect(reverse_lazy('customer:index')) """
 
-# api_view(['POST', 'GET'])
-# @csrf_protect
-""" def save_naira_payment_info(request):
+api_view(['POST', 'GET'])
+@csrf_exempt
+def save_naira_payment_info(request):
     print('** Naira payment info - GET **')
     print(request.GET)
 
-    # print('** Naira payment info - POST **')
-    # print(request.POST)
+    print('** Naira payment info - POST **')
+    print(request.POST)
 
     transaction_id = get_transaction_id(request.GET.get('txref', ''))
     flw_ref = request.GET.get('flwref')
@@ -71,14 +71,7 @@ def save_naira_payment_info(request):
         inflow.reference = flw_ref
         inflow.updated_at = timezone.now()
         inflow.save()
-    return redirect(reverse_lazy('customer:index')) """
-
-from django.http import HttpResponse
-@csrf_protect
-def save_naira_payment_info(request):
-    print('** Naira payment info - GET **')
-    print(request.GET)
-    return HttpResponse('Redirection Successful')
+    return redirect(reverse_lazy('customer:index'))
 
 @api_view(['POST'])
 def handle_naira_update(request):
