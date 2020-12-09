@@ -84,6 +84,7 @@ def handle_naira_update(request):
             transaction_id=get_transaction_id(data['txRef']))
 
         inflow = transaction.inflow
+        inflow.reference = data['flwRef']
         if inflow.is_complete == False:
             if data['status'] == 'successful':
                 inflow.source_account_provider = 'card'
@@ -93,9 +94,9 @@ def handle_naira_update(request):
                 inflow.is_complete = True
                 inflow.save()
 
-                # initiate cedi transfer
-                # outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
+                outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
+            inflow.save()
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
     elif data['event.type'] == 'BANK_TRANSFER_TRANSACTION':
         """
