@@ -133,6 +133,7 @@ def handle_cedi_transfer_update(request):
     return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
 
 @api_view(['GET'])
+@csrf_exempt
 def save_cedi_payment_info(request):
     print('** Cedi payment info **')
     print(request.data)
