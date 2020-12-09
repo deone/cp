@@ -19,7 +19,7 @@ def get_transaction_id(ref):
         return ref.split('_')[0]
     return ref
 
-api_view(['POST', 'GET'])
+""" api_view(['POST', 'GET'])
 def save_naira_payment_info(request):
     print('** Naira payment info - GET **')
     print(request.GET)
@@ -46,6 +46,29 @@ def save_naira_payment_info(request):
         inflow.updated_at = timezone.now()
         inflow.save()
 
+    return redirect(reverse_lazy('customer:index')) """
+
+api_view(['POST', 'GET'])
+def save_naira_payment_info(request):
+    print('** Naira payment info - GET **')
+    print(request.GET)
+
+    print('** Naira payment info - POST **')
+    print(request.POST)
+
+    transaction_id = get_transaction_id(request.GET.get('txref', ''))
+    flw_ref = request.GET.get('flwref')
+
+    transaction = Transaction.objects.get(transaction_id=transaction_id)
+    cancelled = request.GET.get('cancelled', '')
+    if cancelled:
+        transaction.status = 'Cancelled'
+        transaction.save()
+    else:
+        inflow = transaction.inflow
+        inflow.reference = flw_ref
+        inflow.updated_at = timezone.now()
+        inflow.save()
     return redirect(reverse_lazy('customer:index'))
 
 @api_view(['POST'])
