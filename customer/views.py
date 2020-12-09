@@ -131,7 +131,7 @@ class ConfirmTransactionView(View, ContextMixin):
         transaction_id = self.transaction.transaction_id
         amount = self.transaction.inflow.amount
 
-        if self.transaction.outflow.currency == 'NGN':
+        if self.transaction.inflow.currency == 'NGN':
             redirect_url = '{}{}{}'.format(
                 settings.PROTOCOL, site,
                 reverse_lazy('transaction:save-naira-payment-info'))
