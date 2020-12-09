@@ -53,3 +53,20 @@ class HandleNairaPaymentUpdateTest(APITestCase, UpdatedTestNGNToGHSTransaction):
         self.assertEqual(inflow.source_account_number, '539983******9335')
         self.assertTrue(inflow.is_complete)
         self.assertTrue(inflow.updated_at)
+
+class HandleCediTransferUpdate(APITestCase, UpdatedTestNGNToGHSTransaction):
+    def setUp(self):
+        super().setUp()
+        self.url = '/t/handle-cedi-transfer-update'
+        self.transaction = self.ngn_to_ghs_transaction
+
+    def test_POST(self):
+        data = cedi_transfer_update(self.transaction.transaction_id)
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        self.transaction.refresh_from_db()
+        self.assertEqual(self.transaction.outflow.reference, data['transaction_id'])
+        self.assertTrue(self.transaction.outflow.is_complete)
+        self.assertTrue(self.transaction.is_complete)
+        self.assertEqual(self.transaction.status, 'Successful')

@@ -122,18 +122,18 @@ def handle_cedi_transfer_update(request):
 
     transaction = Transaction.objects.get(
         transaction_id=data['metadata']['transaction_id'])
-    if status == 'SUCCESS':
-        transaction.outflow.reference = data['transaction_id']
-        transaction.outflow.is_complete = True
-        transaction.outflow.updated_at = timezone.now()
-        transaction.outflow.save()
+    if transaction.outflow.is_complete == False:
+        if status == 'SUCCESS':
+            transaction.outflow.reference = data['transaction_id']
+            transaction.outflow.is_complete = True
+            transaction.outflow.updated_at = timezone.now()
+            transaction.outflow.save()
 
-        transaction.status = 'Successful'
-        transaction.is_complete = True
-        transaction.save()
-        return Response({'message': 'Success'}, status=s.HTTP_200_OK)
-
-    return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
+            transaction.status = 'Successful'
+            transaction.is_complete = True
+            transaction.save()
+            return Response({'message': 'Success'}, status=s.HTTP_200_OK)
+    return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def save_cedi_payment_info(request):
