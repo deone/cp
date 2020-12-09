@@ -34,3 +34,22 @@ class SaveNairaPaymentInfoTest(APITestCase, UpdatedTestNGNToGHSTransaction):
 
         self.ngn_to_ghs_transaction.refresh_from_db()
         self.assertTrue(self.ngn_to_ghs_transaction.inflow.reference)
+
+class HandleNairaPaymentUpdateTest(APITestCase, UpdatedTestNGNToGHSTransaction):
+    def setUp(self):
+        super().setUp()
+        self.url = '/t/handle-naira-update'
+        self.data = naira_payment_update_card(self.ngn_to_ghs_transaction.transaction_id)
+
+    def test_POST(self):
+        transaction = self.ngn_to_ghs_transaction
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        # Check that inflow is updated
+        inflow = transaction.inflow
+        inflow.refresh_from_db()
+        self.assertEqual(inflow.source_account_provider, 'card')
+        self.assertEqual(inflow.source_account_number, '539983******9335')
+        self.assertTrue(inflow.is_complete)
+        self.assertTrue(inflow.updated_at)
