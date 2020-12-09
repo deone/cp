@@ -49,14 +49,14 @@ def save_naira_payment_info(request):
 
     return redirect(reverse_lazy('customer:index')) """
 
-api_view(['POST', 'GET'])
-@csrf_protect
+# api_view(['POST', 'GET'])
+# @csrf_protect
 def save_naira_payment_info(request):
     print('** Naira payment info - GET **')
     print(request.GET)
 
-    print('** Naira payment info - POST **')
-    print(request.POST)
+    # print('** Naira payment info - POST **')
+    # print(request.POST)
 
     transaction_id = get_transaction_id(request.GET.get('txref', ''))
     flw_ref = request.GET.get('flwref')
