@@ -20,35 +20,6 @@ def get_transaction_id(ref):
         return ref.split('_')[0]
     return ref
 
-""" api_view(['POST', 'GET'])
-def save_naira_payment_info(request):
-    print('** Naira payment info - GET **')
-    print(request.GET)
-
-    print('** Naira payment info - POST **')
-    print(request.POST)
-
-    ref = request.GET.get('txref', '')
-    if ref == '':
-        ref = json.loads(request.GET['resp'])['tx']['txRef']
-    transaction = Transaction.objects.get(transaction_id=get_transaction_id(ref))
-
-    cancelled = request.GET.get('cancelled', '')
-    if cancelled:
-        transaction.status = 'Cancelled'
-        transaction.save()
-    else:
-        try:
-            tx = json.loads(request.POST['resp'])['tx']
-        except KeyError:
-            tx = json.loads(request.GET['resp'])['tx']
-        inflow = transaction.inflow
-        inflow.reference = tx['flwRef']
-        inflow.updated_at = timezone.now()
-        inflow.save()
-
-    return redirect(reverse_lazy('customer:index')) """
-
 api_view(['POST', 'GET'])
 @csrf_exempt
 def save_naira_payment_info(request):

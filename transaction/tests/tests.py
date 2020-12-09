@@ -85,6 +85,38 @@ class SaveCediPaymentInfoTest(APITestCase, UpdatedTestGHSToNGNTransaction):
         self.assertTrue(self.ghs_to_ngn_transaction.inflow.source_account_number)
         self.assertTrue(self.ghs_to_ngn_transaction.inflow.source_account_provider)
 
-# class HandleCediPaymentUpdateTest
+class HandleCediPaymentUpdateTest(APITestCase, UpdatedTestGHSToNGNTransaction):
+    def setUp(self):
+        super().setUp()
+        self.url = '/t/handle-cedi-payment-update'
+        self.data = cedi_payment_update(
+            self.ghs_to_ngn_transaction.transaction_id)
 
-# class HandleNairaTransferUpdateTest
+    def test_POST(self):
+        transaction = self.ghs_to_ngn_transaction
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        # Check that inflow and outflow are updated
+        transaction.inflow.refresh_from_db()
+        self.assertTrue(transaction.inflow.is_complete)
+        self.assertTrue(transaction.inflow.updated_at)
+
+        transaction.outflow.refresh_from_db()
+        self.assertTrue(transaction.outflow.reference)
+
+class HandleNairaTransferUpdate(APITestCase, UpdatedTestGHSToNGNTransaction):
+    def setUp(self):
+        super().setUp()
+        self.url = '/t/handle-naira-update'
+        self.data = naira_transfer_update(self.ghs_to_ngn_transaction.transaction_id)
+
+    def test_POST(self):
+        transaction = self.ghs_to_ngn_transaction
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        transaction.refresh_from_db()
+        self.assertTrue(transaction.outflow.is_complete)
+        self.assertTrue(transaction.is_complete)
+        self.assertEqual(transaction.status, 'Successful')

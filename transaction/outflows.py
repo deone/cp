@@ -49,7 +49,7 @@ def initiate_naira_transfer(transaction, narration="GHS to NGN"):
         'amount': int(transaction.outflow.amount),
         'currency': "NGN",
         'narration': narration,
-        'seckey': settings.RAVE_GH_SEC_KEY,
+        'seckey': settings.FW_INCISIA_SEC_KEY,
         'reference': transaction.transaction_id
     }
 

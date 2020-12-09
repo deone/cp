@@ -3,10 +3,21 @@
 def cedi_payment_info(transaction_id):
     return '{}{}{}'.format('amount=2.0&amount_after_charge=1.5&charge=0.5&currency=GHS&message=Successful transaction.&metadata[order_id]=', transaction_id, '&metadata[product_description]=GHS to NGN&metadata[product_name]=Money transfer&payment_date=2019-12-27 11:32:51 UTC&processor_transaction_id=33FS5ZCPJWQ311&reference=33FS5ZCPJWQ311&source[number]=0542751610&source[object]=mobile_money&source[processor_transaction_id]=33FS5ZCPJWQ311&source[reference]=33FS5ZCPJWQ311&source[type]=mtn_gh&status=successful&status_code=100&tokenized=false&transaction_uuid=7514d18035a91b7ccd54a17539be90ed')
 
-"""
-Cedi payment update
-{'amount': 1258.0, 'metadata': {'order_id': 'SMNY201207165305', 'product_name': 'Money transfer', 'product_description': 'GHS to NGN'}, 'currency': 'GHS', 'amount_after_charge': '1226.55', 'reference': '54C6JDQ3WANH16', 'processor_transaction_id': '54C6JDQ3WANH16', 'charge': '31.45', 'source': {'object': 'mobile_money', 'number': '0242110110', 'reference': '54C6JDQ3WANH16', 'processor_transaction_id': '54C6JDQ3WANH16', 'type': 'mtn_gh'}, 'customer_remarks': '', 'id': '28ab1980cd9742', 'first_name': 'Duke', 'last_name': 'Martin', 'email': 'dukeofori@gmail.com', 'tokenized': False, 'status': 'successful', 'status_code': '100', 'transaction_uuid': '38b9489cc9d2ab560706e8b33db9cbd4', 'payment_date': '2020-12-07 16:53:53 UTC', 'message': 'Successful transaction.', 'error_fields': []}
-"""
+def cedi_payment_update(transaction_id):
+    return {
+        'amount': 1258.0,
+        'metadata': {
+            'order_id': transaction_id, 'product_name': 'Money transfer', 'product_description': 'GHS to NGN'
+        }, 'currency': 'GHS', 'amount_after_charge': '1226.55', 'reference': '54C6JDQ3WANH16',
+        'processor_transaction_id': '54C6JDQ3WANH16', 'charge': '31.45',
+        'source': {
+            'object': 'mobile_money', 'number': '0242110110', 'reference': '54C6JDQ3WANH16',
+            'processor_transaction_id': '54C6JDQ3WANH16', 'type': 'mtn_gh'
+        }, 'customer_remarks': '', 'id': '28ab1980cd9742', 'first_name': 'Duke', 'last_name': 'Martin',
+        'email': 'dukeofori@gmail.com', 'tokenized': False,
+        'status': 'successful', 'status_code': '100', 'transaction_uuid': '38b9489cc9d2ab560706e8b33db9cbd4',
+        'payment_date': '2020-12-07 16:53:53 UTC', 'message': 'Successful transaction.', 'error_fields': []
+    }
 
 def cedi_transfer_update(transaction_id):
     return {
