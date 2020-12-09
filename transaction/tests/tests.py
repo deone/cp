@@ -1,13 +1,12 @@
 from rest_framework.test import APITestCase
 
 from .data import *
-from . import UpdatedTestNGNToGHSTransaction
+from . import UpdatedTestNGNToGHSTransaction, UpdatedTestGHSToNGNTransaction
 
 class SaveNairaPaymentInfoTest(APITestCase, UpdatedTestNGNToGHSTransaction):
     def setUp(self):
         super().setUp()
         self.ngn_to_ghs_transaction.user = self.customer.user
-        self.ngn_to_ghs_transaction.transaction_id = 'CSHP201208155232267518'
         self.ngn_to_ghs_transaction.save()
 
     def test_GET_cancelled(self):
@@ -70,3 +69,22 @@ class HandleCediTransferUpdate(APITestCase, UpdatedTestNGNToGHSTransaction):
         self.assertTrue(self.transaction.outflow.is_complete)
         self.assertTrue(self.transaction.is_complete)
         self.assertEqual(self.transaction.status, 'Successful')
+
+class SaveCediPaymentInfoTest(APITestCase, UpdatedTestGHSToNGNTransaction):
+    def test_GET(self):
+        url = '{}{}'.format('/t/save-cedi-payment-info?',
+            cedi_payment_info(self.transaction_id))
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/')
+
+        self.ghs_to_ngn_transaction.refresh_from_db()
+        self.assertTrue(self.ghs_to_ngn_transaction.inflow.reference)
+        self.assertTrue(self.ghs_to_ngn_transaction.inflow.source_account_number)
+        self.assertTrue(self.ghs_to_ngn_transaction.inflow.source_account_provider)
+
+# class HandleCediPaymentUpdateTest
+
+# class HandleNairaTransferUpdateTest
