@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_protect
 
 from rest_framework import status as s
 from rest_framework.response import Response
@@ -49,6 +50,7 @@ def save_naira_payment_info(request):
     return redirect(reverse_lazy('customer:index')) """
 
 api_view(['POST', 'GET'])
+@csrf_protect
 def save_naira_payment_info(request):
     print('** Naira payment info - GET **')
     print(request.GET)
