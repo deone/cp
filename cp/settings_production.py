@@ -34,3 +34,8 @@ FW_TRANSFER_URL = 'https://api.ravepay.co/v2/gpx/transfers/create'
 FW_BANKS_URL = 'https://api.ravepay.co/v2/banks/'
 FW_CREATE_BENEFICIARY_URL = 'https://api.ravepay.co/v2/gpx/transfers/beneficiaries/create'
 FW_PAYMENT_URL = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay'
+
+# Asoriba
+ASORIBA_PUB_KEY = os.environ['ASORIBA_PROD_PUB_KEY']
+ASORIBA_PAYMENT_URL = 'https://app.mybusinesspay.com//payment/v1.0/initialize'
+ASORIBA_TRANSFER_URL = 'https://app.mybusinesspay.com//payment/v1.0.1/payouts'

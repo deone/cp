@@ -45,9 +45,12 @@
             </li>
         </ul>
         {% endwith %}
-        <div class="form-button-group" style="margin-bottom: 55px;">
-            <button type="submit" class="btn btn-primary btn-block btn-lg">Send Money</button>
-        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-button-group" style="margin-bottom: 55px;">
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Send Money</button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

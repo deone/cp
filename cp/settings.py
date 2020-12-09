@@ -156,3 +156,15 @@ FW_TRANSFER_URL = 'https://api.ravepay.co/v2/gpx/transfers/create'
 FW_BANKS_URL = 'https://api.ravepay.co/v2/banks/'
 FW_CREATE_BENEFICIARY_URL = 'https://api.ravepay.co/v2/gpx/transfers/beneficiaries/create'
 FW_PAYMENT_URL = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay'
+
+# Asoriba
+ASORIBA_PUB_KEY = os.environ['ASORIBA_DEV_PUB_KEY']
+ASORIBA_PAYMENT_URL = 'https://sandbox.mybusinesspay.com//payment/v1.0/initialize'
+ASORIBA_TRANSFER_URL = 'https://sandbox.mybusinesspay.com//payment/v1.0.1/payouts'
+
+# Email
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'dayo'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
+DEFAULT_FROM_EMAIL = 'dayo@incisia.com'
+SERVER_EMAIL = 'dayo@incisia.com'

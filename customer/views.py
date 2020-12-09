@@ -10,6 +10,7 @@ from django.views.generic.base import ContextMixin
 from django.contrib.auth import login, authenticate
 
 from .forms import SignUpForm
+from transaction import inflows
 from customer.models import RecipientAccount
 from transaction.models import Rates, Transaction
 from transaction.forms import (
@@ -124,6 +125,30 @@ class ConfirmTransactionView(View, ContextMixin):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'transaction/confirm.html', self.get_context_data(**kwargs))
+
+    def post(self, request, *args, **kwargs):
+        site = Site.objects.get_current().domain
+        transaction_id = self.transaction.transaction_id
+        amount = self.transaction.inflow.amount
+
+        if self.transaction.outflow.currency == 'NGN':
+            redirect_url = '{}{}{}'.format(
+                settings.PROTOCOL, site,
+                reverse_lazy('transaction:save-naira-payment-info'))
+            payment_page = inflows.get_naira_payment_page(
+                request.user.email, transaction_id, int(amount), redirect_url)
+            return redirect(payment_page)
+
+        redirect_url = '{}{}{}'.format(
+            settings.PROTOCOL, site,
+            reverse_lazy('transaction:save-cedi-payment-info'))
+        post_url = '{}{}{}'.format(
+            settings.PROTOCOL, site,
+            reverse_lazy('transaction:handle-cedi-payment-update'))
+        payment_page = inflows.get_cedi_payment_page(
+            request.user.email, transaction_id, int(amount), redirect_url, post_url)
+        return redirect(payment_page)
+
 
 class GetAccountsView(View):
     def get(self, request, *args, **kwargs):
