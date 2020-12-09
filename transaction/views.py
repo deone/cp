@@ -51,7 +51,7 @@ def save_naira_payment_info(request):
 
 # api_view(['POST', 'GET'])
 # @csrf_protect
-def save_naira_payment_info(request):
+""" def save_naira_payment_info(request):
     print('** Naira payment info - GET **')
     print(request.GET)
 
@@ -71,7 +71,14 @@ def save_naira_payment_info(request):
         inflow.reference = flw_ref
         inflow.updated_at = timezone.now()
         inflow.save()
-    return redirect(reverse_lazy('customer:index'))
+    return redirect(reverse_lazy('customer:index')) """
+
+from django.http import HttpResponse
+@csrf_protect
+def save_naira_payment_info(request):
+    print('** Naira payment info - GET **')
+    print(request.GET)
+    return HttpResponse('Redirection Successful')
 
 @api_view(['POST'])
 def handle_naira_update(request):
@@ -94,7 +101,7 @@ def handle_naira_update(request):
                 inflow.save()
 
                 # initiate cedi transfer
-                outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
+                # outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
     elif data['event.type'] == 'BANK_TRANSFER_TRANSACTION':
