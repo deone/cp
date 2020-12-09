@@ -136,7 +136,7 @@ def handle_cedi_transfer_update(request):
 @csrf_exempt
 def save_cedi_payment_info(request):
     print('** Cedi payment info **')
-    print(request.data)
+    print(request.GET)
     data = request.GET
     transaction = Transaction.objects.get(
         transaction_id=data['metadata[order_id]'])
