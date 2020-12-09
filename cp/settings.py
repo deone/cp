@@ -149,6 +149,7 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 
+# Flutterwave
 FW_INCISIA_SEC_KEY = os.environ['FW_INCISIA_DEV_SEC_KEY']
 FW_INCISIA_PUB_KEY = os.environ['FW_INCISIA_DEV_PUB_KEY']
 
@@ -161,6 +162,12 @@ FW_PAYMENT_URL = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay'
 ASORIBA_PUB_KEY = os.environ['ASORIBA_DEV_PUB_KEY']
 ASORIBA_PAYMENT_URL = 'https://sandbox.mybusinesspay.com//payment/v1.0/initialize'
 ASORIBA_TRANSFER_URL = 'https://sandbox.mybusinesspay.com//payment/v1.0.1/payouts'
+
+# Opennode
+OPENNODE_API_KEY = os.environ['OPENNODE_DEV_API_KEY']
+OPENNODE_CREATE_CHARGE_URL = 'https://dev-api.opennode.co/v1/charges'
+OPENNODE_CHECKOUT_URL = 'https://dev-checkout.opennode.co/'
+OPENNODE_MAX_TRANSFER_AMOUNT = 0.042
 
 # Email
 EMAIL_HOST = 'smtp.webfaction.com'
