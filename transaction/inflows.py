@@ -67,7 +67,7 @@ def get_naira_payment_page(email, transaction_id, amount, redirect_url):
 
 def get_invoice(user, transaction, domain):
     data = {
-        "amount": int(transaction.inflow.amount * 100000000), # in satoshis
+        "amount": int(transaction.inflow.amount),
         "description": "{} {} {}".format(
             'BTC', 'to', transaction.outflow.currency),
         "order_id": transaction.id,

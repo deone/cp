@@ -45,9 +45,17 @@ class TransactionForm(forms.Form):
         # Create inflow
         inflow_data = {
             'transaction': transaction,
-            'amount': self.cleaned_data['source_amount'],
             'currency': self.cleaned_data['source_currency'],
         }
+
+        if self.cleaned_data['source_currency'] == 'BTC':
+            inflow_data.update({
+                'amount': self.cleaned_data['source_amount'] * 100000000 # in satoshis
+            })
+        else:
+            inflow_data.update({
+                'amount': self.cleaned_data['source_amount']
+            })
 
         inflow = Inflow(**inflow_data)
         inflow.save()

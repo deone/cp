@@ -25,7 +25,15 @@
                 <span class="text-muted">You are sending</span>
                 <strong>
                     {% with i=t.inflow %}
-                        {% if i.currency == 'NGN' %}₦{% else %}{% if i.currency == 'BTC' %}BTC{% else %}GH₵{% endif %}{% endif %}{{ i.amount | intcomma }}
+                        {% if i.currency == 'NGN' %}
+                            ₦{{ i.amount | intcomma }}
+                        {% else %}
+                            {% if i.currency == 'BTC' %}
+                                BTC{{ amount }}
+                            {% else %}
+                                GH₵{{ i.amount | intcomma }}
+                            {% endif %}
+                        {% endif %}
                     {% endwith %}
                 </strong>
             </li>

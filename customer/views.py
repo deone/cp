@@ -17,6 +17,8 @@ from transaction.forms import (
     TransactionForm, MobileMoneyWalletForm, BankAccountForm
 )
 
+from decimal import Decimal
+
 class TransactionView(FormView):
     template_name = 'index.html'
     form_class = TransactionForm
@@ -121,6 +123,11 @@ class ConfirmTransactionView(View, ContextMixin):
         context.update({
             'transaction': self.transaction,
         })
+        if self.transaction.inflow.currency == 'BTC':
+            context.update({
+                'amount': Decimal(self.transaction.inflow.amount / 100000000)
+            })
+
         return context
 
     def get(self, request, *args, **kwargs):
