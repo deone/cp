@@ -14,4 +14,6 @@ urlpatterns = [
         views.handle_naira_update, name='handle-naira-update'),
     path('handle-cedi-transfer-update',
         views.handle_cedi_transfer_update, name='handle-cedi-transfer-update'),
+    path('handle-btc-payment-update',
+        views.handle_BTC_payment_update, name='handle-BTC-payment-update'),
 ]

@@ -37,9 +37,7 @@ def save_naira_payment_info(request):
         transaction.save()
     else:
         inflow = transaction.inflow
-        inflow.reference = flw_ref
-        inflow.updated_at = timezone.now()
-        inflow.save()
+        update_inflow(inflow, **{'reference': flw_ref})
     return redirect(reverse_lazy('customer:index'))
 
 @api_view(['POST'])
@@ -174,10 +172,8 @@ def handle_BTC_payment_update(request):
         transaction_id=get_transaction_id(request.POST['order_id']))
 
     status = request.POST['status']
-    transaction.inflow.reference = request.POST['id']
     if status == 'paid':
-        transaction.inflow.updated_at = timezone.now()
-        transaction.save()
+        update_inflow(transaction.inflow, **{'reference': request.POST['id']})
 
         # initiate dest amount transfer - GHS or NGN
         if transaction.outflow.currency == 'GHS':

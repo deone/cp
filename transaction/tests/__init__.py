@@ -76,21 +76,22 @@ class UpdatedTestGHSToNGNTransaction(TestGHSToNGNTransaction, TestCustomer):
         self.transaction.outflow.dest_account_number = '0690000032'
         self.transaction.outflow.save()
 
-""" class TestBTCToNGNTransaction(TestCase):
+class TestBTCToNGNTransaction(TestCase):
     def setUp(self):
         super().setUp()
-        self.transaction = Transaction.objects.create(transaction_id='CSHP201208155232267520')
+        self.transaction = Transaction.objects.create(
+            transaction_id='{}{}'.format('TMNY', timezone.now().strftime('%y%m%d%H%M%S%f')))
 
         # Create inflow
         Inflow.objects.create(
-            transaction=self.btc_to_ngn_transaction,
+            transaction=self.transaction,
             currency='BTC',
             amount=Decimal('0.0001'),
         )
 
         # Create outflow
         Outflow.objects.create(
-            transaction=self.btc_to_ngn_transaction,
+            transaction=self.transaction,
             currency='NGN',
             amount=Decimal('734.133'),
         )
@@ -108,4 +109,4 @@ class UpdatedTestBTCToNGNTransaction(TestBTCToNGNTransaction, TestCustomer):
         # Update outflow
         self.transaction.outflow.dest_account_provider_code = '044'
         self.transaction.outflow.dest_account_number = '0690000035'
-        self.transaction.outflow.save() """
+        self.transaction.outflow.save()

@@ -1,7 +1,11 @@
 from rest_framework.test import APITestCase
 
 from .data import *
-from . import UpdatedTestNGNToGHSTransaction, UpdatedTestGHSToNGNTransaction
+from . import (
+    UpdatedTestNGNToGHSTransaction,
+    UpdatedTestGHSToNGNTransaction,
+    UpdatedTestBTCToNGNTransaction
+)
 
 class SaveNairaPaymentInfoTest(APITestCase, UpdatedTestNGNToGHSTransaction):
     def test_GET_cancelled(self):
@@ -83,8 +87,6 @@ class HandleCediPaymentUpdateTest(APITestCase, UpdatedTestGHSToNGNTransaction):
         super().setUp()
         self.url = '/t/handle-cedi-payment-update'
         self.data = cedi_payment_update(self.transaction.transaction_id)
-        print(self.transaction)
-        print(self.transaction.outflow)
 
     def test_POST(self):
         response = self.client.post(self.url, self.data, format='json')
@@ -112,6 +114,28 @@ class HandleNairaTransferUpdate(APITestCase, UpdatedTestGHSToNGNTransaction):
         self.assertTrue(self.transaction.outflow.is_complete)
         self.assertTrue(self.transaction.is_complete)
         self.assertEqual(self.transaction.status, 'Successful')
+
+class HandleBTCPaymentUpdateTest(APITestCase, UpdatedTestBTCToNGNTransaction):
+    def setUp(self):
+        super().setUp()
+        self.url = '/t/handle-btc-payment-update'
+        self.data = btc_payment_update(
+            self.transaction.transaction_id, self.transaction.user.id)
+
+    def test_POST(self):
+        print(self.data)
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 200)
+
+        # Check that inflow and outflow are updated
+        inflow = self.transaction.inflow
+        inflow.refresh_from_db()
+        self.assertEqual(inflow.reference, self.data['id'])
+        self.assertTrue(self.transaction.inflow.is_complete)
+        self.assertTrue(self.transaction.inflow.updated_at)
+
+        self.transaction.outflow.refresh_from_db()
+        self.assertTrue(self.transaction.outflow.reference)
 
 """ class HandleBTCPaymentUpdate(APITestCase, UpdatedTestBTCToNGNTransaction):
     def setUp(self):

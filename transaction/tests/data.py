@@ -109,3 +109,18 @@ def naira_transfer_update(transaction_id):
 Naira transfer update failed
 {'event.type': 'Transfer', 'transfer': {'id': 4898213, 'account_number': '1015082319', 'bank_code': '057', 'fullname': 'UNIQUANTUM SOLUTIONS LIMITED', 'date_created': '2020-12-07T16:55:06.000Z', 'currency': 'NGN', 'debit_currency': None, 'amount': 96031, 'fee': 53.75, 'status': 'FAILED', 'reference': 'SMNY201207165305', 'meta': None, 'narration': 'GHS to NGN', 'approver': None, 'complete_message': 'DISBURSE FAILED: Insufficient funds in customer wallet', 'requires_approval': 0, 'is_approved': 1, 'bank_name': 'ZENITH BANK PLC'}}
 """ 
+
+def btc_payment_update(transaction_id, user_id):
+    return {
+        'id': '0f0008fb-9aca-452c-a355-74b1c526dda3',
+        'callback_url': 'http://localhost:8000/t/handle-btc-payment-update',
+        'success_url': 'http://localhost:8000',
+        'status': 'paid',
+        'order_id': transaction_id,
+        'user_id': user_id,
+        'description': 'BTC to NGN',
+        'price': '100000',
+        'fee': '0',
+        'auto_settle': '0',
+        'hashed_order': '3d1ee193b12bf9b3343e69b31dccc8787c0278cc4e8897f021640a5e9d12fe40'
+    }
