@@ -70,7 +70,7 @@ def get_invoice(user, transaction, domain):
         "amount": int(transaction.inflow.amount),
         "description": "{} {} {}".format(
             'BTC', 'to', transaction.outflow.currency),
-        "order_id": transaction.id,
+        "order_id": transaction.transaction_id,
         "customer_name": user.get_full_name(),
         "customer_email": user.username,
         "callback_url": "{}{}{}".format(
