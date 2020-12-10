@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.views.generic.base import ContextMixin
 from django.contrib.auth import login, authenticate
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from .forms import SignUpForm
 from transaction import inflows
@@ -111,6 +113,7 @@ class AddAccountView(View, ContextMixin):
                 'transaction_id': self.transaction.transaction_id}))
         return render(request, self.template_name, self.get_context_data(**kwargs))
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ConfirmTransactionView(View, ContextMixin):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
