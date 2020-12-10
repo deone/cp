@@ -37,7 +37,7 @@ def round_half_up(n, decimals=0):
     return math.floor(Decimal(n)*multiplier + Decimal(0.5) / multiplier)
 
 def create_transaction_id():
-    return '{}{}'.format('CSHP', timezone.now().strftime('%y%m%d%H%M%S%f'))
+    return '{}{}'.format('TMNY', timezone.now().strftime('%y%m%d%H%M%S%f'))
 
 def get_banks():
     # Get json from API

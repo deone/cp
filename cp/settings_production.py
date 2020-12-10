@@ -7,8 +7,8 @@ DEBUG = False
 ADMINS = [('Dayo Osikoya', 'alwaysdeone@gmail.com')]
 
 ALLOWED_HOSTS = [
-    'cashpipe.africa',
-    'www.cashpipe.africa'
+    'transfr.money',
+    'www.transfr.money'
 ]
 
 DATABASES = {
