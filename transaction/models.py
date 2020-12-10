@@ -17,7 +17,7 @@ class Transaction(models.Model):
 
 class Flow(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=11, decimal_places=2)
+    amount = models.DecimalField(max_digits=14, decimal_places=5)
     reference = models.CharField(max_length=50, null=True)
     updated_at = models.DateTimeField(default=timezone.now)
     is_complete = models.BooleanField(default=False)
