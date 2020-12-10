@@ -11,14 +11,12 @@ from rest_framework.decorators import api_view
 
 from transaction import outflows
 from .models import Transaction
+from .utils import get_transaction_id, update_inflow
 
 import json
 import requests
 
-def get_transaction_id(ref):
-    if '_' in ref:
-        return ref.split('_')[0]
-    return ref
+
 
 api_view(['POST', 'GET'])
 @csrf_exempt
@@ -55,19 +53,18 @@ def handle_naira_update(request):
             transaction_id=get_transaction_id(data['txRef']))
 
         inflow = transaction.inflow
-        inflow.reference = data['flwRef']
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow.source_account_provider = 'card'
-                inflow.source_account_number = '{}{}{}'.format(
-                    data['entity']['card6'], '******', data['entity']['card_last4'])
-                inflow.updated_at = timezone.now()
-                inflow.is_complete = True
-                inflow.save()
+                inflow_data = {
+                    'reference': data['flwRef'],
+                    'source_account_provider': 'card',
+                    'source_account_number': '{}{}{}'.format(
+                        data['entity']['card6'], '******', data['entity']['card_last4'])
+                }
+                update_inflow(inflow, **inflow_data)
 
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
-            inflow.save()
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
     elif data['event.type'] == 'BANK_TRANSFER_TRANSACTION':
         """
@@ -81,12 +78,14 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow.source_account_provider = 'bank transfer'
-                inflow.source_account_number = data['entity']['account_number']
-                inflow.source_account_name = '{} {}'.format(data['entity']['first_name'], data['entity']['last_name'])
-                inflow.updated_at = timezone.now()
-                inflow.is_complete = True
-                inflow.save()
+                inflow_data = {
+                    'reference': data['flwRef'],
+                    'source_account_provider': 'bank transfer',
+                    'source_account_number': data['entity']['account_number'],
+                    'source_account_name': '{} {}'.format(
+                        data['entity']['first_name'], data['entity']['last_name'])
+                }
+                update_inflow(inflow, **inflow_data)
 
                 # initiate cedi transfer
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
@@ -141,12 +140,12 @@ def save_cedi_payment_info(request):
     transaction = Transaction.objects.get(
         transaction_id=data['metadata[order_id]'])
     inflow = transaction.inflow
-    inflow.reference = data['reference']
-    inflow.source_account_provider = data['source[type]']
-    inflow.source_account_number = data['source[number]']
-    inflow.updated_at = timezone.now()
-    inflow.save()
-
+    inflow_data = {
+        'reference': data['reference'],
+        'source_account_provider': data['source[type]'],
+        'source_account_number': data['source[number]']
+    }
+    update_inflow(inflow, **inflow_data)
     return redirect(reverse_lazy('customer:index'))
 
 @api_view(['POST'])
@@ -159,12 +158,39 @@ def handle_cedi_payment_update(request):
     inflow = transaction.inflow
     if inflow.is_complete == False:
         if data['status'] == 'successful':
-            inflow.updated_at = timezone.now()
-            inflow.is_complete = True
-            inflow.save()
+            update_inflow(inflow, **{})
 
             # initiate naira transfer
             outflows.initiate_naira_transfer(transaction)
 
             return Response({'message': 'Success'}, status=s.HTTP_200_OK)
         return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def handle_BTC_payment_update(request):
+    print('** BTC payment update **')
+    print(request.POST)
+    transaction = Transaction.objects.get(
+        transaction_id=get_transaction_id(request.POST['order_id']))
+
+    status = request.POST['status']
+    transaction.inflow.reference = request.POST['id']
+    if status == 'paid':
+        transaction.inflow.updated_at = timezone.now()
+        transaction.save()
+
+        # initiate dest amount transfer - GHS or NGN
+        if transaction.outflow.currency == 'GHS':
+            outflows.initiate_cedi_transfer(transaction, message='BTC to GHS')
+        else:
+            outflows.initiate_naira_transfer(transaction, narration='BTC to NGN')
+    else:
+        pass
+        # do something if status is not 'paid'
+        # maybe redirect to activity page so that
+        # user can see status of transaction
+        # because we cannot initiate transfer if
+        # invoice is not paid
+
+    content = {'message': 'Success'}
+    return Response(content, status=s.HTTP_200_OK)

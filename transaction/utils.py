@@ -11,6 +11,20 @@ NETWORKS = [
     ('airtel', 'AirtelTigo'),
 ]
 
+def get_transaction_id(ref):
+    if '_' in ref:
+        return ref.split('_')[0]
+    return ref
+
+def update_inflow(inflow, **data):
+    inflow.reference = data.get('reference', None)
+    inflow.source_account_provider = data.get('source_account_provider', None)
+    inflow.source_account_number = data.get('source_account_number', None)
+    inflow.source_account_name = data.get('source_account_name', None)
+    inflow.updated_at = timezone.now()
+    inflow.is_complete = True
+    inflow.save()
+
 def get_amount(string, currency):
     if currency == 'GHS':
         amount_string = string[3:]
