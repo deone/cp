@@ -29,10 +29,13 @@ def get_cedi_payment_page(email, transaction_id, amount, redirect_url, post_url)
     print('** Cedi payment page request **')
     print(payload)
 
-    payment = requests.post(
+    payment_page = requests.post(
         settings.ASORIBA_PAYMENT_URL, headers=headers, data=payload)
 
-    return payment.json()['url']
+    print('** Cedi payment page response **')
+    print(payment_page)
+
+    return payment_page.json()['url']
 
 def get_naira_payment_page(email, transaction_id, amount, redirect_url):
     headers = {
@@ -82,10 +85,14 @@ def get_invoice(user, transaction, domain):
     }
 
     charge_payload = json.dumps(data)
+
+    print('** BTC invoice request **')
+    print(charge_payload)
+
     charge = requests.post(
         settings.OPENNODE_CREATE_CHARGE_URL, headers=headers, data=charge_payload)
 
-    transaction.invoice_created_at = timezone.now()
-    transaction.save()
+    print('** BTC invoice response **')
+    print(charge.json())
 
     return '{}{}'.format(settings.OPENNODE_CHECKOUT_URL, charge.json()['data']['id'])
