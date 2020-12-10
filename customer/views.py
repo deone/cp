@@ -139,6 +139,10 @@ class ConfirmTransactionView(View, ContextMixin):
                 request.user.email, transaction_id, int(amount), redirect_url)
             return redirect(payment_page)
 
+        if self.transaction.inflow.currency == 'BTC':
+            invoice = inflows.get_invoice(request.user, self.transaction, site)
+            return redirect(invoice)
+
         redirect_url = '{}{}{}'.format(
             settings.PROTOCOL, site,
             reverse_lazy('transaction:save-cedi-payment-info'))

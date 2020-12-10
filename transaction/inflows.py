@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.utils import timezone
+from django.urls import reverse_lazy
 
 import json
 import requests
@@ -59,3 +61,31 @@ def get_naira_payment_page(email, transaction_id, amount, redirect_url):
     print(payment_page.json())
 
     return payment_page.json()['data']['link']
+
+def get_invoice(user, transaction, domain):
+    data = {
+        "amount": int(transaction.inflow.amount * 100000000), # in satoshis
+        "description": "{} {} {}".format(
+            'BTC', 'to', transaction.outflow.currency),
+        "order_id": transaction.id,
+        "customer_name": user.get_full_name(),
+        "customer_email": user.username,
+        "callback_url": "{}{}{}".format(
+            settings.PROTOCOL, domain, reverse_lazy('transaction:handle-BTC-payment-update')),
+        "success_url": "{}{}{}".format(
+            settings.PROTOCOL, domain, reverse_lazy('customer:index')),
+    }
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': settings.OPENNODE_API_KEY,
+    }
+
+    charge_payload = json.dumps(data)
+    charge = requests.post(
+        settings.OPENNODE_CREATE_CHARGE_URL, headers=headers, data=charge_payload)
+
+    transaction.invoice_created_at = timezone.now()
+    transaction.save()
+
+    return '{}{}'.format(settings.OPENNODE_CHECKOUT_URL, charge.json()['data']['id'])
