@@ -25,6 +25,16 @@ def update_inflow(inflow, **data):
     inflow.is_complete = True
     inflow.save()
 
+def update_outflow(outflow, **data):
+    outflow.reference = data.get('reference', None)
+    outflow.dest_account_provider_code = data.get('dest_account_provider_code', None)
+    outflow.dest_account_provider_name = data.get('dest_account_provider_name', None)
+    outflow.dest_account_number = data.get('dest_account_number', None)
+    outflow.dest_account_name = data.get('dest_account_name', None)
+    outflow.updated_at = timezone.now()
+    outflow.is_complete = True
+    outflow.save()
+
 def get_amount(string, currency):
     if currency == 'GHS':
         amount_string = string[3:]
@@ -56,11 +66,3 @@ def get_banks():
         else:
             # display message as form error, if possible
             pass
-
-def update_outflow(outflow, data):
-    outflow.dest_account_provider_name = data['provider_name']
-    outflow.dest_account_provider_code = data['provider_code']
-    outflow.dest_account_number = data['number']
-    if 'name' in data.keys():
-        outflow.dest_account_name = data['name']
-    outflow.save()

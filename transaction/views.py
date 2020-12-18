@@ -11,12 +11,12 @@ from rest_framework.decorators import api_view
 
 from transaction import outflows
 from .models import Transaction
-from .utils import get_transaction_id, update_inflow
+from .utils import (
+    get_transaction_id, update_inflow, update_outflow
+)
 
 import json
 import requests
-
-
 
 api_view(['POST', 'GET'])
 @csrf_exempt
@@ -96,15 +96,12 @@ def handle_naira_update(request):
         transaction = Transaction.objects.get(
             transaction_id=get_transaction_id(data['transfer']['reference']))
         if data['transfer']['status'] == 'SUCCESSFUL':
-            transaction.outflow.updated_at = timezone.now()
-            transaction.outflow.is_complete = True
-            transaction.outflow.save()
+            update_outflow(transaction.outflow, **{})
 
             transaction.status = 'Successful'
             transaction.is_complete = True
             transaction.save()
             return Response({'message': 'Success'}, status=s.HTTP_200_OK)
-
         return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
@@ -118,10 +115,7 @@ def handle_cedi_transfer_update(request):
         transaction_id=data['metadata']['transaction_id'])
     if transaction.outflow.is_complete == False:
         if status == 'SUCCESS':
-            transaction.outflow.reference = data['transaction_id']
-            transaction.outflow.is_complete = True
-            transaction.outflow.updated_at = timezone.now()
-            transaction.outflow.save()
+            update_outflow(transaction.outflow, **{'reference': data['transaction_id']})
 
             transaction.status = 'Successful'
             transaction.is_complete = True
