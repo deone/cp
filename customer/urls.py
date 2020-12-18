@@ -10,6 +10,7 @@ app_name = 'customer'
 urlpatterns = [
     path('', views.TransactionView.as_view(), name='index'),
     path('get-accounts', login_required(views.GetAccountsView.as_view())),
+    path('activity', login_required(views.TransactionListView.as_view())),
     path('sign-in', auth_views.LoginView.as_view(
         template_name='signin.html', authentication_form=SignInForm), name='sign-in'),
     path('sign-up', views.SignUpView.as_view(), name='sign-up'),

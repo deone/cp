@@ -10,6 +10,7 @@ from django.views.generic.base import ContextMixin
 from django.contrib.auth import login, authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.views.generic import DetailView, ListView
 
 from .forms import SignUpForm
 from transaction import inflows
@@ -163,7 +164,6 @@ class ConfirmTransactionView(View, ContextMixin):
             request.user.email, transaction_id, int(amount), redirect_url, post_url)
         return redirect(payment_page)
 
-
 class GetAccountsView(View):
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q', '')
@@ -184,3 +184,9 @@ class GetAccountsView(View):
                 _type=_type, customer=request.user.customer).values())
 
         return JsonResponse(accounts, safe=False)
+
+class TransactionListView(ListView):
+    model = Transaction
+
+class TransactionDetailView(DetailView):
+    model = Transaction
