@@ -29,7 +29,7 @@
                             ₦{{ i.amount | intcomma }}
                         {% else %}
                             {% if i.currency == 'BTC' %}
-                                BTC{{ amount }}
+                                ₿{{ amount }}
                             {% else %}
                                 GH₵{{ i.amount | intcomma }}
                             {% endif %}

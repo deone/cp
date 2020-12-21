@@ -36,10 +36,22 @@
                             {{ t.inflow.currency }} to {{ t.outflow.currency }}
                             <footer>{{ t.created_at | naturaltime }}</footer>
                         </div>
-                        <span style="text-align: right">GH₵ {{ t.inflow.amount }}
-                        <br/>
-                        <small style="color: {% if t.status == 'Successful' %}green{% else %}#ff7f50{% endif %}">
-                            {{ t.status }}</small></span>
+                        <span style="text-align: right">
+                            {% with i=t.inflow %}
+                                {% if i.currency == 'NGN' %}
+                                    ₦{{ i.amount | intcomma }}
+                                {% else %}
+                                    {% if i.currency == 'BTC' %}
+                                        {{ i.amount | intcomma }} sats
+                                    {% else %}
+                                        GH₵{{ i.amount | intcomma }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endwith %}
+                            <br/>
+                            <small style="color: {% if t.status == 'Successful' %}green{% else %}#ff7f50{% endif %}">
+                                {{ t.status }}</small>
+                        </span>
                     </div>
                 </a>
             </li>
