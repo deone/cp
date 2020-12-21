@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load humanize %}
+
 {% block page-title %}Activity{% endblock %}
 
 {% block app-header %}
@@ -15,48 +17,33 @@
 {% block app-capsule %}
 <div id="appCapsule">
     <ul class="listview image-listview flush transparent mt-3 mb-2">
-        <li>
-            <a href="page-chat.html" class="item">
-                <div class="icon-box">
-                    <img src="{% static 'assets/img/icon/ghana.png' %}" width="30" height="30"/>
-                </div>
-                <div class="in">
-                    <div>
-                        GHS to NGN
-                        <footer>10 days ago</footer>
+        {% for t in transactions %}
+            <li>
+                <a href="#" class="item">
+                    <div class="icon-box">
+                        {% if t.inflow.currency == 'GHS' %}
+                            <img src="{% static 'assets/img/icon/ghana.png' %}" width="30" height="30"/>
+                        {% else %}
+                            {% if t.inflow.currency == 'NGN' %}
+                                <img src="{% static 'assets/img/icon/nigeria.png' %}" width="30" height="30"/>
+                            {% else %}
+                                <img src="{% static 'assets/img/icon/bitcoin.png' %}" width="30" height="30"/>
+                            {% endif %}
+                        {% endif %}
                     </div>
-                    <span style="text-align: right">GH₵ 31.00<br/><small style="color: green">Success</small></span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="page-fullpage-slider.html" class="item">
-                <div class="icon-box">
-                    <img src="{% static 'assets/img/icon/nigeria.png' %}" width="30" height="30"/>
-                </div>
-                <div class="in">
-                    <div>
-                        NGN to GHS
-                        <footer>10 days ago</footer>
+                    <div class="in">
+                        <div>
+                            {{ t.inflow.currency }} to {{ t.outflow.currency }}
+                            <footer>{{ t.created_at | naturaltime }}</footer>
+                        </div>
+                        <span style="text-align: right">GH₵ {{ t.inflow.amount }}
+                        <br/>
+                        <small style="color: {% if t.status == 'Successful' %}green{% else %}#ff7f50{% endif %}">
+                            {{ t.status }}</small></span>
                     </div>
-                    <span style="text-align: right">₦ 2,500.00<br/><small style="color: red">Failed</small></span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="page-login.html" class="item">
-                <div class="icon-box">
-                    <img src="{% static 'assets/img/icon/bitcoin.png' %}" width="30" height="30"/>
-                </div>
-                <div class="in">
-                    <div>
-                        BTC to NGN 
-                        <footer>10 days ago</footer>
-                    </div>
-                    <span style="text-align: right">₿ 0.0005<br/><small style="color: green">Success</small></span>
-                </div>
-            </a>
-        </li>
+                </a>
+            </li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}

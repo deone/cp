@@ -186,7 +186,11 @@ class GetAccountsView(View):
         return JsonResponse(accounts, safe=False)
 
 class TransactionListView(ListView):
-    model = Transaction
+    context_object_name = 'transactions'
+    # paginate_by = 10
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user)
 
 class TransactionDetailView(DetailView):
     model = Transaction
