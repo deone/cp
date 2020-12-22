@@ -15,6 +15,10 @@ class Transaction(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('customer:transaction-detail', kwargs={'pk': self.pk})
+
 class Flow(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=14, decimal_places=5)

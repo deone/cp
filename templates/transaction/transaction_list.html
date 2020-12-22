@@ -19,7 +19,7 @@
     <ul class="listview image-listview flush transparent mt-3 mb-2">
         {% for t in transactions %}
             <li>
-                <a href="#" class="item">
+                <a href="{{ t.get_absolute_url }}" class="item">
                     <div class="icon-box">
                         {% if t.inflow.currency == 'GHS' %}
                             <img src="{% static 'assets/img/icon/ghana.png' %}" width="30" height="30"/>
