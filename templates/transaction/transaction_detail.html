@@ -1,0 +1,66 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block page-title %}Transaction Detail{% endblock %}
+
+{% block app-header %}
+<div class="appHeader bg-primary text-light">
+    <div class="left"></div>
+    <div class="pageTitle">Transaction Detail</div>
+    <div class="right"></div>
+</div>
+{% endblock %}
+
+{% block app-capsule %}
+<div id="appCapsule">
+    <ul class="listview simple-listview flush transparent mt-3 mb-2">
+        <li>
+            <span class="text-muted">Amount sent</span>
+            <strong>GH₵300.00</strong>
+        </li>
+        <li>
+            <span class="text-muted">Recipient receives</span>
+            <strong>₦50,000.00</strong>
+        </li>
+        <li>
+            <span class="text-muted">Date</span>
+            <strong>22 Dec 2020 12:20</strong>
+        </li>
+        <li>
+            <span class="text-muted">Transaction ID</span>
+            <strong>TMNY37493437453048</strong>
+        </li>
+        <li>
+            <span class="text-muted">Status</span>
+            <strong style="color: green">Successful</strong>
+        </li>
+    </ul>
+    <ul class="listview simple-listview flush transparent mt-3 mb-2">
+        <li>
+            <span class="text-muted">Recipient Account</span>
+            <strong style="text-align: right;">
+                GTBank<br/>
+                0009432630<br/>
+                Oladayo Osikoya
+            </strong>
+        </li>
+        <!-- <li>
+            <span class="text-muted">Recipient receives</span>
+            <span>₦50,000.00</span>
+        </li>
+        <li>
+            <span class="text-muted">Date</span>
+            <span>22 Dec 2020 12:20</span>
+        </li>
+        <li>
+            <span class="text-muted">Transaction ID</span>
+            <span>TMNY37493437453048</span>
+        </li>
+        <li>
+            <span class="text-muted">Status</span>
+            <span style="color: green">Successful</span>
+        </li> -->
+    </ul>
+</div>
+{% endblock %}
