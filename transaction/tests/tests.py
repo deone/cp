@@ -15,7 +15,7 @@ class SaveNairaPaymentInfoTest(APITestCase, UpdatedTestNGNToGHSTransaction):
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)        
-        self.assertEqual(response.url, '/')
+        self.assertEqual(response.url, '/activity')
 
         self.transaction.refresh_from_db()
         self.assertEqual(self.transaction.status, 'Cancelled')
@@ -28,7 +28,7 @@ class SaveNairaPaymentInfoTest(APITestCase, UpdatedTestNGNToGHSTransaction):
         response = self.client.post(url, data)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/')
+        self.assertEqual(response.url, '/activity')
 
         self.transaction.refresh_from_db()
         self.assertTrue(self.transaction.inflow.reference)
@@ -75,7 +75,7 @@ class SaveCediPaymentInfoTest(APITestCase, UpdatedTestGHSToNGNTransaction):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/')
+        self.assertEqual(response.url, '/activity')
 
         self.transaction.refresh_from_db()
         self.assertTrue(self.transaction.inflow.reference)
