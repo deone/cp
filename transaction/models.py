@@ -16,7 +16,6 @@ class Transaction(models.Model):
         ordering = ['-created_at']
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('customer:transaction-detail', kwargs={'pk': self.pk})
 
 class Flow(models.Model):

@@ -194,3 +194,14 @@ class TransactionListView(ListView):
 
 class TransactionDetailView(DetailView):
     model = Transaction
+
+    def get_context_data(self, **kwargs):
+        CURRENCY_SYMBOL_MAP = {
+            'GHS': 'GH₵',
+            'NGN': '₦',
+            'BTC': '₿'
+        }
+        context = super().get_context_data(**kwargs)
+        context['inflow_currency_symbol'] = CURRENCY_SYMBOL_MAP[self.object.inflow.currency]
+        context['outflow_currency_symbol'] = CURRENCY_SYMBOL_MAP[self.object.outflow.currency]
+        return context

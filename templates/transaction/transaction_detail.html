@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load humanize %}
+
 {% block page-title %}Transaction Detail{% endblock %}
 
 {% block app-header %}
@@ -14,35 +16,39 @@
 
 {% block app-capsule %}
 <div id="appCapsule">
+    {% with t=object %}
+    <h2 style="text-align: center;" class="mt-2">{{ t.inflow.currency }} to {{ t.outflow.currency }}</h2>
     <ul class="listview simple-listview flush transparent mt-3 mb-2">
         <li>
             <span class="text-muted">Amount sent</span>
-            <strong>GH₵300.00</strong>
+            <strong>{{ inflow_currency_symbol }}{{ t.inflow.amount }}</strong>
         </li>
         <li>
             <span class="text-muted">Recipient receives</span>
-            <strong>₦50,000.00</strong>
+            <strong>{{ outflow_currency_symbol }}{{ t.outflow.amount | intcomma }}</strong>
         </li>
         <li>
             <span class="text-muted">Date</span>
-            <strong>22 Dec 2020 12:20</strong>
+            <strong>{{ t.created_at }}</strong>
         </li>
         <li>
             <span class="text-muted">Transaction ID</span>
-            <strong>TMNY37493437453048</strong>
+            <strong>{{ t.transaction_id }}</strong>
         </li>
         <li>
             <span class="text-muted">Status</span>
-            <strong style="color: green">Successful</strong>
+            <strong style="color: green">{{ t.status }}</strong>
         </li>
     </ul>
     <ul class="listview simple-listview flush transparent mt-3 mb-2">
         <li>
             <span class="text-muted">Recipient Account</span>
             <strong style="text-align: right;">
-                GTBank<br/>
-                0009432630<br/>
-                Oladayo Osikoya
+                {{ t.outflow.dest_account_provider_name }}<br/>
+                {{ t.outflow.dest_account_number }}<br/>
+                {% if t.outflow.currency == 'NGN' %}
+                    {{ t.outflow.dest_account_name }}
+                {% endif %}
             </strong>
         </li>
         <!-- <li>
@@ -62,5 +68,6 @@
             <span style="color: green">Successful</span>
         </li> -->
     </ul>
+    {% endwith %}
 </div>
 {% endblock %}
