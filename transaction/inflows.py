@@ -76,7 +76,7 @@ def get_invoice(user, transaction, domain):
         "callback_url": "{}{}{}".format(
             settings.PROTOCOL, domain, reverse_lazy('transaction:handle-BTC-payment-update')),
         "success_url": "{}{}{}".format(
-            settings.PROTOCOL, domain, reverse_lazy('customer:index')),
+            settings.PROTOCOL, domain, reverse_lazy('customer:activity')),
     }
 
     headers = {
