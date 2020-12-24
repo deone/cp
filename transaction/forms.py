@@ -144,7 +144,7 @@ def add_account(account_type, customer, transaction, **data):
 
     # Update transaction outflow with recipient account details
     outflow = transaction.outflow
-    update_outflow(outflow, d)
+    update_outflow(outflow, **d)
 
     return account
 
