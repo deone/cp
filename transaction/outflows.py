@@ -2,8 +2,6 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.contrib.sites.models import Site
 
-from .utils import update_outflow
-
 import json
 import requests
 
@@ -66,4 +64,5 @@ def initiate_naira_transfer(transaction, narration="GHS to NGN"):
     print('** Naira transfer response **')
     print(transfer)
     
-    update_outflow(transaction.outflow, **{'reference': transfer['data']['id']})
+    transaction.outflow.reference = transfer['data']['id']
+    transaction.outflow.save()

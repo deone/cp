@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from transaction import outflows
 from .models import Transaction
 from .utils import (
-    get_transaction_id, update_inflow, update_outflow
+    get_transaction_id, update_inflow 
 )
 
 import json
@@ -95,14 +95,18 @@ def handle_naira_update(request):
 
         transaction = Transaction.objects.get(
             transaction_id=get_transaction_id(data['transfer']['reference']))
-        if data['transfer']['status'] == 'SUCCESSFUL':
-            update_outflow(transaction.outflow, **{})
+        outflow = transaction.outflow
+        if outflow.is_complete == False:
+            if data['transfer']['status'] == 'SUCCESSFUL':
+                outflow.is_complete = True
+                outflow.updated_at = timezone.now()
+                outflow.save()
 
-            transaction.status = 'Successful'
-            transaction.is_complete = True
-            transaction.save()
-            return Response({'message': 'Success'}, status=s.HTTP_200_OK)
-        return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
+                transaction.status = 'Successful'
+                transaction.is_complete = True
+                transaction.save()
+                return Response({'message': 'Success'}, status=s.HTTP_200_OK)
+        return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def handle_cedi_transfer_update(request):
@@ -113,9 +117,14 @@ def handle_cedi_transfer_update(request):
 
     transaction = Transaction.objects.get(
         transaction_id=data['metadata']['transaction_id'])
-    if transaction.outflow.is_complete == False:
+
+    outflow = transaction.outflow
+    if outflow.is_complete == False:
         if status == 'SUCCESS':
-            update_outflow(transaction.outflow, **{'reference': data['transaction_id']})
+            outflow.reference = data['transaction_id']
+            outflow.updated_at = timezone.now()
+            outflow.is_complete = True
+            outflow.save()
 
             transaction.status = 'Successful'
             transaction.is_complete = True
