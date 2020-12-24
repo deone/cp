@@ -38,7 +38,7 @@ def save_naira_payment_info(request):
     else:
         inflow = transaction.inflow
         update_inflow(inflow, **{'reference': flw_ref})
-    return redirect(reverse_lazy('customer:index'))
+    return redirect(reverse_lazy('customer:activity'))
 
 @api_view(['POST'])
 def handle_naira_update(request):
@@ -138,7 +138,7 @@ def save_cedi_payment_info(request):
         'source_account_number': data['source[number]']
     }
     update_inflow(inflow, **inflow_data)
-    return redirect(reverse_lazy('customer:index'))
+    return redirect(reverse_lazy('customer:activity'))
 
 @api_view(['POST'])
 def handle_cedi_payment_update(request):
