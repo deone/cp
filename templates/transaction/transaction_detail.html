@@ -37,7 +37,9 @@
         </li>
         <li>
             <span class="text-muted">Status</span>
-            <strong style="color: green">{{ t.status }}</strong>
+            <strong style="color: {% if t.status == 'Successful' %}green{% else %}#ff7f50{% endif %}">
+                {{ t.status }}
+            </strong>
         </li>
     </ul>
     <ul class="listview simple-listview flush transparent mt-3 mb-2">
