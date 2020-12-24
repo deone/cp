@@ -31,6 +31,12 @@ def update_outflow(outflow, **data):
     outflow.dest_account_provider_name = data.get('dest_account_provider_name', None)
     outflow.dest_account_number = data.get('dest_account_number', None)
     outflow.dest_account_name = data.get('dest_account_name', None)
+
+    outflow.dest_account_provider_code = data.get('provider_code', None)
+    outflow.dest_account_provider_name = data.get('provider_name', None)
+    outflow.dest_account_number = data.get('number', None)
+    outflow.dest_account_name = data.get('name', None)
+
     outflow.updated_at = timezone.now()
     outflow.is_complete = True
     outflow.save()
