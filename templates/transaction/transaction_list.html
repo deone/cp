@@ -1,8 +1,8 @@
 {% extends 'index.html' %}
 
 {% load static %}
-
 {% load humanize %}
+{% load btc_filters %}
 
 {% block page-title %}Activity{% endblock %}
 
@@ -38,11 +38,11 @@
                         </div>
                         <span style="text-align: right">
                             {% with i=t.inflow %}
-                                {% if i.currency == 'NGN' %}
-                                    ₦{{ i.amount | intcomma }}
+                                {% if i.currency == 'BTC' %}
+                                    ₿{{ i.amount | sats_to_btc }}
                                 {% else %}
-                                    {% if i.currency == 'BTC' %}
-                                        {{ i.amount | intcomma }} sats
+                                    {% if i.currency == 'NGN' %}
+                                        ₦{{ i.amount | intcomma }}
                                     {% else %}
                                         GH₵{{ i.amount | intcomma }}
                                     {% endif %}
