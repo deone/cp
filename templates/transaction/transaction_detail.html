@@ -21,7 +21,13 @@
     <ul class="listview simple-listview flush transparent mt-3 mb-2">
         <li>
             <span class="text-muted">Amount sent</span>
-            <strong>{{ inflow_currency_symbol }}{{ t.inflow.amount }}</strong>
+            <strong>
+                {% if t.inflow.currency == 'BTC' %}
+                    ₿{{ t.inflow.amount | sats_to_btc }}
+                {% else %}
+                    {{ inflow_currency_symbol }}{{ t.inflow.amount | intcomma }}
+                {% endif %}
+            </strong>
         </li>
         <li>
             <span class="text-muted">Recipient receives</span>
