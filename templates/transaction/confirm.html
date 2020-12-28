@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% load btc_filters %}
+
 {% block page-title %}Confirm Transaction{% endblock %}
 
 {% block app-header %}
@@ -29,7 +31,7 @@
                             ₦{{ i.amount | intcomma }}
                         {% else %}
                             {% if i.currency == 'BTC' %}
-                                ₿{{ amount }}
+                                ₿{{ i.amount | sats_to_btc }}
                             {% else %}
                                 GH₵{{ i.amount | intcomma }}
                             {% endif %}

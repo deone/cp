@@ -22,6 +22,12 @@ from transaction.forms import (
 
 from decimal import Decimal
 
+CURRENCY_SYMBOL_MAP = {
+    'GHS': 'GH₵',
+    'NGN': '₦',
+    'BTC': '₿'
+}
+
 class TransactionView(FormView):
     template_name = 'index.html'
     form_class = TransactionForm
@@ -127,11 +133,6 @@ class ConfirmTransactionView(View, ContextMixin):
         context.update({
             'transaction': self.transaction,
         })
-        if self.transaction.inflow.currency == 'BTC':
-            context.update({
-                'amount': Decimal(self.transaction.inflow.amount / 100000000)
-            })
-
         return context
 
     def get(self, request, *args, **kwargs):
@@ -196,11 +197,6 @@ class TransactionDetailView(DetailView):
     model = Transaction
 
     def get_context_data(self, **kwargs):
-        CURRENCY_SYMBOL_MAP = {
-            'GHS': 'GH₵',
-            'NGN': '₦',
-            'BTC': '₿'
-        }
         context = super().get_context_data(**kwargs)
         context['inflow_currency_symbol'] = CURRENCY_SYMBOL_MAP[self.object.inflow.currency]
         context['outflow_currency_symbol'] = CURRENCY_SYMBOL_MAP[self.object.outflow.currency]
