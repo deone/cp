@@ -130,8 +130,11 @@ class ConfirmTransactionView(View, ContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        t = self.transaction
         context.update({
-            'transaction': self.transaction,
+            'transaction': t,
+            'inflow_currency_symbol': CURRENCY_SYMBOL_MAP[t.inflow.currency],
+            'outflow_currency_symbol': CURRENCY_SYMBOL_MAP[t.outflow.currency]
         })
         return context
 

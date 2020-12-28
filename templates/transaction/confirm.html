@@ -27,14 +27,10 @@
                 <span class="text-muted">You are sending</span>
                 <strong>
                     {% with i=t.inflow %}
-                        {% if i.currency == 'NGN' %}
-                            ₦{{ i.amount | intcomma }}
+                        {% if i.currency == 'BTC' %}
+                            {{ inflow_currency_symbol }}{{ i.amount | sats_to_btc }}
                         {% else %}
-                            {% if i.currency == 'BTC' %}
-                                ₿{{ i.amount | sats_to_btc }}
-                            {% else %}
-                                GH₵{{ i.amount | intcomma }}
-                            {% endif %}
+                            {{ inflow_currency_symbol }}{{ i.amount | intcomma }}
                         {% endif %}
                     {% endwith %}
                 </strong>
@@ -51,9 +47,7 @@
             </li>
             <li>
                 <span class="text-muted">Recipient will receive</span>
-                <strong>
-                    {% if t.outflow.currency == 'NGN' %}₦{% else %}GH₵{% endif %}{{ t.outflow.amount | intcomma }}
-                </strong>
+                <strong>{{ outflow_currency_symbol }}{{ t.outflow.amount | intcomma }}</strong>
             </li>
         </ul>
         {% endwith %}
