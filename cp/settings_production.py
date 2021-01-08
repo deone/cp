@@ -27,6 +27,8 @@ DATABASES = {
 
 STATIC_ROOT = '/home/sdarko/webapps/cashpipe_static'
 
+PROTOCOL = 'https://'
+
 # Flutterwave
 FW_INCISIA_SEC_KEY = os.environ['FW_INCISIA_PROD_SEC_KEY']
 FW_INCISIA_PUB_KEY = os.environ['FW_INCISIA_PROD_PUB_KEY']
