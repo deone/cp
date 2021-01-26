@@ -53,9 +53,7 @@
         <script src="{% static 'assets/js/base.js' %}"></script>
         {% block form-js %}
         <script>
-            alert('me');
             $(".disable-btn-on-submit").submit(function () {
-                alert('me');
                 $("#btn-submit").attr("disabled", true);
                 return true;
             });
