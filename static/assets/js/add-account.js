@@ -160,8 +160,7 @@ $("#id_provider_code").change(() => {
 // the buttons are dynamically generated.
 $('body').on('click', '#accounts-list a', (e) => {
     const account = $(e.currentTarget);
-    account.siblings().removeClass('active');
-    account.addClass('active');
+    account.addClass('active').parent().siblings().children().removeClass('active');
 
     const number = account.find('#number').text();
 
