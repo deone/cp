@@ -52,9 +52,7 @@
         <!-- Base Js File -->
         <script src="{% static 'assets/js/base.js' %}"></script>
         {% block form-js %}
-        <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script> -->
         <script>
-            // $(".disable-btn-on-submit").validate();
             $(".disable-btn-on-submit").submit(function () {
                 $("#btn-submit").attr("disabled", true);
                 return true;
