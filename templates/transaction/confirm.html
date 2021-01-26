@@ -1,8 +1,5 @@
 {% extends 'index.html' %}
 
-{% load humanize %}
-{% load btc_filters %}
-
 {% block page-title %}Confirm Transaction{% endblock %}
 
 {% block app-header %}
@@ -18,44 +15,7 @@
 {% endblock %}
 
 {% block app-capsule %}
-<div id="appCapsule">
-    <div class="wide-block pt-2 pb-2" style="border-bottom-width: 0;">
-        {% with t=transaction %}
-        <ul class="listview simple-listview mt-5">
-            <li>
-                <span class="text-muted">You are sending</span>
-                <strong>
-                    {% with i=t.inflow %}
-                        {% if i.currency == 'BTC' %}
-                            {{ inflow_currency_symbol }}{{ i.amount | sats_to_btc }}
-                        {% else %}
-                            {{ inflow_currency_symbol }}{{ i.amount | intcomma }}
-                        {% endif %}
-                    {% endwith %}
-                </strong>
-            </li>
-            <li>
-                <span class="text-muted">To</span>
-                <strong style="text-align: right">
-                    {{ t.outflow.dest_account_provider_name }}<br/>
-                    {{ t.outflow.dest_account_number }}<br/>
-                    {% if t.outflow.currency == 'NGN' %}
-                        {{ t.outflow.dest_account_name }}
-                    {% endif %}
-                </strong>
-            </li>
-            <li>
-                <span class="text-muted">Recipient will receive</span>
-                <strong>{{ outflow_currency_symbol }}{{ t.outflow.amount | intcomma }}</strong>
-            </li>
-        </ul>
-        {% endwith %}
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-button-group" style="margin-bottom: 55px;">
-                <button type="submit" class="btn btn-primary btn-block btn-lg">Send Money</button>
-            </div>
-        </form>
-    </div>
-</div>
+{% include 'inc/capsules/_confirm.html' %}
 {% endblock %}
+
+{% block page-js %}{% endblock %}
