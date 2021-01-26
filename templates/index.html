@@ -54,12 +54,10 @@
         {% block form-js %}
         <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script> -->
         <script>
-            (function() {
-                // $(".disable-btn-on-submit").validate();
-                $(".disable-btn-on-submit").submit(function () {
-                    $("#btn-submit").attr("disabled", true);
-                    return true;
-                });
+            // $(".disable-btn-on-submit").validate();
+            $(".disable-btn-on-submit").submit(function () {
+                $("#btn-submit").attr("disabled", true);
+                return true;
             });
         </script>
         {% endblock %}
