@@ -1,0 +1,16 @@
+[run]
+omit =
+    cp/*
+    manage.py
+    customer/tests/*
+    customer/apps.py
+    customer/urls.py
+    customer/admin.py
+    customer/__init__.py
+    customer/migrations/*
+    transaction/tests/*
+    transaction/apps.py
+    transaction/urls.py
+    transaction/admin.py
+    transaction/__init__.py
+    transaction/migrations/*
