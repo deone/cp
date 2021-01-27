@@ -108,7 +108,7 @@ class MobileMoneyWalletForm(AccountForm):
         widgets = copy.deepcopy(AccountForm.Meta.widgets)
         widgets.update({
             'provider_code': forms.Select(
-                choices=NETWORKS, attrs={'class': FORM_CONTROL_CLASS}),
+                choices=NETWORKS, attrs={'class': 'form-select'}),
             'number': forms.TextInput(
                 attrs={'class': FORM_CONTROL_CLASS, 'placeholder': '0500002214'}),
             'confirm_number': forms.TextInput(
@@ -168,7 +168,7 @@ class BankAccountForm(AccountForm):
             'number': forms.TextInput(
                 attrs={'class': FORM_CONTROL_CLASS, 'placeholder': '0110000221'}),
             'provider_code': forms.Select(
-                choices=get_banks(), attrs={'class': FORM_CONTROL_CLASS}),
+                choices=get_banks(), attrs={'class': 'form-select'}),
             'name': forms.TextInput(attrs={'class': FORM_CONTROL_CLASS, 'readonly': True})
         })
 
