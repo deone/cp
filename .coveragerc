@@ -14,3 +14,4 @@ omit =
     transaction/admin.py
     transaction/__init__.py
     transaction/migrations/*
+    .DS_Store
