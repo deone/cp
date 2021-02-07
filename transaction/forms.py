@@ -26,7 +26,7 @@ class TransactionForm(forms.Form):
         'readonly': True
     }))
     dest_currency = forms.ChoiceField(label="Recipient's currency", widget=forms.Select(attrs={
-        'class': FORM_CONTROL_CLASS,
+        'class': 'form-select',
     }), choices=DEST_CURRENCIES)
 
     def clean_source_amount(self):
