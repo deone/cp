@@ -43,8 +43,10 @@ def save_naira_payment_info(request):
 @api_view(['POST'])
 def handle_naira_update(request):
     data = request.data
+    transaction_type = data.get('event.type', None)
+
     # Payment
-    if data['event.type'] == 'CARD_TRANSACTION':
+    if transaction_type is None or transaction_type == 'CARD_TRANSACTION':
         print('** Naira payment update - card **')
         print(request.data)
         transaction = Transaction.objects.get(
@@ -65,7 +67,8 @@ def handle_naira_update(request):
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
-    elif data['event.type'] == 'BANK_TRANSFER_TRANSACTION':
+
+    elif transaction_type == 'BANK_TRANSFER_TRANSACTION':
         """
         {'id': 321588591, 'txRef': 'SMNY201025143737', 'flwRef': '000013201025160012000217290614', 'orderRef': 'URF_1603637754544_1052035', 'paymentPlan': None, 'paymentPage': None, 'createdAt': '2020-10-25T15:03:31.000Z', 'amount': 200, 'charged_amount': 200, 'status': 'successful', 'IP': '::ffff:127.0.0.1', 'currency': 'NGN', 'appfee': 2.8, 'merchantfee': 0, 'merchantbearsfee': 1, 'customer': {'id': 229508916, 'phone': None, 'fullName': 'Anonymous customer', 'customertoken': None, 'email': 'alwaysdeone@gmail.com', 'createdAt': '2020-10-25T14:55:54.000Z', 'updatedAt': '2020-10-25T14:55:54.000Z', 'deletedAt': None, 'AccountId': 70515}, 'entity': {'account_number': '0009432630', 'first_name': 'OLADAYO JOSHUA', 'last_name': 'OSIKOYA'}, 'event.type': 'BANK_TRANSFER_TRANSACTION'}
         """
