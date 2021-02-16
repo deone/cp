@@ -1,7 +1,7 @@
 SOURCE_CURRENCIES = [
     ('NGN', 'Nigerian Naira'),
     ('GHS', 'Ghana Cedis'),
-    ('BTC', 'Bitcoin'),
+    # ('BTC', 'Bitcoin'),
 ]
 
 DEST_CURRENCIES = [
