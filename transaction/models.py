@@ -47,3 +47,8 @@ class Rates(models.Model):
     ghs_to_ngn = models.DecimalField(max_digits=8, decimal_places=5)
     btc_to_ngn = models.DecimalField(max_digits=15, decimal_places=2)
     btc_to_ghs = models.DecimalField(max_digits=10, decimal_places=2)
+    date_created = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-date_created']
+        verbose_name_plural = 'Rates'
