@@ -31,7 +31,7 @@ class Flow(models.Model):
 
 class Inflow(Flow):
     source_account_provider = models.CharField(max_length=50, null=True)
-    source_account_number = models.CharField(max_length=20, null=True)
+    source_account_number = models.CharField(max_length=50, null=True)
     source_account_name = models.CharField(max_length=50, null=True)
     currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
 
