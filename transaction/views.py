@@ -55,14 +55,23 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow_data = {
-                    'reference': data['flwRef'],
-                    'source_account_provider': 'card',
-                    'source_account_number': '{}{}{}'.format(
-                        data['entity']['card6'], '******', data['entity']['card_last4'])
-                }
-                update_inflow(inflow, **inflow_data)
+                is_card = data.get('entity', None).get('card6', None)
+                if is_card:
+                    inflow_data = {
+                        'reference': data['flwRef'],
+                        'source_account_provider': 'card',
+                        'source_account_number': '{}{}{}'.format(
+                            data['entity']['card6'], '******', data['entity']['card_last4'])
+                    }
+                else:
+                    inflow_data = {
+                        'reference': data['flwRef'],
+                        'source_account_provider': 'bank transfer',
+                        'source_account_number': '{} {}'.format(
+                            data['entity']['first_name'], data['entity']['last_name'])
+                    }
 
+                update_inflow(inflow, **inflow_data)
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
