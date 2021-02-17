@@ -67,7 +67,8 @@ def handle_naira_update(request):
                     inflow_data = {
                         'reference': data['flwRef'],
                         'source_account_provider': 'bank transfer',
-                        'source_account_number': '{} {}'.format(
+                        'source_account_number': data['entity']['account_number'],
+                        'source_account_name': '{} {}'.format(
                             data['entity']['first_name'], data['entity']['last_name'])
                     }
 
