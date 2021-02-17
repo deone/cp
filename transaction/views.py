@@ -45,10 +45,9 @@ def handle_naira_update(request):
     data = request.data
     transaction_type = data.get('event.type', None)
 
-    # Payment
+    # Payment - this includes logic to support sub-businesses
+    # payloads returned from sub-businesses do not have the 'event.type' field.
     if transaction_type is None or transaction_type == 'CARD_TRANSACTION':
-        print('** Naira payment update - card **')
-        print(request.data)
         transaction = Transaction.objects.get(
             transaction_id=get_transaction_id(data['txRef']))
 
@@ -57,6 +56,8 @@ def handle_naira_update(request):
             if data['status'] == 'successful':
                 is_card = data.get('entity', None).get('card6', None)
                 if is_card:
+                    print('** Naira payment update - card **')
+                    print(request.data)
                     inflow_data = {
                         'reference': data['flwRef'],
                         'source_account_provider': 'card',
@@ -64,6 +65,8 @@ def handle_naira_update(request):
                             data['entity']['card6'], '******', data['entity']['card_last4'])
                     }
                 else:
+                    print('** Naira payment update - bank transfer **')
+                    print(request.data)
                     inflow_data = {
                         'reference': data['flwRef'],
                         'source_account_provider': 'bank transfer',
