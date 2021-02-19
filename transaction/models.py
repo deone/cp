@@ -56,3 +56,34 @@ class Rates(models.Model):
     class Meta:
         ordering = ['-date_created']
         verbose_name_plural = 'Rates'
+
+INFLOW_FEE = {
+    'GHS': 0.02,
+    'NGN': 0.025,
+    'BTC': 0.01
+}
+
+OUTFLOW_FEE = {
+    'GHS': 0.01
+}
+
+def get_naira_outflow_fee(amount):
+    if amount < Decimal(5001):
+        return Decimal(10.75)
+    elif amount > Decimal(5000) and amount < Decimal(50001):
+        return Decimal(26.88)
+    elif amount > Decimal(50000):
+        return Decimal(53.75)
+
+class TransactionReport(models.Model):
+    created_at = models.DateTimeField(default=timezone.now)
+    transaction_id = models.CharField(max_length=30, unique=True)
+    inflow_currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
+    inflow_amount = models.DecimalField(max_digits=14, decimal_places=2)
+    inflow_fee = models.DecimalField(max_digits=10, decimal_places=2) # payment_receiving_fee_percentage * inflow_amount
+    outflow_currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
+    outflow_amount = models.DecimalField(max_digits=14, decimal_places=2)
+    outflow_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    outflow_amount_value = models.DecimalField(max_digits=14, decimal_places=2) # (nnamdi/google rate ( = rate / 0.95) * inflow_amount)
+    revenue_in_outflow_currency = models.DecimalField(max_digits=10, decimal_places=2) # (outflow_amount_value - outflow_amount)
+    is_complete = models.BooleanField(default=False)
