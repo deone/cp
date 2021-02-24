@@ -40,8 +40,8 @@ class Inflow(Flow):
     currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
 
     def __str__(self):
-        return ''.format(
-            self.transaction.transaction_id, self.currency, self.amount, self.is_complete)
+        return '{}{}{}{}{}{}'.format(
+            self.transaction.transaction_id, ' - ', self.currency, self.amount, ', ', self.is_complete)
 
 class Outflow(Flow):
     dest_account_provider_code = models.CharField(max_length=15, null=True)
@@ -51,8 +51,8 @@ class Outflow(Flow):
     currency = models.CharField(max_length=3, choices=DEST_CURRENCIES)
 
     def __str__(self):
-        return '{}{}{}{}'.format(
-            self.transaction.transaction_id, self.currency, self.amount, self.is_complete)
+        return '{}{}{}{}{}{}'.format(
+            self.transaction.transaction_id, ' - ', self.currency, self.amount, ', ', self.is_complete)
 
 class Rates(models.Model):
     ngn_to_ghs = models.DecimalField(max_digits=8, decimal_places=5)
