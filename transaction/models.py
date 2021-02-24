@@ -51,7 +51,7 @@ class Outflow(Flow):
     currency = models.CharField(max_length=3, choices=DEST_CURRENCIES)
 
     def __str__(self):
-        return ''.format(
+        return '{}{}{}{}'.format(
             self.transaction.transaction_id, self.currency, self.amount, self.is_complete)
 
 class Rates(models.Model):
