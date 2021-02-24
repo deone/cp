@@ -19,8 +19,7 @@ class Transaction(models.Model):
         return reverse('customer:transaction-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '{}{}{}{}{}{}{}'.format(
-            self.inflow.currency, ' to ', self.outflow.currency, ' - ', self.inflow.amount, ', ', self.outflow.amount)
+        return '{}{}'.format(self.transaction_id, ', ', self.is_complete)
 
 class Flow(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
