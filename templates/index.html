@@ -133,6 +133,7 @@
                     [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
                 } else {
                     // Show dest currency field and get BTC rates and symbols
+                    $('#id_dest_currency').children('option[value="NGN"]').remove();
                     $('#id_dest_currency').parents('.form-group').show();
                     [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
                 }
