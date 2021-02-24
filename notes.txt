@@ -17,10 +17,10 @@ Make menu icons active when selected.
 Use flag and currency symbols everywhere required.
 Implement scrolling pagination on activity UI. Also, maybe search?
 Display message when user has no activity.
-Add 'Log In' to home page for times when the user just wants to check their activity and not perform transactions.
 Add drop-down and currency/country signs to home page drop downs.
 Add Report Issue feature on transaction detail page.
 Add callback feature for customer service.
 Display sender info on transaction detail page - update inflow for NGN and GHS inflows.
 Display error if user already has account.
 Get live (BTC) rates from Google. Also, update transaction report function.
+Page activity.
