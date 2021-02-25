@@ -104,14 +104,21 @@
                 }
             }
             const getRateAndAmount = (currency) => {
-                // axios.get('https://api.coinbase.com/v2/prices/BTC-GHS/spot')
-                    // .then(function(response) {
-                        // if (response.status == 200) {
-                            // console.log(response);
-                            // console.log('₦');
-                        // }
-                    // })
-                if (currency == 'GHS') {
+                const url = 'https://api.coinbase.com/v2/prices/BTC-' + currency + '/spot';
+                const symbols = {
+                    'GHS': 'GH₵',
+                    'NGN': '₦'
+                }
+                axios.get(url)
+                    .then(function(response) {
+                        if (response.status == 200) {
+                            rate = response.data.data.amount;
+                            showRate(rate);
+                            showAmount('#id_dest_amount', rate, symbols[currency]);
+                        }
+                    });
+
+                /* if (currency == 'GHS') {
                     rate = {{ rates.btc_to_ghs }};
                     symbol = 'GH₵';
                 } else {
@@ -119,15 +126,11 @@
                     symbol = '₦';
                 }
                 showRate(rate);
-                showAmount('#id_dest_amount', rate, symbol);
+                showAmount('#id_dest_amount', rate, symbol); */
             }
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
                 'GHS': [{{ rates.ghs_to_ngn }}, '₦'],
-                /* 'BTC': {
-                    'NGN': [{{ rates.btc_to_ngn }}, '₦'],
-                    'GHS': [{{ rates.btc_to_ghs }}, 'GH₵']
-                } */
                 'BTC': {
                     'GHS': getRateAndAmount('GHS'),
                     'NGN': getRateAndAmount('NGN')
