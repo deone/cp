@@ -67,6 +67,7 @@
         <!-- jQuery Circle Progress -->
         <script src="{% static 'assets/js/plugins/jquery-circle-progress/circle-progress.min.js' %}"></script>
         <!-- Base Js File -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="{% static 'assets/js/base.js' %}"></script>
         {% block form-js %}
         <script>
@@ -83,15 +84,6 @@
                 'decimalPlaces': 5,
                 'allowDecimalPadding': false
             });
-
-            const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
-                'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
-                'GHS': [{{ rates.ghs_to_ngn }}, '₦'],
-                'BTC': {
-                    'NGN': [{{ rates.btc_to_ngn }}, '₦'],
-                    'GHS': [{{ rates.btc_to_ghs }}, 'GH₵']
-                }
-            };
 
             let rate, destAmount, symbol;
             const showRate = rate => $('#rate').text(rate.toLocaleString('en', { minimumFractionDigits: 4 }));
@@ -111,6 +103,36 @@
                     $(element).val(symbol + displayAmount.toLocaleString('en'));
                 }
             }
+            const getRateAndAmount = (currency) => {
+                // axios.get('https://api.coinbase.com/v2/prices/BTC-GHS/spot')
+                    // .then(function(response) {
+                        // if (response.status == 200) {
+                            // console.log(response);
+                            // console.log('₦');
+                        // }
+                    // })
+                if (currency == 'GHS') {
+                    rate = {{ rates.btc_to_ghs }};
+                    symbol = 'GH₵';
+                } else {
+                    rate = {{ rates.btc_to_ngn }};
+                    symbol = '₦';
+                }
+                showRate(rate);
+                showAmount('#id_dest_amount', rate, symbol);
+            }
+            const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
+                'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
+                'GHS': [{{ rates.ghs_to_ngn }}, '₦'],
+                /* 'BTC': {
+                    'NGN': [{{ rates.btc_to_ngn }}, '₦'],
+                    'GHS': [{{ rates.btc_to_ghs }}, 'GH₵']
+                } */
+                'BTC': {
+                    'GHS': getRateAndAmount('GHS'),
+                    'NGN': getRateAndAmount('NGN')
+                }
+            };
 
             // Hide dest currency field by default
             $('#id_dest_currency').parents('.form-group').hide();
@@ -131,15 +153,16 @@
                     // Hide dest currency field if source currency changes to Naira or Cedis
                     $('#id_dest_currency').parents('.form-group').hide();
                     [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[getCurrency('#id_source_currency')];
+
+                    // Display rate and amount with symbol
+                    showRate(rate);
+                    showAmount('#id_dest_amount', rate, symbol);
                 } else {
                     // Show dest currency field and get BTC rates and symbols
-                    $('#id_dest_currency').children('option[value="NGN"]').remove();
+                    // $('#id_dest_currency').children('option[value="NGN"]').remove();
                     $('#id_dest_currency').parents('.form-group').show();
-                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
+                    getRateAndAmount(getCurrency('#id_dest_currency'));
                 }
-                // Display rate and amount with symbol
-                showRate(rate);
-                showAmount('#id_dest_amount', rate, symbol);
             });
 
             $('#id_source_amount').keyup(() => {
@@ -153,9 +176,7 @@
             });
 
             $('#id_dest_currency').change(() => {
-                [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
-                showRate(rate);
-                showAmount('#id_dest_amount', rate, symbol);
+                getRateAndAmount(getCurrency('#id_dest_currency'));
             });
         </script>
         {% endblock %}
