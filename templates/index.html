@@ -112,23 +112,13 @@
                 axios.get(url)
                     .then(function(response) {
                         if (response.status == 200) {
-                            rate = response.data.data.amount;
+                            rate = response.data.data.amount * 0.95;
                             if (getCurrency('#id_source_currency') === 'BTC') {
                                 showRate(rate);
                                 showAmount('#id_dest_amount', rate, symbols[currency]);
                             }
                         }
                     });
-
-                /* if (currency == 'GHS') {
-                    rate = {{ rates.btc_to_ghs }};
-                    symbol = 'GH₵';
-                } else {
-                    rate = {{ rates.btc_to_ngn }};
-                    symbol = '₦';
-                }
-                showRate(rate);
-                showAmount('#id_dest_amount', rate, symbol); */
             }
             const SOURCE_CURRENCY_RATE_SYMBOL_MAP = {
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
@@ -174,10 +164,10 @@
                 const sc = getCurrency('#id_source_currency');
                 if (sc != 'BTC') {
                     [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP[sc];
+                    showAmount('#id_dest_amount', rate, symbol);
                 } else {
-                    [rate, symbol] = SOURCE_CURRENCY_RATE_SYMBOL_MAP['BTC'][getCurrency('#id_dest_currency')];
+                    getRateAndAmount(getCurrency('#id_dest_currency'));
                 }
-                showAmount('#id_dest_amount', rate, symbol);
             });
 
             $('#id_dest_currency').change(() => {
