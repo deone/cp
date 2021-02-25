@@ -113,8 +113,10 @@
                     .then(function(response) {
                         if (response.status == 200) {
                             rate = response.data.data.amount;
-                            showRate(rate);
-                            showAmount('#id_dest_amount', rate, symbols[currency]);
+                            if (getCurrency('#id_source_currency') === 'BTC') {
+                                showRate(rate);
+                                showAmount('#id_dest_amount', rate, symbols[currency]);
+                            }
                         }
                     });
 
