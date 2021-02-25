@@ -154,7 +154,7 @@
                     showAmount('#id_dest_amount', rate, symbol);
                 } else {
                     // Show dest currency field and get BTC rates and symbols
-                    // $('#id_dest_currency').children('option[value="NGN"]').remove();
+                    $('#id_dest_currency').children('option[value="NGN"]').remove();
                     $('#id_dest_currency').parents('.form-group').show();
                     getRateAndAmount(getCurrency('#id_dest_currency'));
                 }
