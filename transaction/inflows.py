@@ -17,7 +17,7 @@ def get_cedi_payment_page(email, transaction_id, amount, redirect_url, post_url)
         "metadata": {
             "order_id": transaction_id,
             "product_name": "Money transfer",
-            "product_description": "GHS to NGN"
+            "product_description": "Payment for service"
         },
         "callback": redirect_url,
         "post_url": post_url,
@@ -68,8 +68,9 @@ def get_naira_payment_page(email, transaction_id, amount, redirect_url):
 def get_invoice(user, transaction, domain):
     data = {
         "amount": int(transaction.inflow.amount),
-        "description": "{} {} {}".format(
-            'BTC', 'to', transaction.outflow.currency),
+        # "description": "{} {} {}".format(
+            # 'BTC', 'to', transaction.outflow.currency),
+        "description": "Payment for service",
         "order_id": transaction.transaction_id,
         "customer_name": user.get_full_name(),
         "customer_email": user.username,

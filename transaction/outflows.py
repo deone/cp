@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 import json
 import requests
 
-def initiate_cedi_transfer(transaction, message="NGN to GHS"):
+def initiate_cedi_transfer(transaction, message="Payment for service"):
     domain = Site.objects.get_current().domain
     headers = {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ def initiate_cedi_transfer(transaction, message="NGN to GHS"):
     print('** Cedi transfer response **')
     print(transfer)
 
-def initiate_naira_transfer(transaction, narration="GHS to NGN"):
+def initiate_naira_transfer(transaction, narration="Payment for service"):
     headers = {
         'Content-Type': 'application/json'
     }
