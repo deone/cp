@@ -103,7 +103,8 @@
                     $(element).val(symbol + displayAmount.toLocaleString('en'));
                 }
             }
-            const getRateAndAmount = (currency) => {
+            const getRateAndAmount = () => {
+                const currency = 'GHS'
                 const url = 'https://api.coinbase.com/v2/prices/USD-' + currency + '/spot';
                 const symbols = {
                     'GHS': 'GH₵',
@@ -124,8 +125,8 @@
                 'NGN': [{{ rates.ngn_to_ghs }}, 'GH₵'],
                 'GHS': [{{ rates.ghs_to_ngn }}, '₦'],
                 'BTC': {
-                    'GHS': getRateAndAmount('GHS'),
-                    'NGN': getRateAndAmount('NGN')
+                    'GHS': getRateAndAmount(),
+                    // 'NGN': getRateAndAmount('NGN')
                 }
             };
 
