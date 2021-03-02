@@ -86,9 +86,15 @@
             });
 
             let rate, destAmount, symbol;
-            const showRate = rate => $('#rate').text(rate.toLocaleString('en', { minimumFractionDigits: 4 }));
-            const getCurrency = (element) => $(element).val();
-            const getAmount = (element) => $(element).val().replace(/,/g, '');
+            const showRate = rate => {
+                rate = rate.toLocaleString('en', { minimumFractionDigits: 4 })
+                if (getCurrency('#id_source_currency') == 'BTC') {
+                    rate += ". If you'd prefer instant Bitcoin transactions, download a lightning wallet <a target='_blank' href='https://bluewallet.io/'>here</a>."
+                }
+                $('#rate').html(rate);
+            }
+            const getCurrency = element => $(element).val();
+            const getAmount = element => $(element).val().replace(/,/g, '');
             const showAmount = (element, rate, symbol) => {
                 let amount;
                 if (element == '#id_dest_amount') {
