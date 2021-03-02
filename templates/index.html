@@ -142,8 +142,10 @@
                 const sc = getCurrency('#id_source_currency');
                 if (sc != 'BTC') {
                     if (sc == 'NGN') {
+                        $('.input-group-text').text('₦');
                         $('#id_dest_currency').val('GHS');
                     } else {
+                        $('.input-group-text').text('GH₵');
                         $('#id_dest_currency').val('NGN');
                     }
                     // Hide dest currency field if source currency changes to Naira or Cedis
@@ -154,6 +156,7 @@
                     showRate(rate);
                     showAmount('#id_dest_amount', rate, symbol);
                 } else {
+                    $('.input-group-text').text('$');
                     // Show dest currency field and get BTC rates and symbols
                     $('#id_dest_currency').children('option[value="NGN"]').remove();
                     $('#id_dest_currency').parents('.form-group').show();
