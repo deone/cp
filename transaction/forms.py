@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from decimal import Decimal
+import requests
 import copy
 
 FORM_CONTROL_CLASS = 'form-control'
@@ -32,6 +33,18 @@ class TransactionForm(forms.Form):
     def clean_source_amount(self):
         return Decimal(self.cleaned_data['source_amount'].replace(',', ''))
 
+    def clean_source_currency(self):
+        if self.cleaned_data['source_currency'] == 'BTC':
+            # Get BTC value of amount specified in USD
+            data = requests.get('https://api.coinbase.com/v2/prices/BTC-USD/spot')
+            if data.status_code == 200:
+                amount = data.json()['data']['amount']
+                btc_value = (self.cleaned_data['source_amount'] / Decimal(amount)) * Decimal(0.95)
+                return self.cleaned_data['source_currency'], btc_value
+            else:
+                raise ValidationError('Unfortunately, we are unable to get BTC value. Please try again later.')
+        return self.cleaned_data['source_currency']
+
     def clean_dest_amount(self):
         dest_amount = self.cleaned_data['dest_amount']
         if dest_amount.startswith('G'):
@@ -42,19 +55,27 @@ class TransactionForm(forms.Form):
         # Create transaction
         transaction = Transaction.objects.create(transaction_id=create_transaction_id())
 
+        # Check source currency - we get a tuple if source currency is BTC
+        if isinstance(self.cleaned_data['source_currency'], str):
+            source_currency = self.cleaned_data['source_currency']
+        else:
+            source_currency, btc_value = self.cleaned_data['source_currency']
+        source_amount = self.cleaned_data['source_amount']
+
         # Create inflow
         inflow_data = {
             'transaction': transaction,
-            'currency': self.cleaned_data['source_currency'],
+            'currency': source_currency,
         }
 
-        if self.cleaned_data['source_currency'] == 'BTC':
+        if source_currency == 'BTC':
             inflow_data.update({
-                'amount': self.cleaned_data['source_amount'] * 100000000 # in satoshis
+                'usd_value': source_amount,
+                'amount': round_half_up(btc_value * 100000000) # in satoshis
             })
         else:
             inflow_data.update({
-                'amount': self.cleaned_data['source_amount']
+                'amount': source_amount
             })
 
         inflow = Inflow(**inflow_data)

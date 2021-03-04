@@ -89,7 +89,7 @@
             const showRate = rate => {
                 rate = rate.toLocaleString('en', { minimumFractionDigits: 4 })
                 if (getCurrency('#id_source_currency') == 'BTC') {
-                    rate += ". If you'd prefer instant Bitcoin transactions, download a lightning wallet <a target='_blank' href='https://bluewallet.io/'>here</a>."
+                    rate += ". If you prefer instant Bitcoin transactions, download a lightning wallet <a target='_blank' href='https://bluewallet.io/'>here</a>."
                 }
                 $('#rate').html(rate);
             }
