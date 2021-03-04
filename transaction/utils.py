@@ -18,6 +18,7 @@ def get_transaction_id(ref):
 
 def update_inflow(inflow, **data):
     inflow.reference = data.get('reference', None)
+    inflow.usd_paid = data.get('usd_paid', None)
     inflow.source_account_provider = data.get('source_account_provider', None)
     inflow.source_account_number = data.get('source_account_number', None)
     inflow.source_account_name = data.get('source_account_name', None)
