@@ -39,7 +39,7 @@ class TransactionForm(forms.Form):
             data = requests.get('https://api.coinbase.com/v2/prices/BTC-USD/spot')
             if data.status_code == 200:
                 amount = data.json()['data']['amount']
-                btc_value = (self.cleaned_data['source_amount'] / Decimal(amount)) * Decimal(0.95)
+                btc_value = self.cleaned_data['source_amount'] / Decimal(amount)
                 return self.cleaned_data['source_currency'], btc_value
             else:
                 raise ValidationError('Unfortunately, we are unable to get BTC value. Please try again later.')
