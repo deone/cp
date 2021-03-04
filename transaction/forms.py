@@ -36,9 +36,9 @@ class TransactionForm(forms.Form):
     def clean_source_currency(self):
         if self.cleaned_data['source_currency'] == 'BTC':
             # Get BTC value of amount specified in USD
-            data = requests.get('https://api.coinbase.com/v2/prices/BTC-USD/spot')
+            data = requests.get('https://api.opennode.com/v1/rates')
             if data.status_code == 200:
-                amount = data.json()['data']['amount']
+                amount = data.json()['data']['BTCUSD']['USD']
                 btc_value = self.cleaned_data['source_amount'] / Decimal(amount)
                 return self.cleaned_data['source_currency'], btc_value
             else:
