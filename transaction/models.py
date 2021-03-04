@@ -34,6 +34,7 @@ class Flow(models.Model):
 
 class Inflow(Flow):
     usd_value = models.DecimalField(max_digits=14, decimal_places=2, null=True)
+    usd_paid = models.DecimalField(max_digits=14, decimal_places=2, null=True)
     source_account_provider = models.CharField(max_length=50, null=True)
     source_account_number = models.CharField(max_length=50, null=True)
     source_account_name = models.CharField(max_length=50, null=True)

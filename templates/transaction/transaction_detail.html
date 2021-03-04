@@ -34,6 +34,14 @@
             <span class="text-muted">USD value</span>
             <strong>${{ t.inflow.usd_value | intcomma }}</strong>
         </li>
+        <li>
+            {% if t.inflow.is_complete %}
+            <span class="text-muted">Actual USD amount paid</span>
+            <strong>
+                ${{ t.inflow.usd_paid | intcomma }}
+            </strong>
+            {% endif %}
+        </li>
         {% endif %}
         <li>
             <span class="text-muted">Recipient receives</span>
