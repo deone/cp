@@ -17,6 +17,14 @@
                     {% endwith %}
                 </strong>
             </li>
+            {% if t.inflow.currency == 'BTC' %}
+            <li>
+                <span class="text-muted">USD value</span>
+                <strong>
+                    ${{ t.inflow.usd_value | intcomma }}
+                </strong>
+            </li>
+            {% endif %}
             <li>
                 <span class="text-muted">To</span>
                 <strong style="text-align: right">

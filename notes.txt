@@ -24,3 +24,4 @@ Display sender info on transaction detail page - update inflow for NGN and GHS i
 Display error if user already has account.
 Get live (BTC) rates from Google. Also, update transaction report function.
 Page activity.
+Should we get actual USD amount paid and display that in transaction detail?

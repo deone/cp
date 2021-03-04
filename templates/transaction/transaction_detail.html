@@ -29,6 +29,12 @@
                 {% endif %}
             </strong>
         </li>
+        {% if t.inflow.currency == 'BTC' %}
+        <li>
+            <span class="text-muted">USD value</span>
+            <strong>${{ t.inflow.usd_value | intcomma }}</strong>
+        </li>
+        {% endif %}
         <li>
             <span class="text-muted">Recipient receives</span>
             <strong>{{ outflow_currency_symbol }}{{ t.outflow.amount | intcomma }}</strong>
