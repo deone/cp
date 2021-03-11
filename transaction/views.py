@@ -42,6 +42,7 @@ def save_naira_payment_info(request):
 
 @api_view(['POST'])
 def handle_naira_update(request):
+    print('** Naira payment update **')
     data = request.data
     transaction_type = data.get('event.type', None)
 
@@ -62,7 +63,8 @@ def handle_naira_update(request):
                         'reference': data['flwRef'],
                         'source_account_provider': 'card',
                         'source_account_number': '{}{}{}'.format(
-                            data['entity']['card6'], '******', data['entity']['card_last4'])
+                            data['entity']['card6'], '******', data['entity']['card_last4']),
+                        'is_complete': True
                     }
                 else:
                     print('** Naira payment update - bank transfer **')
@@ -72,7 +74,8 @@ def handle_naira_update(request):
                         'source_account_provider': 'bank transfer',
                         'source_account_number': data['entity']['account_number'],
                         'source_account_name': '{} {}'.format(
-                            data['entity']['first_name'], data['entity']['last_name'])
+                            data['entity']['first_name'], data['entity']['last_name']),
+                        'is_complete': True
                     }
 
                 update_inflow(inflow, **inflow_data)
@@ -98,7 +101,8 @@ def handle_naira_update(request):
                     'source_account_provider': 'bank transfer',
                     'source_account_number': data['entity']['account_number'],
                     'source_account_name': '{} {}'.format(
-                        data['entity']['first_name'], data['entity']['last_name'])
+                        data['entity']['first_name'], data['entity']['last_name']),
+                    'is_complete': True
                 }
                 update_inflow(inflow, **inflow_data)
 
@@ -176,7 +180,7 @@ def handle_cedi_payment_update(request):
     inflow = transaction.inflow
     if inflow.is_complete == False:
         if data['status'] == 'successful':
-            update_inflow(inflow, **{})
+            update_inflow(inflow, **{'is_complete': True})
 
             # initiate naira transfer
             outflows.initiate_naira_transfer(transaction)

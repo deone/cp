@@ -24,7 +24,8 @@ def update_inflow(inflow, **data):
     inflow.source_account_name = data.get('source_account_name', None)
 
     inflow.updated_at = timezone.now()
-    inflow.is_complete = True
+    if data.get('is_complete', None):
+        inflow.is_complete = True
     inflow.save()
 
 def get_amount(string, currency):
