@@ -197,7 +197,7 @@ def handle_BTC_payment_update(request):
         transaction_id=get_transaction_id(request.data['order_id']))
 
     status = request.data['status']
-    if inflow.is_complete == False:
+    if transaction.inflow.is_complete == False:
         if status == 'paid':
             update_inflow(
                 transaction.inflow, **{
@@ -230,7 +230,7 @@ def handle_BTC_payment_update(request):
         transaction_id=get_transaction_id(request.POST['order_id']))
 
     status = request.POST['status']
-    if inflow.is_complete == False:
+    if transaction.inflow.is_complete == False:
         if status == 'paid':
             update_inflow(
                 transaction.inflow, **{
