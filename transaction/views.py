@@ -198,7 +198,10 @@ def handle_BTC_payment_update(request):
 
     status = request.POST['status']
     if status == 'paid':
-        update_inflow(transaction.inflow, **{'reference': request.POST['id'], 'usd_paid': request.POST['net_fiat_value']})
+        update_inflow(
+            transaction.inflow, **{
+                'reference': request.POST['id'], 'usd_paid': request.POST.get('net_fiat_value', None)
+                })
 
         # initiate dest amount transfer - GHS or NGN
         if transaction.outflow.currency == 'GHS':
