@@ -192,6 +192,38 @@ def handle_cedi_payment_update(request):
 @api_view(['POST'])
 def handle_BTC_payment_update(request):
     print('** BTC payment update **')
+    print(request.data)
+    transaction = Transaction.objects.get(
+        transaction_id=get_transaction_id(request.data['order_id']))
+
+    status = request.data['status']
+    if status == 'paid':
+        update_inflow(
+            transaction.inflow, **{
+                'reference': request.data['id'],
+                'usd_paid': request.data.get('net_fiat_value', None),
+                'is_complete': True
+                })
+
+        # initiate dest amount transfer - GHS or NGN
+        if transaction.outflow.currency == 'GHS':
+            outflows.initiate_cedi_transfer(transaction, message='Payment for service')
+        else:
+            outflows.initiate_naira_transfer(transaction, narration='Payment for service')
+    else:
+        pass
+        # do something if status is not 'paid'
+        # maybe redirect to activity page so that
+        # user can see status of transaction
+        # because we cannot initiate transfer if
+        # invoice is not paid
+
+    content = {'message': 'Success'}
+    return Response(content, status=s.HTTP_200_OK)
+
+""" @api_view(['POST'])
+def handle_BTC_payment_update(request):
+    print('** BTC payment update **')
     print(request.POST)
     transaction = Transaction.objects.get(
         transaction_id=get_transaction_id(request.POST['order_id']))
@@ -219,4 +251,4 @@ def handle_BTC_payment_update(request):
         # invoice is not paid
 
     content = {'message': 'Success'}
-    return Response(content, status=s.HTTP_200_OK)
+    return Response(content, status=s.HTTP_200_OK) """
