@@ -75,7 +75,8 @@ def report_transaction(transaction):
 
     REVENUE_CURRENCY = {
         'NGN': 'GHS',
-        'GHS': 'NGN'
+        'GHS': 'NGN',
+        'BTC': 'GHS'
     }
 
     Report.objects.create(
