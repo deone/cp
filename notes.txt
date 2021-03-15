@@ -23,4 +23,3 @@
 - Get live (BTC) rates from Google. Also, update transaction report function.
 - Page activity.
 - Should we get actual USD amount paid and display that in transaction detail?
-- Add BTC payment fee when we exhaust free credits.
