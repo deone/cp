@@ -65,20 +65,20 @@ def handle_naira_update(request):
                 if is_card:
                     print('** Naira payment update - card **')
                     print(request.data)
-                    inflow_data = {
+                    inflow_data.update({
                         'source_account_provider': 'card',
                         'source_account_number': '{}{}{}'.format(
                             data['entity']['card6'], '******', data['entity']['card_last4']),
-                    }
+                    })
                 else:
                     print('** Naira payment update - bank transfer **')
                     print(request.data)
-                    inflow_data = {
+                    inflow_data.update({
                         'source_account_provider': 'bank transfer',
                         'source_account_number': data['entity']['account_number'],
                         'source_account_name': '{} {}'.format(
                             data['entity']['first_name'], data['entity']['last_name']),
-                    }
+                    })
 
                 update_inflow(inflow, **inflow_data)
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
@@ -98,12 +98,12 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow_data = {
+                inflow_data.update({
                     'source_account_provider': 'bank transfer',
                     'source_account_number': data['entity']['account_number'],
                     'source_account_name': '{} {}'.format(
                         data['entity']['first_name'], data['entity']['last_name']),
-                }
+                })
                 update_inflow(inflow, **inflow_data)
 
                 # initiate cedi transfer
