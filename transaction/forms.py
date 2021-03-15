@@ -79,8 +79,8 @@ class TransactionForm(forms.Form):
             })
 
         if source_currency == 'GHS':
-            inflow.data.update({
-                'fee': source_amount * 0.02
+            inflow_data.update({
+                'fee': source_amount * Decimal('0.02')
             })
 
         inflow = Inflow(**inflow_data)
@@ -97,7 +97,7 @@ class TransactionForm(forms.Form):
 
         if dest_currency == 'GHS':
             outflow_data.update({
-                'fee': dest_amount * 0.01
+                'fee': dest_amount * Decimal('0.01')
             })
 
         outflow = Outflow(**outflow_data)
