@@ -78,15 +78,27 @@ class TransactionForm(forms.Form):
                 'amount': source_amount
             })
 
+        if source_currency == 'GHS':
+            inflow.data.update({
+                'fee': source_amount * 0.02
+            })
+
         inflow = Inflow(**inflow_data)
         inflow.save()
 
         # Create outflow
+        dest_amount = self.cleaned_data['dest_amount']
+        dest_currency = self.cleaned_data['dest_currency']
         outflow_data = {
             'transaction': transaction,
-            'amount': self.cleaned_data['dest_amount'],
-            'currency': self.cleaned_data['dest_currency']
+            'amount': dest_amount,
+            'currency': dest_currency
         }
+
+        if dest_currency == 'GHS':
+            outflow_data.update({
+                'fee': dest_amount * 0.01
+            })
 
         outflow = Outflow(**outflow_data)
         outflow.save()
