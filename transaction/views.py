@@ -17,6 +17,7 @@ from .utils import (
 
 import json
 import requests
+from decimal import Decimal
 
 api_view(['POST', 'GET'])
 @csrf_exempt
@@ -42,7 +43,7 @@ def save_naira_payment_info(request):
 
 @api_view(['POST'])
 def handle_naira_update(request):
-    print('** Naira payment update **')
+    print('** Naira update **')
     data = request.data
     transaction_type = data.get('event.type', None)
 
@@ -52,6 +53,11 @@ def handle_naira_update(request):
         transaction = Transaction.objects.get(
             transaction_id=get_transaction_id(data['txRef']))
 
+        inflow_data = {
+            'fee': Decimal(str(data['appfee'])),
+            'reference': data['flwRef'],
+            'is_complete': True
+        }
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
@@ -60,22 +66,18 @@ def handle_naira_update(request):
                     print('** Naira payment update - card **')
                     print(request.data)
                     inflow_data = {
-                        'reference': data['flwRef'],
                         'source_account_provider': 'card',
                         'source_account_number': '{}{}{}'.format(
                             data['entity']['card6'], '******', data['entity']['card_last4']),
-                        'is_complete': True
                     }
                 else:
                     print('** Naira payment update - bank transfer **')
                     print(request.data)
                     inflow_data = {
-                        'reference': data['flwRef'],
                         'source_account_provider': 'bank transfer',
                         'source_account_number': data['entity']['account_number'],
                         'source_account_name': '{} {}'.format(
                             data['entity']['first_name'], data['entity']['last_name']),
-                        'is_complete': True
                     }
 
                 update_inflow(inflow, **inflow_data)
@@ -97,12 +99,10 @@ def handle_naira_update(request):
         if inflow.is_complete == False:
             if data['status'] == 'successful':
                 inflow_data = {
-                    'reference': data['flwRef'],
                     'source_account_provider': 'bank transfer',
                     'source_account_number': data['entity']['account_number'],
                     'source_account_name': '{} {}'.format(
                         data['entity']['first_name'], data['entity']['last_name']),
-                    'is_complete': True
                 }
                 update_inflow(inflow, **inflow_data)
 
@@ -120,6 +120,7 @@ def handle_naira_update(request):
         if outflow.is_complete == False:
             if data['transfer']['status'] == 'SUCCESSFUL':
                 outflow.is_complete = True
+                outflow.fee = Decimal(str(data['transfer']['fee']))
                 outflow.updated_at = timezone.now()
                 outflow.save()
 
