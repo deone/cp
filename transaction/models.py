@@ -89,7 +89,7 @@ def get_naira_outflow_fee(amount):
     elif amount > Decimal(50000):
         return Decimal(53.75)
 
-class TransactionReport(models.Model):
+class Report(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     transaction_id = models.CharField(max_length=30, unique=True)
     inflow_currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)

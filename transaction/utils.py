@@ -5,7 +5,7 @@ import math
 import requests
 from decimal import Decimal
 
-from .models import TransactionReport
+from .models import Report
 
 NETWORKS = [
     ('mtn', 'MTN'),
@@ -76,7 +76,7 @@ def report_transaction(transaction):
         'GHS': 'NGN'
     }
 
-    TransactionReport.objects.create(
+    Report.objects.create(
         created_at=transaction.created_at,
         transaction_id=transaction.transaction_id,
         inflow_currency=inflow.currency,
