@@ -79,7 +79,8 @@ def handle_naira_update(request):
                         'source_account_name': '{} {}'.format(
                             data['entity']['first_name'], data['entity']['last_name']),
                     })
-
+                print('** inflow data **')
+                print(inflow_data)
                 update_inflow(inflow, **inflow_data)
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
