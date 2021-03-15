@@ -99,5 +99,5 @@ class TransactionReport(models.Model):
     outflow_amount = models.DecimalField(max_digits=14, decimal_places=2)
     outflow_fee = models.DecimalField(max_digits=10, decimal_places=2)
     outflow_amount_value = models.DecimalField(max_digits=14, decimal_places=2) # (nnamdi/google rate ( = rate / 0.95) * inflow_amount)
-    revenue_in_outflow_currency = models.DecimalField(max_digits=10, decimal_places=2) # (outflow_amount_value - outflow_amount)
-    is_complete = models.BooleanField(default=False)
+    revenue_currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
+    revenue = models.DecimalField(max_digits=10, decimal_places=2) # (outflow_amount_value - outflow_amount)
