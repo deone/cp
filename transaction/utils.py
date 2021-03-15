@@ -19,7 +19,7 @@ def get_transaction_id(ref):
     return ref
 
 def update_inflow(inflow, **data):
-    print('inflow data:', inflow.data)
+    print('inflow data:')
     print(data)
     inflow.fee = data.get('fee', None)
     inflow.reference = data.get('reference', None)
