@@ -53,11 +53,6 @@ def handle_naira_update(request):
         transaction = Transaction.objects.get(
             transaction_id=get_transaction_id(data['txRef']))
 
-        inflow_data = {
-            'fee': Decimal(str(data['appfee'])),
-            'reference': data['flwRef'],
-            'is_complete': True
-        }
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
@@ -65,22 +60,26 @@ def handle_naira_update(request):
                 if is_card:
                     print('** Naira payment update - card **')
                     print(request.data)
-                    inflow_data.update({
+                    inflow_data = {
+                        'fee': Decimal(str(data['appfee'])),
+                        'reference': data['flwRef'],
+                        'is_complete': True,
                         'source_account_provider': 'card',
                         'source_account_number': '{}{}{}'.format(
                             data['entity']['card6'], '******', data['entity']['card_last4']),
-                    })
+                    }
                 else:
                     print('** Naira payment update - bank transfer **')
                     print(request.data)
-                    inflow_data.update({
+                    inflow_data = {
+                        'fee': Decimal(str(data['appfee'])),
+                        'reference': data['flwRef'],
+                        'is_complete': True,
                         'source_account_provider': 'bank transfer',
                         'source_account_number': data['entity']['account_number'],
                         'source_account_name': '{} {}'.format(
                             data['entity']['first_name'], data['entity']['last_name']),
-                    })
-                print('** inflow data **')
-                print(inflow_data)
+                    }
                 update_inflow(inflow, **inflow_data)
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
@@ -99,12 +98,15 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow_data.update({
+                inflow_data = {
+                    'fee': Decimal(str(data['appfee'])),
+                    'reference': data['flwRef'],
+                    'is_complete': True,
                     'source_account_provider': 'bank transfer',
                     'source_account_number': data['entity']['account_number'],
                     'source_account_name': '{} {}'.format(
                         data['entity']['first_name'], data['entity']['last_name']),
-                })
+                }
                 update_inflow(inflow, **inflow_data)
 
                 # initiate cedi transfer
