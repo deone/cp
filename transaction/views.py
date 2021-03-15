@@ -210,6 +210,7 @@ def handle_BTC_payment_update(request):
         if status == 'paid':
             inflow.reference = request.POST['id']
             inflow.usd_paid = request.POST.get('net_fiat_value', None)
+            inflow.fee = request.POST['fee']
             inflow.is_complete = True
             inflow.save()
 
