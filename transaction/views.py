@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from transaction import outflows
 from .models import Transaction
 from .utils import (
-    get_transaction_id, update_inflow, report_transaction
+    get_transaction_id, report_transaction
 )
 
 import json
@@ -38,7 +38,8 @@ def save_naira_payment_info(request):
         transaction.save()
     else:
         inflow = transaction.inflow
-        update_inflow(inflow, **{'reference': flw_ref})
+        inflow.reference = flw_ref
+        inflow.save()
     return redirect(reverse_lazy('customer:activity'))
 
 @api_view(['POST'])
@@ -56,31 +57,27 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
+                inflow.fee = Decimal(str(data['appfee']))
+                inflow.reference = data['flwRef']
+
                 is_card = data.get('entity', None).get('card6', None)
                 if is_card:
                     print('** Naira payment update - card **')
                     print(request.data)
-                    inflow_data = {
-                        'fee': Decimal(str(data['appfee'])),
-                        'reference': data['flwRef'],
-                        'is_complete': True,
-                        'source_account_provider': 'card',
-                        'source_account_number': '{}{}{}'.format(
-                            data['entity']['card6'], '******', data['entity']['card_last4']),
-                    }
+                    inflow.source_account_provider = 'card'
+                    inflow.source_account_number = '{}{}{}'.format(
+                            data['entity']['card6'], '******', data['entity']['card_last4'])
                 else:
                     print('** Naira payment update - bank transfer **')
                     print(request.data)
-                    inflow_data = {
-                        'fee': Decimal(str(data['appfee'])),
-                        'reference': data['flwRef'],
-                        'is_complete': True,
-                        'source_account_provider': 'bank transfer',
-                        'source_account_number': data['entity']['account_number'],
-                        'source_account_name': '{} {}'.format(
-                            data['entity']['first_name'], data['entity']['last_name']),
-                    }
-                update_inflow(inflow, **inflow_data)
+                    inflow.source_account_provider = 'bank transfer'
+                    inflow.source_account_number = data['entity']['account_number']
+                    inflow.source_account_name = '{} {}'.format(
+                            data['entity']['first_name'], data['entity']['last_name'])
+
+                inflow.is_complete = True
+                inflow.save()
+
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
             return Response({'message': 'Error'}, status=s.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -98,16 +95,14 @@ def handle_naira_update(request):
         inflow = transaction.inflow
         if inflow.is_complete == False:
             if data['status'] == 'successful':
-                inflow_data = {
-                    'fee': Decimal(str(data['appfee'])),
-                    'reference': data['flwRef'],
-                    'is_complete': True,
-                    'source_account_provider': 'bank transfer',
-                    'source_account_number': data['entity']['account_number'],
-                    'source_account_name': '{} {}'.format(
-                        data['entity']['first_name'], data['entity']['last_name']),
-                }
-                update_inflow(inflow, **inflow_data)
+                inflow.fee = Decimal(str(data['appfee']))
+                inflow.reference = data['flwRef']
+                inflow.source_account_provider = 'bank transfer'
+                inflow.source_account_number = data['entity']['account_number']
+                inflow.source_account_name = '{} {}'.format(
+                        data['entity']['first_name'], data['entity']['last_name'])
+                inflow.is_complete = True
+                inflow.save()
 
                 # initiate cedi transfer
                 outflows.initiate_cedi_transfer(transaction, "NGN to GHS")
@@ -173,13 +168,13 @@ def save_cedi_payment_info(request):
     data = request.GET
     transaction = Transaction.objects.get(
         transaction_id=data['metadata[order_id]'])
+
     inflow = transaction.inflow
-    inflow_data = {
-        'reference': data['reference'],
-        'source_account_provider': data['source[type]'],
-        'source_account_number': data['source[number]']
-    }
-    update_inflow(inflow, **inflow_data)
+    inflow.reference = data['reference']
+    inflow.source_account_provider = data['source[type]']
+    inflow.source_account_number = data['source[number]']
+    inflow.save()
+
     return redirect(reverse_lazy('customer:activity'))
 
 @api_view(['POST'])
@@ -192,7 +187,8 @@ def handle_cedi_payment_update(request):
     inflow = transaction.inflow
     if inflow.is_complete == False:
         if data['status'] == 'successful':
-            update_inflow(inflow, **{'is_complete': True})
+            inflow.is_complete = True
+            inflow.save()
 
             # initiate naira transfer
             outflows.initiate_naira_transfer(transaction)
@@ -209,20 +205,19 @@ def handle_BTC_payment_update(request):
         transaction_id=get_transaction_id(request.POST['order_id']))
 
     status = request.POST['status']
-    if transaction.inflow.is_complete == False:
+    inflow = transaction.inflow
+    if inflow.is_complete == False:
         if status == 'paid':
-            update_inflow(
-                transaction.inflow, **{
-                    'reference': request.POST['id'],
-                    'usd_paid': request.POST.get('net_fiat_value', None),
-                    'is_complete': True
-                    })
+            inflow.reference = request.POST['id']
+            inflow.usd_paid = request.POST.get('net_fiat_value', None)
+            inflow.is_complete = True
+            inflow.save()
 
-        # initiate dest amount transfer - GHS or NGN
-        if transaction.outflow.currency == 'GHS':
-            outflows.initiate_cedi_transfer(transaction, message='Payment for service')
-        else:
-            outflows.initiate_naira_transfer(transaction, narration='Payment for service')
+            # initiate dest amount transfer - GHS or NGN
+            if transaction.outflow.currency == 'GHS':
+                outflows.initiate_cedi_transfer(transaction, message='Payment for service')
+            else:
+                outflows.initiate_naira_transfer(transaction, narration='Payment for service')
     else:
         pass
         # do something if status is not 'paid'
