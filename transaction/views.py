@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from transaction import outflows
 from .models import Transaction
 from .utils import (
-    get_transaction_id, update_inflow 
+    get_transaction_id, update_inflow, report_transaction
 )
 
 import json
@@ -127,6 +127,10 @@ def handle_naira_update(request):
                 transaction.status = 'Successful'
                 transaction.is_complete = True
                 transaction.save()
+
+                # Create transaction report entry
+                report_transaction(transaction)
+
                 return Response({'message': 'Success'}, status=s.HTTP_200_OK)
         return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
 
@@ -151,6 +155,10 @@ def handle_cedi_transfer_update(request):
             transaction.status = 'Successful'
             transaction.is_complete = True
             transaction.save()
+
+            # Create transaction report entry
+            report_transaction(transaction)
+
             return Response({'message': 'Success'}, status=s.HTTP_200_OK)
     return Response({'message': 'Already created.'}, status=s.HTTP_201_CREATED)
 

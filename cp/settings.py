@@ -175,3 +175,5 @@ EMAIL_HOST_USER = 'dayo'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
 DEFAULT_FROM_EMAIL = 'dayo@incisia.com'
 SERVER_EMAIL = 'dayo@incisia.com'
+
+MARGIN = '0.05'

@@ -5,6 +5,8 @@ import math
 import requests
 from decimal import Decimal
 
+from .models import TransactionReport
+
 NETWORKS = [
     ('mtn', 'MTN'),
     ('vodafone', 'Vodafone'),
@@ -60,3 +62,30 @@ def get_banks():
         else:
             # display message as form error, if possible
             pass
+
+def compute_outflow_value(inflow_amount, outflow_amount):
+    return inflow_amount * (outflow_amount / inflow_amount) / (1 - Decimal(settings.MARGIN))
+
+def report_transaction(transaction):
+    inflow = transaction.inflow
+    outflow = transaction.outflow
+    outflow_value = compute_outflow_value(inflow.amount, outflow.amount)
+
+    REVENUE_CURRENCY = {
+        'NGN': 'GHS',
+        'GHS': 'NGN'
+    }
+
+    TransactionReport.objects.create(
+        created_at=transaction.created_at,
+        transaction_id=transaction.transaction_id,
+        inflow_currency=inflow.currency,
+        inflow_amount=inflow.amount,
+        inflow_fee=inflow.fee,
+        outflow_currency=outflow.currency,
+        outflow_amount=outflow.amount,
+        outflow_fee=outflow.fee,
+        outflow_amount_value=outflow_value,
+        revenue_currency=REVENUE_CURRENCY[inflow.currency],
+        revenue=outflow_value - outflow.amount
+    )
