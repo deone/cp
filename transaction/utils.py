@@ -71,7 +71,10 @@ def compute_outflow_value(inflow_amount, outflow_amount):
 def report_transaction(transaction):
     inflow = transaction.inflow
     outflow = transaction.outflow
-    outflow_value = compute_outflow_value(inflow.amount, outflow.amount)
+    inflow_amount = inflow.amount
+    if inflow.currency == 'BTC':
+        inflow_amount = inflow.usd_value
+    outflow_value = compute_outflow_value(inflow_amount, outflow.amount)
 
     REVENUE_CURRENCY = {
         'NGN': 'GHS',
