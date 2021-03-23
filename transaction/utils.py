@@ -86,7 +86,7 @@ def report_transaction(transaction):
         created_at=transaction.created_at,
         transaction_id=transaction.transaction_id,
         inflow_currency=inflow.currency,
-        inflow_amount=inflow.amount,
+        inflow_amount=inflow_amount,
         inflow_fee=inflow.fee,
         outflow_currency=outflow.currency,
         outflow_amount=outflow.amount,
