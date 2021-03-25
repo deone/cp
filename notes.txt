@@ -1,25 +1,22 @@
+- Implement scrolling pagination on activity UI. Also, maybe search?
+- Display friendly error if user already has account.
+- Build 'reset password' feature.
+- Use flag and currency symbols everywhere required.
+- Add drop-down and currency/country signs to home page drop downs.
+
+
+
 - onKeyUp destAmount, change sourceAmout
 - Build in transaction limits for BTC, GHS and NGN.
 - Understand the need for service workers and re-enable it in base.js if needed.
 - Fix JS bug on index page when user changes currency to GHS, continues and comes back.
 - Check what happens when customers use the back button and change amounts.
-- Always look out for reversal of failed Asoriba transfers.
 - Refactor transaction views to use class-based views.
 - Inform users instant BTC transactions are only available via a lightning wallet.
-- Check with Opennode whether on-chain payments can be disabled.
-- Also check whether transaction limit has been increased.
 - Add bank and network details to accounts list.
-- Remove active class from other items in list when an item is selected.
 - Add app name to all descriptions, messages and narrations in 3rd party API requests.
 - Make menu icons active when selected.
-- Use flag and currency symbols everywhere required.
-- Implement scrolling pagination on activity UI. Also, maybe search?
 - Display message when user has no activity.
-- Add drop-down and currency/country signs to home page drop downs.
 - Add Report Issue feature on transaction detail page.
 - Add callback feature for customer service.
 - Display sender info on transaction detail page - update inflow for NGN and GHS inflows.
-- Display error if user already has account.
-- Get live (BTC) rates from Google. Also, update transaction report function.
-- Page activity.
-- Should we get actual USD amount paid and display that in transaction detail?

@@ -71,6 +71,7 @@
         <script src="{% static 'assets/js/base.js' %}"></script>
         {% block form-js %}
         <script>
+            $('#progress').hide();
             $(".disable-btn-on-submit").submit(function () {
                 $("#btn-submit").attr("disabled", true);
                 return true;
@@ -91,7 +92,7 @@
                 if (getCurrency('#id_source_currency') == 'BTC') {
                     rate += ". If you prefer instant Bitcoin transactions, download a lightning wallet <a target='_blank' href='https://bluewallet.io/'>here</a>."
                 }
-                $('#rate').html(rate);
+                $('#message').html('Rate is ' + rate);
             }
             const getCurrency = element => $(element).val();
             const getAmount = element => $(element).val().replace(/,/g, '');
@@ -162,6 +163,7 @@
                     showRate(rate);
                     showAmount('#id_dest_amount', rate, symbol);
                 } else {
+                    $('#message').html('<span style="color: green">Fetching Bitcoin rate...</span>');
                     $('.input-group-text').text('$');
                     // Show dest currency field and get BTC rates and symbols
                     $('#id_dest_currency').children('option[value="NGN"]').remove();
