@@ -200,17 +200,17 @@ def handle_cedi_payment_update(request):
 @api_view(['POST'])
 def handle_BTC_payment_update(request):
     print('** BTC payment update **')
-    print(request.POST)
+    print(request.data)
     transaction = Transaction.objects.get(
-        transaction_id=get_transaction_id(request.POST['order_id']))
+        transaction_id=get_transaction_id(request.data['order_id']))
 
-    status = request.POST['status']
+    status = request.data['status']
     inflow = transaction.inflow
     if inflow.is_complete == False:
         if status == 'paid':
-            inflow.reference = request.POST['id']
-            inflow.usd_paid = request.POST.get('net_fiat_value', None)
-            inflow.fee = request.POST['fee']
+            inflow.reference = request.data['id']
+            inflow.usd_paid = request.data.get('net_fiat_value', None)
+            inflow.fee = request.data['fee']
             inflow.is_complete = True
             inflow.save()
 
