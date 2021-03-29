@@ -177,4 +177,4 @@ DEFAULT_FROM_EMAIL = 'dayo@incisia.com'
 SERVER_EMAIL = 'dayo@incisia.com'
 
 MARGIN = '0.05'
-BTC_MARGIN = '0.04'
+BTC_MARGIN = '0.035'
