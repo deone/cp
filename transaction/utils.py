@@ -65,16 +65,20 @@ def get_banks():
             # display message as form error, if possible
             pass
 
-def compute_outflow_value(inflow_amount, outflow_amount):
-    return inflow_amount * (outflow_amount / inflow_amount) / (1 - Decimal(settings.MARGIN))
+def compute_outflow_value(inflow_amount, outflow_amount, currency=None):
+    x = inflow_amount * (outflow_amount / inflow_amount)
+    if currency == 'BTC':
+        return  x / (1 - Decimal(settings.BTC_MARGIN))
+    return x / (1 - Decimal(settings.MARGIN))
 
 def report_transaction(transaction):
     inflow = transaction.inflow
     outflow = transaction.outflow
     inflow_amount = inflow.amount
+    outflow_value = compute_outflow_value(inflow_amount, outflow.amount)
     if inflow.currency == 'BTC':
         inflow_amount = inflow.usd_value
-    outflow_value = compute_outflow_value(inflow_amount, outflow.amount)
+        outflow_value = compute_outflow_value(inflow_amount, outflow.amount, currency='BTC')
 
     REVENUE_CURRENCY = {
         'NGN': 'GHS',

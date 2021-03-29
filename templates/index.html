@@ -120,7 +120,7 @@
                 axios.get(url)
                     .then(function(response) {
                         if (response.status == 200) {
-                            rate = response.data.data.amount * 0.95;
+                            rate = response.data.data.amount * (1 - {{ btcMargin }});
                             if (getCurrency('#id_source_currency') === 'BTC') {
                                 showRate(rate);
                                 showAmount('#id_dest_amount', rate, symbols[currency]);
