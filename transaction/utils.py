@@ -66,10 +66,9 @@ def get_banks():
             pass
 
 def compute_outflow_value(inflow_amount, outflow_amount, currency=None):
-    x = inflow_amount * (outflow_amount / inflow_amount)
     if currency == 'BTC':
-        return  x / (1 - Decimal(settings.BTC_MARGIN))
-    return x / (1 - Decimal(settings.MARGIN))
+        return  outflow_amount / (1 - Decimal(settings.BTC_MARGIN))
+    return outflow_amount / (1 - Decimal(settings.MARGIN))
 
 def report_transaction(transaction):
     inflow = transaction.inflow
