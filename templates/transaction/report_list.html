@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+
+{% block page-title %}Transaction Report{% endblock %}
+
+{% block app-header %}
+<div class="appHeader bg-primary text-light">
+    <div class="left"></div>
+    <div class="pageTitle">Transaction Report</div>
+    <div class="right"></div>
+</div>
+{% endblock %}
+
+{% block app-capsule %}
+<div id="appCapsule">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Created At</td>
+        <td>Transaction ID</td>
+        <td>Inflow Currency</td>
+        <td>Inflow Amount</td>
+        <td>Inflow Fee</td>
+        <td>Outflow Currency</td>
+        <td>Outflow Amount</td>
+        <td>Outflow Fee</td>
+        <td>Outflow Amount Value</td>
+        <td>Revenue Currency</td>
+        <td>Revenue</td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for t in object_list %}
+      <tr>
+        <td>{{ t.created_at }}</td>
+        <td>{{ t.transaction_id }}</td>
+        <td>{{ t.inflow_currency }}</td>
+        <td>{{ t.inflow_amount }}</td>
+        <td>{{ t.inflow_fee }}</td>
+        <td>{{ t.outflow_currency }}</td>
+        <td>{{ t.outflow_amount }}</td>
+        <td>{{ t.outflow_fee }}</td>
+        <td>{{ t.outflow_amount_value }}</td>
+        <td>{{ t.revenue_currency }}</td>
+        <td>{{ t.revenue }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

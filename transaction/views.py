@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from django.views.generic.list import ListView 
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status as s
@@ -10,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from transaction import outflows
-from .models import Transaction
+from .models import Transaction, Report
 from .utils import (
     get_transaction_id, report_transaction
 )
@@ -229,3 +230,6 @@ def handle_BTC_payment_update(request):
 
     content = {'message': 'Success'}
     return Response(content, status=s.HTTP_200_OK)
+
+class ReportView(ListView):
+    model = Report
