@@ -184,7 +184,7 @@ def handle_cedi_payment_update(request):
     print(request.data)
     data = request.data
     transaction = Transaction.objects.get(
-        transaction_id=data['metadata']['order_id'])
+        transaction_id=data['metadata']['order_id'].split('_')[0])
     inflow = transaction.inflow
     if inflow.is_complete == False:
         if data['status'] == 'successful':
