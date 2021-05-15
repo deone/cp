@@ -20,3 +20,4 @@
 - Add Report Issue feature on transaction detail page.
 - Add callback feature for customer service.
 - Display sender info on transaction detail page - update inflow for NGN and GHS inflows.
+- Validate phone number - users are entering text. Use number field in form.
