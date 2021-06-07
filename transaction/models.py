@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 from . import SOURCE_CURRENCIES, DEST_CURRENCIES
 
+from decimal import Decimal
+
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=30, unique=True)
