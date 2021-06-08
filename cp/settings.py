@@ -173,7 +173,7 @@ OPENNODE_MAX_TRANSFER_AMOUNT = 0.042
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_HOST_USER = 'dayo'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
-DEFAULT_FROM_EMAIL = 'dayo@incisia.com'
+DEFAULT_FROM_EMAIL = 'Transfr<noreply@transfr.money>'
 SERVER_EMAIL = 'dayo@incisia.com'
 
 MARGIN = '0.05'

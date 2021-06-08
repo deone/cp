@@ -1,9 +1,11 @@
+from cp.settings import DEFAULT_FROM_EMAIL
 from django.urls import path
+from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from . import views
-from .forms import SignInForm
+from .forms import SignInForm, TPasswordResetForm
 
 app_name = 'customer'
 
@@ -21,4 +23,12 @@ urlpatterns = [
         login_required(views.AddAccountView.as_view()), name='add-account'),
     path('<str:transaction_id>/confirm',
         login_required(views.ConfirmTransactionView.as_view()), name='confirm-transaction'),
+    path('password-reset', auth_views.PasswordResetView.as_view(
+        template_name='customer/password_reset_form.html',
+        email_template_name='customer/password_reset_email.html',
+        subject_template_name='customer/password_reset_subject.txt',
+        form_class=TPasswordResetForm,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        success_url='password-reset-done',
+    ), name='password-reset'),
 ]
