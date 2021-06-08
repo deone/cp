@@ -31,4 +31,7 @@ urlpatterns = [
         from_email=settings.DEFAULT_FROM_EMAIL,
         success_url='password-reset-done',
     ), name='password-reset'),
+    path('password-reset-done', auth_views.PasswordResetDoneView.as_view(
+        template_name='customer/password_reset_done.html'
+    ), name='password-reset-done'),
 ]
