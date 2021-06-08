@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from . import views
-from .forms import SignInForm, TPasswordResetForm
+from .forms import SignInForm, TPasswordResetForm, TSetPasswordForm
 
 app_name = 'customer'
 
@@ -29,9 +29,17 @@ urlpatterns = [
         subject_template_name='customer/password_reset_subject.txt',
         form_class=TPasswordResetForm,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        success_url='password-reset-done',
+        success_url='/password-reset-done',
     ), name='password-reset'),
     path('password-reset-done', auth_views.PasswordResetDoneView.as_view(
         template_name='customer/password_reset_done.html'
     ), name='password-reset-done'),
+    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(
+        template_name='customer/password_reset_confirm.html',
+        form_class=TSetPasswordForm,
+        success_url='/password-reset-complete',
+    ), name='password-reset-confirm'),
+    path('password-reset-complete', auth_views.PasswordResetCompleteView.as_view(
+        template_name='customer/password_reset_complete.html'
+    ), name='password-reset-complete'),
 ]

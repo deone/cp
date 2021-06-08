@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.auth import password_validation
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 
 from .models import Customer
 
@@ -42,12 +42,6 @@ class SignUpForm(forms.Form):
         'placeholder': '8 characters minimum'
     }))
 
-    """ def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number']
-        if len(phone_number) > 11:
-            raise ValidationError(_('Please enter phone number without spaces or country code.'))
-        return phone_number """
-
     def save(self):
         # Create user
         data = self.cleaned_data
@@ -61,8 +55,23 @@ class SignUpForm(forms.Form):
 
 class TPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
-         label=_("Email"),
-         max_length=254,
-         widget=forms.EmailInput(attrs={
-             'autocomplete': 'email', 'placeholder': 'Email address', 'class': FIELD_CLASS, 'autofocus': True})
+        label=_('Email'),
+        max_length=254,
+        widget=forms.EmailInput(attrs={
+            'autocomplete': 'email', 'placeholder': 'Email address', 'class': FIELD_CLASS, 'autofocus': True})
+    )
+
+class TSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label=_('New password'),
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'New password', 'autocomplete': 'new-password', 'class': FIELD_CLASS}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_('New password confirmation'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'New password (again)', 'autocomplete': 'new-password', 'class': FIELD_CLASS}),
     )
