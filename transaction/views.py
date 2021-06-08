@@ -16,8 +16,6 @@ from .utils import (
     get_transaction_id, report_transaction
 )
 
-import json
-import requests
 from decimal import Decimal
 
 api_view(['POST', 'GET'])

@@ -22,3 +22,4 @@
 - Display sender info on transaction detail page - update inflow for NGN and GHS inflows.
 - Validate phone number - users are entering text. Use number field in form.
 - Check why numbers on activity page are displaying with 1 dp.
+- Use Opennode's exchange rate everywhere.

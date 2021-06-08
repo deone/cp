@@ -20,8 +20,6 @@ from transaction.forms import (
     TransactionForm, MobileMoneyWalletForm, BankAccountForm
 )
 
-from decimal import Decimal
-
 CURRENCY_SYMBOL_MAP = {
     'GHS': 'GH₵',
     'NGN': '₦',
