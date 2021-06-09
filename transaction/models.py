@@ -103,3 +103,6 @@ class Report(models.Model):
     outflow_amount_value = models.DecimalField(max_digits=14, decimal_places=2) # (nnamdi/google rate ( = rate / 0.95) * inflow_amount)
     revenue_currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
     revenue = models.DecimalField(max_digits=10, decimal_places=2) # (outflow_amount_value - outflow_amount)
+
+    def __str__(self):
+        return self.transaction_id

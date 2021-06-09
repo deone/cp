@@ -24,3 +24,4 @@
 - Check why numbers on activity page are displaying with 1 dp.
 - Use Opennode's exchange rate everywhere.
 - Check if we can read db password from env file in sql file.
+- Display more fields for models enabled in admin so we can sort by things like completed transactions.
