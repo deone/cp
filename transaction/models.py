@@ -36,11 +36,11 @@ class Flow(models.Model):
         ordering = ['-updated_at']
 
 class Inflow(Flow):
-    usd_value = models.DecimalField(max_digits=14, decimal_places=2, null=True)
-    usd_paid = models.DecimalField(max_digits=14, decimal_places=2, null=True)
-    source_account_provider = models.CharField(max_length=50, null=True)
-    source_account_number = models.CharField(max_length=50, null=True)
-    source_account_name = models.CharField(max_length=50, null=True)
+    usd_value = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    usd_paid = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    source_account_provider = models.CharField(max_length=50, null=True, blank=True)
+    source_account_number = models.CharField(max_length=50, null=True, blank=True)
+    source_account_name = models.CharField(max_length=50, null=True, blank=True)
     currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
 
     def __str__(self):
@@ -48,10 +48,10 @@ class Inflow(Flow):
             self.transaction.transaction_id, ' - ', self.currency, self.amount, ', ', self.is_complete)
 
 class Outflow(Flow):
-    dest_account_provider_code = models.CharField(max_length=15, null=True)
-    dest_account_provider_name = models.CharField(max_length=50, null=True)
-    dest_account_number = models.CharField(max_length=20, null=True)
-    dest_account_name = models.CharField(max_length=50, null=True)
+    dest_account_provider_code = models.CharField(max_length=15, null=True, blank=True)
+    dest_account_provider_name = models.CharField(max_length=50, null=True, blank=True)
+    dest_account_number = models.CharField(max_length=20, null=True, blank=True)
+    dest_account_name = models.CharField(max_length=50, null=True, blank=True)
     currency = models.CharField(max_length=3, choices=DEST_CURRENCIES)
 
     def __str__(self):
