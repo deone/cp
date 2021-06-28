@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.views import View
 from django.conf import settings
 from django.http import JsonResponse
@@ -19,6 +20,8 @@ from transaction.models import Rates, Transaction
 from transaction.forms import (
     TransactionForm, MobileMoneyWalletForm, BankAccountForm
 )
+
+from decimal import Decimal
 
 CURRENCY_SYMBOL_MAP = {
     'GHS': 'GH₵',
@@ -164,7 +167,7 @@ class ConfirmTransactionView(View, ContextMixin):
             settings.PROTOCOL, site,
             reverse_lazy('transaction:handle-cedi-payment-update'))
         payment_page = inflows.get_cedi_payment_page(
-            request.user.email, transaction_id, int(amount), redirect_url, post_url)
+            request.user.email, transaction_id, Decimal(amount), redirect_url, post_url)
         return redirect(payment_page)
 
 class GetAccountsView(View):
