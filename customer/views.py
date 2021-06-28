@@ -21,8 +21,6 @@ from transaction.forms import (
     TransactionForm, MobileMoneyWalletForm, BankAccountForm
 )
 
-from decimal import Decimal
-
 CURRENCY_SYMBOL_MAP = {
     'GHS': 'GH₵',
     'NGN': '₦',
@@ -167,7 +165,7 @@ class ConfirmTransactionView(View, ContextMixin):
             settings.PROTOCOL, site,
             reverse_lazy('transaction:handle-cedi-payment-update'))
         payment_page = inflows.get_cedi_payment_page(
-            request.user.email, transaction_id, Decimal(amount), redirect_url, post_url)
+            request.user.email, transaction_id, float(amount), redirect_url, post_url)
         return redirect(payment_page)
 
 class GetAccountsView(View):
