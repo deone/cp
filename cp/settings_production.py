@@ -8,14 +8,15 @@ ADMINS = [('Dayo Osikoya', 'alwaysdeone@gmail.com')]
 
 ALLOWED_HOSTS = [
     'transfr.money',
-    'www.transfr.money'
+    'www.transfr.money',
+    'dayo.opalstacked.com'
 ]
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cp',
-        'USER': 'cp_admin',
+        'NAME': 'transfr_db',
+        'USER': 'transfr_admin',
         'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': '3306',
@@ -25,7 +26,7 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/home/sdarko/webapps/cashpipe_static'
+STATIC_ROOT = '/home/dayo/apps/transfr_static'
 
 PROTOCOL = 'https://'
 
