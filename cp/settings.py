@@ -170,11 +170,11 @@ OPENNODE_CHECKOUT_URL = 'https://dev-checkout.opennode.co/'
 OPENNODE_MAX_TRANSFER_AMOUNT = 0.042
 
 # Email
-EMAIL_HOST = 'smtp.webfaction.com'
-EMAIL_HOST_USER = 'dayo'
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
-DEFAULT_FROM_EMAIL = 'Transfr<noreply@transfr.money>'
-SERVER_EMAIL = 'dayo@incisia.com'
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 MARGIN = '0.05'
 BTC_MARGIN = '0.024'
