@@ -28,7 +28,7 @@ urlpatterns = [
         email_template_name='customer/password_reset_email.html',
         subject_template_name='customer/password_reset_subject.txt',
         form_class=TPasswordResetForm,
-        from_email=settings.DEFAULT_FROM_EMAIL,
+        from_email='noreply@transfr.money',
         success_url='/password-reset-done',
     ), name='password-reset'),
     path('password-reset-done', auth_views.PasswordResetDoneView.as_view(
