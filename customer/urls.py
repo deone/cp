@@ -1,4 +1,3 @@
-from cp.settings import DEFAULT_FROM_EMAIL
 from django.urls import path
 from django.conf import settings
 from django.contrib.auth import views as auth_views
