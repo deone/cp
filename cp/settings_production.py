@@ -28,7 +28,8 @@ DATABASES = {
 
 STATIC_ROOT = '/home/dayo/apps/transfr_static'
 
-PROTOCOL = 'https://'
+# PROTOCOL = 'https://'
+PROTOCOL = 'http://'
 
 # Flutterwave
 FW_INCISIA_SEC_KEY = os.environ['FW_INCISIA_PROD_SEC_KEY']
