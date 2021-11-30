@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cp_dev',
         'USER': 'cp_admin',
-        'PASSWORD': os.environ['DB_PASSWORD'],
+        'PASSWORD': os.environ['DEV_DB_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
@@ -177,4 +177,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 MARGIN = '0.05'
-BTC_MARGIN = '0.024'
+BTC_MARGIN = '0.005'
