@@ -26,3 +26,5 @@
 - Check if we can read db password from env file in sql file.
 - Display more fields for models enabled in admin so we can sort by things like completed transactions.
 - Remove manual transfers that are 'accidentally' performed with other people's user IDs. Search for each transfer and set them to my user ID. Use transfer description to look for them.
+- Handle this error while fetching banks - {'Status': 'fail', 'Message': 'Could not fetch banks, please try again later Unable to fetch banks at this time. Error : InternalServerError'}
+- Fix recipient account search.
