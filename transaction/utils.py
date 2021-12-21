@@ -57,6 +57,9 @@ def get_banks():
         return [('', 'Unable to fetch banks. Please retry shortly.')]
     else:
         if r.status_code == 200:
+            print(r.json()['data'])
+            # Handle this error
+            # {'Status': 'fail', 'Message': 'Could not fetch banks, please try again later Unable to fetch banks at this time. Error : InternalServerError'}
             json = r.json()['data']['Banks']
             lst = [(a['Code'], a['Name']) for a in json]
             banks = [('', 'Select Bank')] + lst
