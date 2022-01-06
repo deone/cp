@@ -23,7 +23,8 @@ def initiate_cedi_transfer(transaction, message="Payment for service"):
         },
         'remarks': message,
         'post_url': '{}{}{}'.format(
-            settings.PROTOCOL, domain,
+            # settings.PROTOCOL, domain,
+            'http://', domain,
             reverse_lazy('transaction:handle-cedi-transfer-update'))
     }
 
