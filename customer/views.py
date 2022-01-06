@@ -162,7 +162,8 @@ class ConfirmTransactionView(View, ContextMixin):
             settings.PROTOCOL, site,
             reverse_lazy('transaction:save-cedi-payment-info'))
         post_url = '{}{}{}'.format(
-            settings.PROTOCOL, site,
+            # settings.PROTOCOL, site,
+            'http://', site,
             reverse_lazy('transaction:handle-cedi-payment-update'))
         payment_page = inflows.get_cedi_payment_page(
             request.user.email, transaction_id, float(amount), redirect_url, post_url)
