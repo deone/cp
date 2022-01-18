@@ -40,7 +40,7 @@ class Inflow(Flow):
     usd_paid = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     source_account_provider = models.CharField(max_length=50, null=True, blank=True)
     source_account_number = models.CharField(max_length=50, null=True, blank=True)
-    source_account_name = models.CharField(max_length=50, null=True, blank=True)
+    source_account_name = models.CharField(max_length=100, null=True, blank=True)
     currency = models.CharField(max_length=3, choices=SOURCE_CURRENCIES)
 
     def __str__(self):
