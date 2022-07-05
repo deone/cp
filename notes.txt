@@ -1,6 +1,9 @@
-- Implement scrolling pagination on activity UI. Also, maybe search?
+- Make BTC margin configurable in admin.
 - Display friendly error if user already has account.
-- Build 'reset password' feature.
+- Add link to WhatsApp for help.
+
+
+- Implement scrolling pagination on activity UI. Also, maybe search?
 - Use flag and currency symbols everywhere required.
 - Add drop-down and currency/country signs to home page drop downs.
 
