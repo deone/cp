@@ -21,7 +21,8 @@ def get_cedi_payment_page(email, transaction_id, amount, redirect_url, post_url)
         },
         "callback": redirect_url,
         "post_url": post_url,
-        "email": email
+        "email": email,
+        "phone_number": ""
     }
 
     payload = json.dumps(data)
