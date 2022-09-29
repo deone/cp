@@ -1,5 +1,7 @@
 from django import forms
+from django.db import IntegrityError
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.contrib.auth import password_validation
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
@@ -41,6 +43,23 @@ class SignUpForm(forms.Form):
         'class': FIELD_CLASS,
         'placeholder': '8 characters minimum'
     }))
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        try:
+            u = User.objects.get(username=email)
+        except IntegrityError:
+            pass
+        else:
+            from django.utils.safestring import mark_safe
+            message = mark_safe('{} {}'.format(
+                'Looks like you already have an account. Please',
+                '<a href="/sign-in">log in.</a>'
+            ))
+            raise ValidationError(
+                _(message),
+                code='account-exists'
+            )
 
     def save(self):
         # Create user
