@@ -48,7 +48,7 @@ class SignUpForm(forms.Form):
         email = self.cleaned_data['email']
         try:
             u = User.objects.get(username=email)
-        except IntegrityError:
+        except User.DoesNotExist:
             pass
         else:
             from django.utils.safestring import mark_safe
