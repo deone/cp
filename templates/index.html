@@ -61,13 +61,13 @@
         <script src="{% static 'assets/js/lib/popper.min.js' %}"></script>
         <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script>
         <!-- Ionicons -->
-        <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+        <script type="module" src="{% static 'assets/js/lib/ionicons.js' %}"></script>
         <!-- Owl Carousel -->
         <script src="{% static 'assets/js/plugins/owl-carousel/owl.carousel.min.js' %}"></script>
         <!-- jQuery Circle Progress -->
         <script src="{% static 'assets/js/plugins/jquery-circle-progress/circle-progress.min.js' %}"></script>
         <!-- Base Js File -->
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="{% static 'assets/js/lib/axios.min.js' %}"></script>
         <script src="{% static 'assets/js/base.js' %}"></script>
         {% block form-js %}
         <script>
@@ -79,7 +79,7 @@
         </script>
         {% endblock %}
         {% block page-js %}
-        <script src="https://unpkg.com/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
+        <script src="{% static 'assets/js/lib/autoNumeric.min.js' %}"></script>
         <script>
             new AutoNumeric('#id_source_amount', {
                 'decimalPlaces': 5,
