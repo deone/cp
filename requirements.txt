@@ -9,7 +9,7 @@ django-dotenv==1.4.2
 djangorestframework==3.12.2
 idna==2.10
 pycparser==2.21
-PyMySQL==1.1.0
+PyMySQL==1.0.2
 pytz==2020.4
 requests==2.25.0
 sqlparse==0.4.1
